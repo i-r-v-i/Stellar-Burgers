@@ -1,0 +1,7 @@
+.ingredientList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 272px);
+    list-style-type: none;
+    column-gap: 24px;
+}
+

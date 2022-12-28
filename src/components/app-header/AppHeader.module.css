@@ -1,0 +1,25 @@
+.header {
+  max-width: 1920px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-left: 320px;
+  padding-right: 320px;
+}
+
+.header__nav {
+  display: flex;
+
+  padding-right: 112px;
+}
+
+.header__navItem {
+  display: flex;
+}
+
+
+.header__account {
+  display: flex;
+  padding-left: 270px;
+}
