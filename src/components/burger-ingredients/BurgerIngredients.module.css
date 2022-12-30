@@ -1,23 +1,26 @@
+.wrapper {
+    height: 720px;
+    overflow-y: scroll;
+    width: 600px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.wrapper::-webkit-scrollbar {
+    width: 8px;    
+    background: #2F2F37;  
+       
+  } 
+
+  .wrapper::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+  }
+
+
 .burgerIngredients {
-    max-width: 600px;
     max-height: 912px;
     height: 100%;
-    width: 100%;
-}
-
-.buttons {
-    display: flex;
-    max-width: 100%;
-    
-}
-
-.button {
-    color: inherit;
-    background: none;
-    order: 0;
-    flex-grow: 1;  
-    
-    
+    box-sizing: border-box;
     
 }
 

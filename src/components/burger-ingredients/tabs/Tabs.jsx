@@ -13,7 +13,7 @@ function searchType(arr) {
     export const currentTupe = searchType(ingredients);
 
 export default function Tabs() {
-    const [current, setCurrent] = React.useState('buns')
+    const [current, setCurrent] = React.useState('bun')
     return (
       <div style={{ display: 'flex' }}>
         <Tab value={'bun'} active={current === 'bun'} onClick={setCurrent}>

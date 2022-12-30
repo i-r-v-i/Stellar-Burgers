@@ -1,21 +1,30 @@
 .header {
   max-width: 1920px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  padding-left: 320px;
-  padding-right: 320px;
+  margin: 0 auto;
+  
 }
 
-.header__nav {
-  display: flex;
 
+.header__wrapper {
+  display: flex;
+  
+  padding-left: 320px;
+  padding-right: 320px;
+  
+  background: #1C1C21;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navList {
+  display: flex;
   padding-right: 112px;
+  
 }
 
 .header__navItem {
   display: flex;
+  
 }
 
 
