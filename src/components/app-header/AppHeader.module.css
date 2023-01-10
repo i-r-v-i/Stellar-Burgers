@@ -18,8 +18,17 @@
 }
 
 .navItem {
-  display: flex;
   cursor: pointer;
+}
+
+.link {
+  text-decoration: none;
+  display: flex;
+}
+
+.active_color {
+  composes: link;
+  color: #f2f2f3;
 }
 
 .account {

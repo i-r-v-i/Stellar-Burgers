@@ -1,19 +1,19 @@
 .price {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .ingredientItem {
-    position: relative;
-    height: 208px;
-    display: flex;
-    flex-direction: column;
+  position: relative;
+  height: 208px;
+  display: flex;
+  flex-direction: column;
 }
 
 .name {
-    text-align: center;
-    min-height: 48px;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 32px;
+  text-align: center;
+  min-height: 48px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
 }

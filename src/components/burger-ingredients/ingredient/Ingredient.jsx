@@ -2,8 +2,9 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import styles from "./Ingredient.module.css";
+
 
 
 const Ingredient = ({ name, price, image, type, count }) => {
@@ -23,9 +24,9 @@ const Ingredient = ({ name, price, image, type, count }) => {
 export default Ingredient;
 
 Ingredient.prototype = {
-   name: PropTypes.string,
-   price: PropTypes.number, 
-   image: PropTypes.string, 
-   type: PropTypes.string,  
-   count: PropTypes.number
-}
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  image: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  count: PropTypes.number.isRequired
+};
