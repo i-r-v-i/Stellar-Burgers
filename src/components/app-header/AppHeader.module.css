@@ -1,0 +1,38 @@
+.header {
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+.wrapper {
+  display: flex;
+  padding-left: 320px;
+  padding-right: 320px;
+  background: #1c1c21;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navList {
+  display: flex;
+  padding-right: 112px;
+}
+
+.navItem {
+  cursor: pointer;
+}
+
+.link {
+  text-decoration: none;
+  display: flex;
+}
+
+.active_color {
+  composes: link;
+  color: #f2f2f3;
+}
+
+.account {
+  display: flex;
+  padding-left: 270px;
+  cursor: pointer;
+}

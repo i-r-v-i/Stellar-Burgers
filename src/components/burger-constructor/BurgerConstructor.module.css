@@ -1,0 +1,21 @@
+.scale {
+  transform: scale(1.5);
+  align-self: center;
+}
+
+.burgerConstructor {
+  width: 600px;
+}
+
+.ordering {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  margin-right: 16px;
+}
+
+.sum {
+  display: flex;
+  gap: 9.5px;
+  margin-left: auto;
+}

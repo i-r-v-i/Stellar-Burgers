@@ -1,0 +1,9 @@
+.item {
+  display: flex;
+  align-items: center;
+}
+
+.itemWrapper {
+  width: 32px;
+  display: flex;
+}
