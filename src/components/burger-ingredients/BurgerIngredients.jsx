@@ -1,18 +1,42 @@
-import Tabs from "./tabs/Tabs";
+// import React from "react";
+import Tabs from "../tabs/Tabs";
 import styles from "./BurgerIngredients.module.css";
-import IngredientList from "./ingredient-list/IngredientList";
-import { ingredients } from "../utils/data.js";
+import IngredientList from "../ingredient-list/IngredientList";
 
-function BurgerIngredients() {
+// import { IngredientDetails } from "../ingredient-details/IngredientDetails";
+
+function BurgerIngredients({ dataList }) {
+ 
+
   return (
     <div className={styles.wrapper}>
       <section className={`${styles.burgerIngredients} mb-10 pt-10`}>
         <h1 className="text text_type_main-large">Соберите бургер</h1>
         <Tabs />
-        <IngredientList list={ingredients} type="bun" title="Булки" />
-        <IngredientList list={ingredients} type="sauce" title="Соусы" />
-        <IngredientList list={ingredients} type="main" title="Начинки" />
+        <IngredientList
+          ingredients={dataList}
+          ingType="bun"
+          title="Булки"
+        
+        />
+        <IngredientList
+          ingredients={dataList}
+          ingType="sauce"
+          title="Соусы"
+          
+        />
+        <IngredientList
+          ingredients={dataList}
+          ingType="main"
+          title="Начинки"
+          // onIngredientClick={(e)=>{hahdleOpen(e.target)}}
+        />
       </section>
+      {/* {isDataModal && (
+        <Modal closePopup={handleCloseModal} title="Детали ингредиента">
+          <IngredientDetails ingredients={isDataModal} />
+        </Modal>
+      )} */}
     </div>
   );
 }

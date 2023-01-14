@@ -1,0 +1,19 @@
+.container {
+   width: 520px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+
+.energyValue {
+display: grid;
+grid-template-columns: 120px repeat(3, 112px);
+grid-template-rows: repeat(2, 1fr);
+column-gap: 20px;
+row-gap: 8px;
+
+}
+
+.textCenter {
+    text-align: center;
+}

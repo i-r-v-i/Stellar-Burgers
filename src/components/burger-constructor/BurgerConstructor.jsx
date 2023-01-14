@@ -2,10 +2,10 @@ import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import ConstructorList from "./constructor-list/ConstructorList";
+import ConstructorList from "../constructor-list/ConstructorList";
 import styles from "./BurgerConstructor.module.css";
 
-function BurgerConstructor() {
+function BurgerConstructor({openPopupOrder}) {
   return (
     <section className={`${styles.burgerConstructor} mt-25`}>
       <ConstructorList />
@@ -16,8 +16,8 @@ function BurgerConstructor() {
             <CurrencyIcon type="primary" />
           </div>
         </div>
-        <Button htmlType="button" type="primary" size="large">
-          Нажми на меня
+        <Button htmlType="button" type="primary" size="large" onClick={openPopupOrder}>
+          Оформить заказ
         </Button>
       </div>
     </section>
