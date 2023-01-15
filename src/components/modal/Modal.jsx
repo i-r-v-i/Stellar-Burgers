@@ -11,7 +11,6 @@ export function Modal({ children, title, closePopup }) {
   React.useEffect(() => {
     const handleEscClose = (evt) => {
       evt.key === "Escape" && closePopup(evt);
-  
     };
     document.addEventListener("keydown", handleEscClose);
     return () => {
