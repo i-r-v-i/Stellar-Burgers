@@ -5,7 +5,7 @@ import {
 import ConstructorList from "../constructor-list/ConstructorList";
 import styles from "./BurgerConstructor.module.css";
 
-function BurgerConstructor({openPopupOrder}) {
+function BurgerConstructor({ openPopupOrder }) {
   return (
     <section className={`${styles.burgerConstructor} mt-25`}>
       <ConstructorList />
@@ -16,7 +16,12 @@ function BurgerConstructor({openPopupOrder}) {
             <CurrencyIcon type="primary" />
           </div>
         </div>
-        <Button htmlType="button" type="primary" size="large" onClick={openPopupOrder}>
+        <Button
+          htmlType="button"
+          type="primary"
+          size="large"
+          onClick={openPopupOrder}
+        >
           Оформить заказ
         </Button>
       </div>
@@ -25,5 +30,3 @@ function BurgerConstructor({openPopupOrder}) {
 }
 
 export default BurgerConstructor;
-
-

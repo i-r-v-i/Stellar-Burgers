@@ -1,13 +1,10 @@
 import Ingredient from "../ingredient/Ingredient";
 import styles from "./IngredientList.module.css";
 import React from "react";
-
 import PropTypes from "prop-types";
 import { IngredientPropType } from "../types/common-types.js";
 
 const IngredientList = ({ ingredients, ingType, title }) => {
-  
-
   const menu = React.useMemo(
     () => ingredients.filter((item) => item.type === ingType),
     [ingType]
@@ -18,23 +15,23 @@ const IngredientList = ({ ingredients, ingType, title }) => {
       <ul className={`${styles.ingredientList} pt-6 pl-4 pr-2 `}>
         {menu.map((item) => (
           <Ingredient
-            data = {item}
+            data={item}
             name={item.name}
             price={item.price}
             image={item.image}
             key={item._id}
-            type={item.type}   
+            type={item.type}
           />
         ))}
       </ul>
     </>
   );
- };
+};
 
 export default IngredientList;
 
-// IngredientList.propTypes = {
-//   ingredients: PropTypes.arrayOf(IngredientPropType).isRequired,
-//   type: PropTypes.string.isRequired,
-//   title: PropTypes.string.isRequired,
-// };
+IngredientList.propTypes = {
+  ingredients: PropTypes.arrayOf(IngredientPropType).isRequired,
+  ingType: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+};
