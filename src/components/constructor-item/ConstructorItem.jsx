@@ -26,7 +26,7 @@ export default ConstructorItem;
 
 ConstructorItem.propTypes = {
   isLocked: PropTypes.bool,
-  type: PropTypes.oneOf(["top", "bottom"]),
+  type: PropTypes.oneOf(["top", "bottom", undefined]),
   text: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   thumbnail: PropTypes.string.isRequired,

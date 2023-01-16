@@ -1,0 +1,39 @@
+.modal {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 720px;
+  padding: 40px 40px 60px;
+  min-height: 539px;
+  background: #1c1c21;
+  border-radius: 40px;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  min-height: 64px;
+}
+
+.title {
+  width: 580px;
+  margin: 0 36px 0 0;
+}
+
+.closeButton {
+  background-color: transparent;
+  width: 18px;
+  height: 18px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+
+}

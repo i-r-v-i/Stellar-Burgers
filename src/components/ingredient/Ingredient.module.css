@@ -8,6 +8,7 @@
   height: 208px;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 
 .name {
