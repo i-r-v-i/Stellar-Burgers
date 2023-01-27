@@ -6,7 +6,7 @@ import BurgerConstructor from "../burger-constructor/BurgerConstructor";
 import { getData } from "../utils/data";
 import { Modal } from "../modal/Modal";
 import { OrderDetails } from "../order-details/OrderDetails";
-import { DataContext } from "../services/productsContext";
+import { DataContext } from "../services/productsContext.js";
 
 function App() {
   const [dataIngredients, setIngredients] = React.useState();
@@ -36,20 +36,20 @@ function App() {
   return (
     <div className={styles.app}>
       <AppHeader />
-      <DataContext.Provider value={{dataIngredients, setIngredients}}>
-      {dataIngredients && (
+      <DataContext.Provider value={dataIngredients}>
+      { dataIngredients && (
         <main className={styles.main}>
-          <BurgerIngredients dataList={dataIngredients} />
+          <BurgerIngredients />
           <BurgerConstructor openPopupOrder={hahdleOpenPopupOrder} />
         </main>
       )}
-
+ </DataContext.Provider>
       {isOrder && (
         <Modal closePopup={handleCloseModal}>
           <OrderDetails />
         </Modal>
       )}
-      </DataContext.Provider>
+     
     </div>
   );
 }

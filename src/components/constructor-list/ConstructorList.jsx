@@ -1,7 +1,22 @@
 import ConstructorItem from "../constructor-item/ConstructorItem";
 import styles from "./ConstructorList.module.css";
+import { DataContext } from "../services/productsContext.js";
+import React from "react";
 
 const ConstructorList = () => {
+  const dataIngredients = React.useContext(DataContext);
+
+  const buns = React.useMemo(
+    () => dataIngredients.filter((item) => item.type === "bun"),
+    []
+  );
+  const randomBun = buns[Math.floor(Math.random() * buns.length)];
+
+  const products = React.useMemo(
+    () => dataIngredients.filter((item) => item.type !== "bun"),
+    []
+  );
+
   return (
     <ul
       style={{ display: "flex", flexDirection: "column", gap: "10px" }}
@@ -10,56 +25,29 @@ const ConstructorList = () => {
       <ConstructorItem
         isLocked={true}
         type="top"
-        text="Краторная булка N-200i (верх)"
-        price={200}
-        thumbnail="https://code.s3.yandex.net/react/code/bun-02-mobile.png"
+        text={`${randomBun.name} (верх)`}
+        price={randomBun.price}
+        thumbnail={randomBun.image_mobile}
       />
       <div
         style={{ display: "flex", flexDirection: "column", gap: "10px" }}
         className={styles.scrollBarWrapper}
       >
-        <ConstructorItem
-          text="Краторная булка N-200i (верх)"
-          price={50}
-          thumbnail="https://code.s3.yandex.net/react/code/bun-02-mobile.png"
-        />
-        <ConstructorItem
-          text="Краторная булка N-200i (верх)"
-          price={50}
-          thumbnail="https://code.s3.yandex.net/react/code/bun-02-mobile.png"
-        />
-        <ConstructorItem
-          text="Краторная булка N-200i (верх)"
-          price={50}
-          thumbnail="https://code.s3.yandex.net/react/code/bun-02-mobile.png"
-        />
-        <ConstructorItem
-          text="Краторная булка N-200i (верх)"
-          price={50}
-          thumbnail="https://code.s3.yandex.net/react/code/bun-02-mobile.png"
-        />
-        <ConstructorItem
-          text="Краторная булка N-200i (верх)"
-          price={50}
-          thumbnail="https://code.s3.yandex.net/react/code/bun-02-mobile.png"
-        />
-        <ConstructorItem
-          text="Краторная булка N-200i (верх)"
-          price={50}
-          thumbnail="https://code.s3.yandex.net/react/code/bun-02-mobile.png"
-        />
-        <ConstructorItem
-          text="Краторная булка N-200i (верх)"
-          price={50}
-          thumbnail="https://code.s3.yandex.net/react/code/bun-02-mobile.png"
-        />
+        {products.map((item) => (
+          <ConstructorItem
+            key={item._id}
+            text={item.name}
+            price={item.price}
+            thumbnail={item.image_mobile}
+          />
+        ))}
       </div>
       <ConstructorItem
-        type="bottom"
         isLocked={true}
-        text="Краторная булка N-200i (низ)"
-        price={200}
-        thumbnail="https://code.s3.yandex.net/react/code/bun-02-mobile.png"
+        type="bottom"
+        text={`${randomBun.name} (низ)`}
+        price={randomBun.price}
+        thumbnail={randomBun.image_mobile}
       />
     </ul>
   );

@@ -3,12 +3,16 @@ import styles from "./IngredientList.module.css";
 import React from "react";
 import PropTypes from "prop-types";
 import { IngredientPropType } from "../types/common-types.js";
+import { DataContext } from "../services/productsContext.js";
 
-const IngredientList = ({ ingredients, ingType, title }) => {
+
+const IngredientList = ({ ingType, title }) => {
+  const dataIngredients = React.useContext(DataContext);
   const menu = React.useMemo(
-    () => ingredients.filter((item) => item.type === ingType),
+    () => dataIngredients.filter((item) => item.type === ingType),
     [ingType]
   );
+ 
   return (
     <>
       <p className="text text_type_main-medium mt-10">{title}</p>
@@ -31,7 +35,7 @@ const IngredientList = ({ ingredients, ingType, title }) => {
 export default IngredientList;
 
 IngredientList.propTypes = {
-  ingredients: PropTypes.arrayOf(IngredientPropType).isRequired,
+  
   ingType: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
 };
