@@ -1,12 +1,8 @@
 import Tabs from "../tabs/Tabs";
 import styles from "./BurgerIngredients.module.css";
 import IngredientList from "../ingredient-list/IngredientList";
-import { IngredientPropType } from "../types/common-types.js";
-import PropTypes from "prop-types";
-
 
 function BurgerIngredients() {
- 
   return (
     <div className={styles.wrapper}>
       <section className={`${styles.burgerIngredients} mb-10 pt-10`}>
@@ -21,5 +17,3 @@ function BurgerIngredients() {
 }
 
 export default BurgerIngredients;
-
-

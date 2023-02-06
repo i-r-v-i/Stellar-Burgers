@@ -6,21 +6,27 @@ import PropTypes from "prop-types";
 import { Modal } from "../modal/Modal";
 import { IngredientDetails } from "../ingredient-details/IngredientDetails";
 import styles from "./Ingredient.module.css";
-import React from "react";
 import { IngredientPropType } from "../types/common-types.js";
+import { useSelector, useDispatch  } from "react-redux";
+import {
+  DATA_MODAL_SUCCESS,
+  DATA_MODAL_FAILED,
+} from "../../services/actions/currentIngredient";
+
 
 const Ingredient = ({ data, name, price, image, type, count }) => {
-  const [isDataModal, setDataModal] = React.useState(null);
+  const dataModal = useSelector(store => store.currentIngredient.dataModal);
+  const dispatch = useDispatch();
 
   const handleCloseModal = (evt) => {
-    setDataModal(null);
+   dispatch({type: DATA_MODAL_FAILED});
     evt.stopPropagation();
   };
 
   const hahdleOpen = (data) => {
-    setDataModal(data);
+    dispatch({type: DATA_MODAL_SUCCESS, payload: data});
   };
-
+ 
   return (
     <li
       className={`${styles.ingredientItem} mb-8`}
@@ -35,9 +41,9 @@ const Ingredient = ({ data, name, price, image, type, count }) => {
       </div>
       <p className={`${styles.name} text text_type_main-default`}>{name}</p>
 
-      {isDataModal && (
+      {dataModal && (
         <Modal closePopup={handleCloseModal} title="Детали ингредиента">
-          <IngredientDetails ingredient={data} />
+          <IngredientDetails ingredient={dataModal} />
         </Modal>
       )}
     </li>
