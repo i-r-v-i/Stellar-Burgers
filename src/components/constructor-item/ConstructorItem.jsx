@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 
 
-const ConstructorItem = ({ isLocked, type, text, price, thumbnail }, handleClose) => {
+const ConstructorItem = ({ isLocked, type, text, price, thumbnail, handleClose, uniqId } ) => {
 
 //   const dispatch = useDispatch();
  
@@ -27,7 +27,8 @@ const ConstructorItem = ({ isLocked, type, text, price, thumbnail }, handleClose
         text={text}
         price={price}
         thumbnail={thumbnail}
-        handleClose={ handleClose} 
+        uniqId = {uniqId}
+        handleClose={handleClose} 
       />
       
     </li>

@@ -10,6 +10,7 @@ export default function Tabs() {
     setCurrent(id);
     document.querySelector(`#${id}`)?.scrollIntoView({ behavior: "smooth" });
   }
+  
   return (
     <div style={{ display: "flex" }}>
       <Tab value={"bun"} active={current === "bun"} onClick={handleClickOnType}>

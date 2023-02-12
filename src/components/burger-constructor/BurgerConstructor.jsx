@@ -11,8 +11,8 @@ import { OrderDetails } from "../order-details/OrderDetails";
 import { useSelector, useDispatch } from "react-redux";
 import { ADD_ITEM, ADD_BUN, DELETE_ITEM } from "../../services/actions/burgerConstructor";
 import { useDrop } from "react-dnd";
-import {nanoid} from 'nanoid';
-import {v4 as uuidv4 } from 'uuid';
+
+
 
 function BurgerConstructor() {
   const [isOrder, setIsOrder] = React.useState(false);
@@ -30,13 +30,13 @@ function BurgerConstructor() {
   };
 
   const onDropIngredientHandler = (item) => {
-    const unique_id = uuidv4();
-    dispatch({ type: ADD_ITEM, selectedIngredient: {data: item, index: unique_id}  });
+   
+    dispatch({ type: ADD_ITEM, selectedIngredient: item});
     
   };
 
-  const handleDeleteItem = (item, index)=> { 
-    dispatch({ type: DELETE_ITEM, selectedIngredient: {data: item, index}}); 
+  function handleDeleteItem (uniqId) { 
+    dispatch({ type: DELETE_ITEM, uniqId}); 
     
   }
   const [{ isHover }, dropTarget] = useDrop({
@@ -84,9 +84,9 @@ console.log(selectedIngredients);
     }
   }, [selectedBun, selectedIngredients]);
 
-  const totalSum = dropIngredientSuccess
+  const totalSum = dropIngredientSuccess && selectedBun
     ? selectedBun.price * 2 +
-      selectedIngredients.reduce((sum, item) => sum + item.price, 0)
+      selectedIngredients?.reduce((sum, item) => sum + item.price, 0)
     : 0;
 
 console.log(selectedIngredients);
@@ -126,12 +126,12 @@ console.log(selectedIngredients);
               selectedIngredients.map((item, index) => (
                 
                 <ConstructorItem
-                  index= {index}
+                  index={item.uniqId}
                   key={index}
-                  text={item.data.name}
-                  price={item.data.price}
-                  thumbnail={item.data.image_mobile}
-                  handleClose={()=>handleDeleteItem(item.data, index)} 
+                  text={item.name}
+                  price={item.price}
+                  thumbnail={item.image_mobile}
+                  handleClose={()=>handleDeleteItem(item.uniqId)} 
                 />
                 
               ))}

@@ -21,7 +21,7 @@ const Ingredient = ({ data, name, price, image, type }) => {
     (store) => store.burgerConstructor
   );
  
-  const count = data.type !== 'bun' ? selectedIngredients.reduce((sum, item) => item._id === data._id ? sum + 1 : sum, 0) : 
+  const count = data.type !== 'bun' ? selectedIngredients?.reduce((sum, item) => item._id === data._id ? sum + 1 : sum, 0) : 
   selectedBun?._id === data._id ? 1 : 0;
   const dispatch = useDispatch();
 

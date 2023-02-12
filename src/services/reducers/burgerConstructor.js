@@ -1,5 +1,5 @@
 import { ADD_ITEM, ADD_BUN, DELETE_ITEM } from "../actions/burgerConstructor";
-
+import {v4 as uuidv4 } from 'uuid';
 
 const burgerConstructorInitialState = {
   selectedIngredients: [],
@@ -17,7 +17,7 @@ export const burgerConstructorReducer = (
         ...state,
         selectedIngredients: [
           ...state.selectedIngredients,
-          action.selectedIngredient
+          {...action.selectedIngredient, uniqId: uuidv4()}
           
         ],
         dropIngredientSuccess: true
@@ -32,7 +32,7 @@ export const burgerConstructorReducer = (
     }
     case DELETE_ITEM: {
        return { ...state,
-        selectedIngredients: [...state.selectedIngredients].filter((item) => item.index !== action.selectedIngredient.index) };
+        selectedIngredients: [...state.selectedIngredients].filter((item) => item.uniqId !== action.uniqId) };
     }
     default: {
       return state;
