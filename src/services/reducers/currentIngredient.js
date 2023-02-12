@@ -5,6 +5,7 @@ import {
 
 const currentIngredientInitialtState = {
   dataModal: null,
+  
 };
 
 export const currentIngredientReducer = (

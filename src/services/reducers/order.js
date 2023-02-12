@@ -1,7 +1,15 @@
+
+
 const orderInitialState = {
-    items: []
+    orderNumber: null
 }
 
 export const orderReducer = (state = orderInitialState, action) => {
-    return null;
+    // switch (action.type) {
+        return state
+        // case GET_NUMBER: {
+        //   return {
+        //   }
+        // }
+    // }
 }

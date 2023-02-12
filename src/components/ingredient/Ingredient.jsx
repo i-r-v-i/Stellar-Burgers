@@ -3,35 +3,48 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import { Modal } from "../modal/Modal";
-import { IngredientDetails } from "../ingredient-details/IngredientDetails";
+// import { Modal } from "../modal/Modal";
+// import { IngredientDetails } from "../ingredient-details/IngredientDetails";
 import styles from "./Ingredient.module.css";
 import { IngredientPropType } from "../types/common-types.js";
-import { useSelector, useDispatch  } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useDrag } from "react-dnd";
 import {
-  DATA_MODAL_SUCCESS,
-  DATA_MODAL_FAILED,
+  DATA_MODAL_SUCCESS
+
 } from "../../services/actions/currentIngredient";
+import { useSelector } from "react-redux";
 
-
-const Ingredient = ({ data, name, price, image, type, count }) => {
-  const dataModal = useSelector(store => store.currentIngredient.dataModal);
+const Ingredient = ({ data, name, price, image, type }) => {
+ 
+  const { selectedIngredients, selectedBun } = useSelector(
+    (store) => store.burgerConstructor
+  );
+ 
+  const count = data.type !== 'bun' ? selectedIngredients.reduce((sum, item) => item._id === data._id ? sum + 1 : sum, 0) : 
+  selectedBun?._id === data._id ? 1 : 0;
   const dispatch = useDispatch();
 
-  const handleCloseModal = (evt) => {
-   dispatch({type: DATA_MODAL_FAILED});
-    evt.stopPropagation();
+  const hahdleOpen = (data) => {
+    dispatch({ type: DATA_MODAL_SUCCESS, payload: data });
   };
 
-  const hahdleOpen = (data) => {
-    dispatch({type: DATA_MODAL_SUCCESS, payload: data});
-  };
- 
+  const [{ opacity }, ref] = useDrag({
+    type: 'ingredient',
+    item: data,
+    collect: monitor => ({
+        opacity: monitor.isDragging() ? 0.5 : 1
+    })
+});
+
+
   return (
     <li
       className={`${styles.ingredientItem} mb-8`}
       type={type}
       onClick={() => hahdleOpen(data)}
+      style={{opacity: {opacity}}}
+      ref={ref}
     >
       <img className="ml-4 mr-4 mb-1" src={image} alt={name} />
       {count > 0 && <Counter count={count} size="default" extraClass="m-1" />}
@@ -40,12 +53,6 @@ const Ingredient = ({ data, name, price, image, type, count }) => {
         <CurrencyIcon type="primary" />
       </div>
       <p className={`${styles.name} text text_type_main-default`}>{name}</p>
-
-      {dataModal && (
-        <Modal closePopup={handleCloseModal} title="Детали ингредиента">
-          <IngredientDetails ingredient={dataModal} />
-        </Modal>
-      )}
     </li>
   );
 };

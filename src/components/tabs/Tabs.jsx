@@ -5,6 +5,7 @@ import React from "react";
 export default function Tabs() {
   const [current, setCurrent] = React.useState("bun");
 
+  
   const handleClickOnType = (id) => {
     setCurrent(id);
     document.querySelector(`#${id}`)?.scrollIntoView({ behavior: "smooth" });

@@ -1,134 +1,192 @@
-// import React from "react";
-// import {
-//   CurrencyIcon,
-//   Button,
-// } from "@ya.praktikum/react-developer-burger-ui-components";
-// import ConstructorItem from "../constructor-item/ConstructorItem";
-// // import ConstructorList from "../constructor-list/ConstructorList";
-// import styles from "./BurgerConstructor.module.css";
+import React from "react";
+import {
+  CurrencyIcon,
+  Button,
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import ConstructorItem from "../constructor-item/ConstructorItem";
+import styles from "./BurgerConstructor.module.css";
+import { getOrderNumber } from "../utils/data";
+import { Modal } from "../modal/Modal";
+import { OrderDetails } from "../order-details/OrderDetails";
+import { useSelector, useDispatch } from "react-redux";
+import { ADD_ITEM, ADD_BUN, DELETE_ITEM } from "../../services/actions/burgerConstructor";
+import { useDrop } from "react-dnd";
+import {nanoid} from 'nanoid';
+import {v4 as uuidv4 } from 'uuid';
 
-// import {
-//   TotalPriceContext,
-//   DataContext,
-//   OrderNumberContext,
-// } from "../services/productsContext.js";
-// import { getOrderNumber } from "../utils/data";
-// import { Modal } from "../modal/Modal";
-// import { OrderDetails } from "../order-details/OrderDetails";
+function BurgerConstructor() {
+  const [isOrder, setIsOrder] = React.useState(false);
+  //   const [orderNumber, setOrderNumber] = React.useState(0);
 
-// function BurgerConstructor() {
-//   const [isOrder, setIsOrder] = React.useState(false);
-//   const [orderNumber, setOrderNumber] = React.useState(0);
-//   const { totalPrice, setTotalPrice } = React.useContext(TotalPriceContext);
-//   const dataIngredients = React.useContext(DataContext);
+  const { selectedIngredients, selectedBun, dropIngredientSuccess } =
+    useSelector((store) => store.burgerConstructor);
+  const orderNumber = useSelector((store) => store.order.orderNumber);
 
-//   const buns = React.useMemo(
-//     () => dataIngredients.filter((item) => item.type === "bun"),
-//     [dataIngredients]
-//   );
-//   const randomBun = buns[Math.floor(Math.random() * buns.length)];
+  const dispatch = useDispatch();
 
-//   const products = React.useMemo(
-//     () => dataIngredients.filter((item) => item.type !== "bun"),
-//     [dataIngredients]
-//   );
+  const onDropBunHandler = (item) => {
+    dispatch({ type: ADD_BUN, selectedIngredient: item });
+    
+  };
 
-//   const handleCloseModal = (evt) => {
-//     setIsOrder(false);
-//     evt.stopPropagation();
-//   };
+  const onDropIngredientHandler = (item) => {
+    const unique_id = uuidv4();
+    dispatch({ type: ADD_ITEM, selectedIngredient: {data: item, index: unique_id}  });
+    
+  };
 
-//   const ingredientArr = [];
+  const handleDeleteItem = (item, index)=> { 
+    dispatch({ type: DELETE_ITEM, selectedIngredient: {data: item, index}}); 
+    
+  }
+  const [{ isHover }, dropTarget] = useDrop({
+    accept: "ingredient",
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
+    }),
+    drop(item) {
+      item.type === "bun"
+        ? onDropBunHandler(item)
+        : onDropIngredientHandler(item);
+    },
+  });
+console.log(selectedIngredients);
+  const handleCloseModal = (evt) => {
+    // setIsOrder(false);
+    evt.stopPropagation();
+  };
 
-//   ingredientArr.push(randomBun._id);
-//   products.forEach((ingredient) => {
-//     ingredientArr.push(ingredient._id);
-//   });
-  
+  //   const ingredientArr = [];
 
-//   const makeOrder = async () => {
-//     try {
-//       await getOrderNumber(ingredientArr).then((data) => {
-//         setOrderNumber(data.order.number);
-//       });
-//       console.log("Заказу присвоен номер");
-//     } catch (er) {
-//       console.log(`Ошибка оформления заказа: ${er}`);
-//     }
-//   };
+  //   ingredientArr.push(randomBun._id);
+  //   products.forEach((ingredient) => {
+  //     ingredientArr.push(ingredient._id);
+  //   });
 
-//   const hahdleOpenPopupOrder = () => {
-//     makeOrder().then(() => setIsOrder(true));
-//   };
+  //   const makeOrder = async () => {
+  //     try {
+  //       await getOrderNumber(ingredientArr).then((data) => {
+  //         setOrderNumber(data.order.number);
+  //       });
+  //       console.log("Заказу присвоен номер");
+  //     } catch (er) {
+  //       console.log(`Ошибка оформления заказа: ${er}`);
+  //     }
+  //   };
 
-//   React.useEffect(() => {
-//     const total = products.reduce(
-//       (acc, p) => acc + p.price,
-//       randomBun.price * 2
-//     );
-//     setTotalPrice(total);
-//   }, [randomBun]);
+  //   const hahdleOpenPopupOrder = () => {
+  //     makeOrder().then(() => setIsOrder(true));
+  //   };
 
-//   return (
-//     <section className={`${styles.burgerConstructor} mt-25`}>
-//       <ul
-//         style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-//         className={styles.constructorList}
-//       >
-//         <ConstructorItem
-//           isLocked={true}
-//           type="top"
-//           text={`${randomBun.name} (верх)`}
-//           price={randomBun.price}
-//           thumbnail={randomBun.image_mobile}
-//         />
-//         <div
-//           style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-//           className={styles.scrollBarWrapper}
-//         >
-//           {products.map((item) => (
-//             <ConstructorItem
-//               key={item._id}
-//               text={item.name}
-//               price={item.price}
-//               thumbnail={item.image_mobile}
-//             />
-//           ))}
-//         </div>
-//         <ConstructorItem
-//           isLocked={true}
-//           type="bottom"
-//           text={`${randomBun.name} (низ)`}
-//           price={randomBun.price}
-//           thumbnail={randomBun.image_mobile}
-//         />
-//       </ul>
+  React.useEffect(() => {
+    if (selectedBun && selectedIngredients.length > 0) {
+      setIsOrder(true);
+    }
+  }, [selectedBun, selectedIngredients]);
 
-//       <div className={styles.ordering}>
-//         <div className={styles.sum}>
-//           <p className="text text_type_main-medium">{totalPrice}</p>
-//           <div className={styles.scale}>
-//             <CurrencyIcon type="primary" />
-//           </div>
-//         </div>
-//         <Button
-//           htmlType="submit"
-//           type="primary"
-//           size="large"
-//           onClick={hahdleOpenPopupOrder}
-//         >
-//           Оформить заказ
-//         </Button>
-//       </div>
-//       {isOrder && orderNumber && (
-//         <Modal closePopup={handleCloseModal}>
-//           <OrderNumberContext.Provider value={orderNumber}>
-//             <OrderDetails />
-//           </OrderNumberContext.Provider>
-//         </Modal>
-//       )}
-//     </section>
-//   );
-// }
+  const totalSum = dropIngredientSuccess
+    ? selectedBun.price * 2 +
+      selectedIngredients.reduce((sum, item) => sum + item.price, 0)
+    : 0;
 
-// export default BurgerConstructor;
+console.log(selectedIngredients);
+ 
+  return (
+    <>
+      <section
+        className={`${styles.burgerConstructor} mt-25`}
+        ref={dropTarget}
+        style={
+          isHover
+            ? {
+                boxShadow: "5px 5px 8px rgba(225, 225, 225, 0.5)",
+                borderRadius: "60px",
+              }
+            : null
+        }
+      >
+        <ul
+          style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+          className={styles.constructorList}
+        >
+          {selectedBun && (
+            <ConstructorItem
+              isLocked={true}
+              type="top"
+              text={`${selectedBun.name} (верх)`}
+              price={selectedBun.price}
+              thumbnail={selectedBun.image_mobile}
+            />
+          )}
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+            className={styles.scrollBarWrapper}
+          >
+            {selectedIngredients.length > 0 &&
+              selectedIngredients.map((item, index) => (
+                
+                <ConstructorItem
+                  index= {index}
+                  key={index}
+                  text={item.data.name}
+                  price={item.data.price}
+                  thumbnail={item.data.image_mobile}
+                  handleClose={()=>handleDeleteItem(item.data, index)} 
+                />
+                
+              ))}
+          </div>
+          {selectedBun && (
+            <ConstructorItem
+              isLocked={true}
+              type="bottom"
+              text={`${selectedBun.name} (низ)`}
+              price={selectedBun.price}
+              thumbnail={selectedBun.image_mobile}
+            />
+          )}
+        </ul>
+
+        <div className={styles.ordering}>
+          <div className={styles.sum}>
+            <p className="text text_type_main-medium">{totalSum}</p>
+            <div className={styles.scale}>
+              <CurrencyIcon type="primary" />
+            </div>
+          </div>
+          {isOrder ? (
+            <Button
+              htmlType="submit"
+              type="primary"
+              size="large"
+
+              //   onClick={hahdleOpenPopupOrder}
+            >
+              Оформить заказ
+            </Button>
+          ) : (
+            <Button
+              htmlType="submit"
+              type="primary"
+              size="large"
+              disabled
+              //   onClick={hahdleOpenPopupOrder}
+            >
+              Оформить заказ
+            </Button>
+          )}
+        </div>
+      </section>
+
+      {/* {isOrder && orderNumber && ( 
+        <Modal closePopup={handleCloseModal}>
+          
+            <OrderDetails />
+          
+        </Modal>
+       )}  */}
+    </>
+  );
+}
+
+export default BurgerConstructor;
