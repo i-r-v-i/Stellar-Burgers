@@ -10,16 +10,16 @@ export default function Tabs() {
     setCurrent(id);
     document.querySelector(`#${id}`)?.scrollIntoView({ behavior: "smooth" });
   }
-  
+
   return (
     <div style={{ display: "flex" }}>
-      <Tab value={"bun"} active={current === "bun"} onClick={handleClickOnType}>
+      <Tab value={"bun"} active={current === "bun"} setCurrent={"bun"} onClick={handleClickOnType}>
         Булки
       </Tab>
-      <Tab value={"sauce"} active={current === "sauce"} onClick={handleClickOnType}>
+      <Tab value={"sauce"} active={current === "sauce"} setCurrent={"sauce"}onClick={handleClickOnType}>
         Соусы
       </Tab>
-      <Tab value={"main"} active={current === "main"} onClick={handleClickOnType}>
+      <Tab value={"main"} active={current === "main"} setCurrent={"main"} onClick={handleClickOnType}>
         Начинки
       </Tab>
     </div>

@@ -5,39 +5,42 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorItem from "../constructor-item/ConstructorItem";
 import styles from "./BurgerConstructor.module.css";
-import { getOrderNumber } from "../utils/data";
+
 import { Modal } from "../modal/Modal";
 import { OrderDetails } from "../order-details/OrderDetails";
 import { useSelector, useDispatch } from "react-redux";
-import { ADD_ITEM, ADD_BUN, DELETE_ITEM } from "../../services/actions/burgerConstructor";
+import {
+  ADD_ITEM,
+  ADD_BUN,
+  DELETE_ITEM,
+} from "../../services/actions/burgerConstructor";
 import { useDrop } from "react-dnd";
-
-
+import {
+  GET_NUMBER_FAILED,
+  makeOrder,
+  GET_NUMBER_SUCCESS,
+} from "../../services/actions/order";
 
 function BurgerConstructor() {
   const [isOrder, setIsOrder] = React.useState(false);
-  //   const [orderNumber, setOrderNumber] = React.useState(0);
 
   const { selectedIngredients, selectedBun, dropIngredientSuccess } =
     useSelector((store) => store.burgerConstructor);
-  const orderNumber = useSelector((store) => store.order.orderNumber);
+
+  const { modalOpened } = useSelector((store) => store.order);
 
   const dispatch = useDispatch();
 
   const onDropBunHandler = (item) => {
     dispatch({ type: ADD_BUN, selectedIngredient: item });
-    
   };
 
   const onDropIngredientHandler = (item) => {
-   
-    dispatch({ type: ADD_ITEM, selectedIngredient: item});
-    
+    dispatch({ type: ADD_ITEM, selectedIngredient: item });
   };
 
-  function handleDeleteItem (uniqId) { 
-    dispatch({ type: DELETE_ITEM, uniqId}); 
-    
+  function handleDeleteItem(uniqId) {
+    dispatch({ type: DELETE_ITEM, uniqId });
   }
   const [{ isHover }, dropTarget] = useDrop({
     accept: "ingredient",
@@ -50,33 +53,21 @@ function BurgerConstructor() {
         : onDropIngredientHandler(item);
     },
   });
-console.log(selectedIngredients);
+
   const handleCloseModal = (evt) => {
-    // setIsOrder(false);
+    dispatch({ type: GET_NUMBER_FAILED });
     evt.stopPropagation();
   };
 
-  //   const ingredientArr = [];
+  const ingredientArr = [];
+  selectedBun && ingredientArr.push(selectedBun._id);
+  selectedIngredients.forEach((ingredient) => {
+    ingredientArr.push(ingredient._id);
+  });
 
-  //   ingredientArr.push(randomBun._id);
-  //   products.forEach((ingredient) => {
-  //     ingredientArr.push(ingredient._id);
-  //   });
-
-  //   const makeOrder = async () => {
-  //     try {
-  //       await getOrderNumber(ingredientArr).then((data) => {
-  //         setOrderNumber(data.order.number);
-  //       });
-  //       console.log("Заказу присвоен номер");
-  //     } catch (er) {
-  //       console.log(`Ошибка оформления заказа: ${er}`);
-  //     }
-  //   };
-
-  //   const hahdleOpenPopupOrder = () => {
-  //     makeOrder().then(() => setIsOrder(true));
-  //   };
+  const hahdleOpenPopupOrder = () => {
+    dispatch(makeOrder(ingredientArr));
+  };
 
   React.useEffect(() => {
     if (selectedBun && selectedIngredients.length > 0) {
@@ -84,13 +75,14 @@ console.log(selectedIngredients);
     }
   }, [selectedBun, selectedIngredients]);
 
-  const totalSum = dropIngredientSuccess && selectedBun
-    ? selectedBun.price * 2 +
-      selectedIngredients?.reduce((sum, item) => sum + item.price, 0)
-    : 0;
+  const totalSum =
+    dropIngredientSuccess && selectedBun
+      ? selectedBun.price * 2 +
+        selectedIngredients?.reduce((sum, item) => sum + item.price, 0)
+      : 0;
 
-console.log(selectedIngredients);
- 
+  console.log(selectedIngredients);
+
   return (
     <>
       <section
@@ -124,16 +116,14 @@ console.log(selectedIngredients);
           >
             {selectedIngredients.length > 0 &&
               selectedIngredients.map((item, index) => (
-                
                 <ConstructorItem
                   index={item.uniqId}
                   key={index}
                   text={item.name}
                   price={item.price}
                   thumbnail={item.image_mobile}
-                  handleClose={()=>handleDeleteItem(item.uniqId)} 
+                  handleClose={() => handleDeleteItem(item.uniqId)}
                 />
-                
               ))}
           </div>
           {selectedBun && (
@@ -159,32 +149,23 @@ console.log(selectedIngredients);
               htmlType="submit"
               type="primary"
               size="large"
-
-              //   onClick={hahdleOpenPopupOrder}
+              onClick={hahdleOpenPopupOrder}
             >
               Оформить заказ
             </Button>
           ) : (
-            <Button
-              htmlType="submit"
-              type="primary"
-              size="large"
-              disabled
-              //   onClick={hahdleOpenPopupOrder}
-            >
+            <Button htmlType="submit" type="primary" size="large" disabled>
               Оформить заказ
             </Button>
           )}
         </div>
       </section>
 
-      {/* {isOrder && orderNumber && ( 
+      {modalOpened && (
         <Modal closePopup={handleCloseModal}>
-          
-            <OrderDetails />
-          
+          <OrderDetails />
         </Modal>
-       )}  */}
+      )}
     </>
   );
 }
