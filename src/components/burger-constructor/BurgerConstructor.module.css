@@ -5,6 +5,15 @@
 
 .burgerConstructor {
   width: 600px;
+ 
+}
+.wrapper {
+  display: flex;
+  
+}
+.recomendation {
+  text-align: center;
+  
 }
 
 .ordering {

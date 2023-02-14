@@ -1,0 +1,11 @@
+.item {
+    display: flex;
+    align-items: center;
+    cursor: grab;
+  }
+  
+  .itemWrapper {
+    width: 32px;
+    display: flex;
+  }
+  

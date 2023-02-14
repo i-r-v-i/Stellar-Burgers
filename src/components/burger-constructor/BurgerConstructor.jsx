@@ -1,11 +1,12 @@
 import React from "react";
+import { useEffect } from "react";
 import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorItem from "../constructor-item/ConstructorItem";
 import styles from "./BurgerConstructor.module.css";
-
+import ConstructorFillingItem from "../constructor-filling-item/ConstructorFillingItem";
 import { Modal } from "../modal/Modal";
 import { OrderDetails } from "../order-details/OrderDetails";
 import { useSelector, useDispatch } from "react-redux";
@@ -13,13 +14,10 @@ import {
   ADD_ITEM,
   ADD_BUN,
   DELETE_ITEM,
+  CLEAR_STATE,
 } from "../../services/actions/burgerConstructor";
 import { useDrop } from "react-dnd";
-import {
-  GET_NUMBER_FAILED,
-  makeOrder,
-  GET_NUMBER_SUCCESS,
-} from "../../services/actions/order";
+import { GET_NUMBER_FAILED, makeOrder } from "../../services/actions/order";
 
 function BurgerConstructor() {
   const [isOrder, setIsOrder] = React.useState(false);
@@ -42,6 +40,7 @@ function BurgerConstructor() {
   function handleDeleteItem(uniqId) {
     dispatch({ type: DELETE_ITEM, uniqId });
   }
+
   const [{ isHover }, dropTarget] = useDrop({
     accept: "ingredient",
     collect: (monitor) => ({
@@ -56,6 +55,7 @@ function BurgerConstructor() {
 
   const handleCloseModal = (evt) => {
     dispatch({ type: GET_NUMBER_FAILED });
+    dispatch({ type: CLEAR_STATE });
     evt.stopPropagation();
   };
 
@@ -69,7 +69,7 @@ function BurgerConstructor() {
     dispatch(makeOrder(ingredientArr));
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (selectedBun && selectedIngredients.length > 0) {
       setIsOrder(true);
     }
@@ -80,8 +80,6 @@ function BurgerConstructor() {
       ? selectedBun.price * 2 +
         selectedIngredients?.reduce((sum, item) => sum + item.price, 0)
       : 0;
-
-  console.log(selectedIngredients);
 
   return (
     <>
@@ -111,17 +109,19 @@ function BurgerConstructor() {
             />
           )}
           <div
-            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+            }}
             className={styles.scrollBarWrapper}
           >
             {selectedIngredients.length > 0 &&
               selectedIngredients.map((item, index) => (
-                <ConstructorItem
-                  index={item.uniqId}
-                  key={index}
-                  text={item.name}
-                  price={item.price}
-                  thumbnail={item.image_mobile}
+                <ConstructorFillingItem
+                  index={index}
+                  key={item.uniqId}
+                  ingredient={item}
                   handleClose={() => handleDeleteItem(item.uniqId)}
                 />
               ))}
@@ -136,29 +136,37 @@ function BurgerConstructor() {
             />
           )}
         </ul>
-
-        <div className={styles.ordering}>
-          <div className={styles.sum}>
-            <p className="text text_type_main-medium">{totalSum}</p>
-            <div className={styles.scale}>
-              <CurrencyIcon type="primary" />
+        {selectedBun || selectedIngredients.length > 0 ? (
+          <div className={styles.ordering}>
+            <div className={styles.sum}>
+              <p className="text text_type_main-medium">{totalSum}</p>
+              <div className={styles.scale}>
+                <CurrencyIcon type="primary" />
+              </div>
             </div>
+
+            {isOrder ? (
+              <Button
+                htmlType="submit"
+                type="primary"
+                size="large"
+                onClick={hahdleOpenPopupOrder}
+              >
+                Оформить заказ
+              </Button>
+            ) : (
+              <Button htmlType="submit" type="primary" size="large" disabled>
+                Оформить заказ
+              </Button>
+            )}
           </div>
-          {isOrder ? (
-            <Button
-              htmlType="submit"
-              type="primary"
-              size="large"
-              onClick={hahdleOpenPopupOrder}
-            >
-              Оформить заказ
-            </Button>
-          ) : (
-            <Button htmlType="submit" type="primary" size="large" disabled>
-              Оформить заказ
-            </Button>
-          )}
-        </div>
+        ) : (
+          <div className={styles.wrapper}>
+            <p className={`${styles.recomendation} text text_type_main-medium`}>
+              Перетащите ингредиенты для бургера сюда
+            </p>
+          </div>
+        )}
       </section>
 
       {modalOpened && (

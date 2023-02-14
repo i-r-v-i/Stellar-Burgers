@@ -4,20 +4,18 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ConstructorItem.module.css";
-import { useSelector, useDispatch } from "react-redux";
 
-
-
-const ConstructorItem = ({ isLocked, type, text, price, thumbnail, handleClose, uniqId } ) => {
-
-//   const dispatch = useDispatch();
- 
-//   const handleDeleteItem = (item, id)=>{ 
-//   dispatch(DELETE_ITEM(item, id)); 
-// }
-
+function ConstructorItem({
+  isLocked,
+  type,
+  text,
+  price,
+  thumbnail,
+  handleClose,
+  uniqId,
+}) {
   return (
-    <li className={styles.item} >
+    <li className={styles.item}>
       <div className={styles.itemWrapper}>
         {!isLocked && <DragIcon type="primary" />}
       </div>
@@ -27,13 +25,10 @@ const ConstructorItem = ({ isLocked, type, text, price, thumbnail, handleClose, 
         text={text}
         price={price}
         thumbnail={thumbnail}
-        uniqId = {uniqId}
-        handleClose={handleClose} 
       />
-      
     </li>
   );
-};
+}
 
 export default ConstructorItem;
 
