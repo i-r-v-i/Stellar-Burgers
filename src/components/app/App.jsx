@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect } from "react";
 import styles from "./app.module.css";
 import AppHeader from "../app-header/AppHeader";
 import { DndProvider } from "react-dnd";
@@ -12,7 +12,7 @@ function App() {
   const ingredients = useSelector((state) => state.ingredients.ingredients);
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(getIngredients());
   }, [dispatch]);
 

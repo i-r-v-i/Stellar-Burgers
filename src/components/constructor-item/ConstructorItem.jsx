@@ -10,9 +10,7 @@ function ConstructorItem({
   type,
   text,
   price,
-  thumbnail,
-  handleClose,
-  uniqId,
+  thumbnail
 }) {
   return (
     <li className={styles.item}>

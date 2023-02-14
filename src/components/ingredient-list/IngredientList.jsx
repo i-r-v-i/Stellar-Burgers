@@ -2,7 +2,6 @@ import Ingredient from "../ingredient/Ingredient";
 import styles from "./IngredientList.module.css";
 import { useMemo } from "react";
 import PropTypes from "prop-types";
-
 import { useSelector } from "react-redux";
 
 const IngredientList = ({ ingType, title }) => {

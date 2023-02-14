@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./OrderDetails.module.css";
-
 import { useSelector } from "react-redux";
+
 export function OrderDetails() {
   const orderNumber = useSelector((store) => store.order.orderNumber);
   console.log(orderNumber);

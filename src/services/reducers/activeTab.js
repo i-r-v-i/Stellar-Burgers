@@ -1,22 +1,18 @@
-import {SET_ACTIVE_TAB} from '../actions/activeTab';
+import { SET_ACTIVE_TAB } from "../actions/activeTab";
 
 const activeTabInitialState = {
-activeTab: "bun"
-}
+  activeTab: "bun",
+};
 
-export const activeTabReducer = (
-    state = activeTabInitialState,
-    action
-  ) => {
-    switch (action.type) {
-      case SET_ACTIVE_TAB: {
-        return {
-            activeTab: action.currentTab
-        };
-      }
-      default: {
-        return state;
-      }
+export const activeTabReducer = (state = activeTabInitialState, action) => {
+  switch (action.type) {
+    case SET_ACTIVE_TAB: {
+      return {
+        activeTab: action.currentTab,
+      };
     }
-  };
-  
+    default: {
+      return state;
+    }
+  }
+};
