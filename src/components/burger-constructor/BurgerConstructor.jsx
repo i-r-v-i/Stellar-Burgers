@@ -66,7 +66,9 @@ function BurgerConstructor() {
   });
 
   const hahdleOpenPopupOrder = () => {
-    dispatch(makeOrder(ingredientArr));
+    const result = [...ingredientArr];
+    result.push(selectedBun._id);
+    dispatch(makeOrder(result));
   };
 
   useEffect(() => {
@@ -108,14 +110,7 @@ function BurgerConstructor() {
               thumbnail={selectedBun.image_mobile}
             />
           )}
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "10px",
-            }}
-            className={styles.scrollBarWrapper}
-          >
+          <div className={styles.scrollBarWrapper}>
             {selectedIngredients.length > 0 &&
               selectedIngredients.map((item, index) => (
                 <ConstructorFillingItem

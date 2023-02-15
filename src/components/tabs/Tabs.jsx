@@ -1,18 +1,29 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setActiveTab } from "../../services/actions/activeTab";
+
 
 export default function Tabs() {
   const activeTab = useSelector((store) => store.activeTab.activeTab);
+  
+  const dispatch = useDispatch();
+ 
+  const handleTabClick = (target) => {
+    dispatch(setActiveTab(target));
+    const tabItem = document.getElementById(target);
+    tabItem && tabItem.scrollIntoView({behavior: 'smooth'})
+   
+}
 
   return (
     <div style={{ display: "flex" }}>
-      <Tab value={"bun"} active={activeTab === "bun"}>
+      <Tab value={"bun"} active={activeTab === "bun"} onClick = {handleTabClick}>
         Булки
       </Tab>
-      <Tab value={"sauce"} active={activeTab === "sauce"}>
+      <Tab value={"sauce"} active={activeTab === "sauce"} onClick = {handleTabClick}>
         Соусы
       </Tab>
-      <Tab value={"main"} active={activeTab === "main"}>
+      <Tab value={"main"} active={activeTab === "main"} onClick = {handleTabClick}>
         Начинки
       </Tab>
     </div>

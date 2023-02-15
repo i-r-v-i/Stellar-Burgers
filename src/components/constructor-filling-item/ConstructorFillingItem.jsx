@@ -13,30 +13,41 @@ import { SORT_ITEM } from "../../services/actions/burgerConstructor";
 function ConstructorFillingItem({ ingredient, index, handleClose }) {
   const dispatch = useDispatch();
   const ref = useRef(null);
+
   const [{ opacity }, drag] = useDrag({
     type: "filling",
-    item: index,
-    collect: (monitor) => {
-      return {
-        opacity: monitor.isDragging() ? 0.5 : 1,
-      };
-    },
+    item: { ingredient, index },
+    collect: (monitor) => ({
+      opacity: monitor.isDragging() ? 0.5 : 1,
+    }),
   });
 
   const [, drop] = useDrop({
     accept: "filling",
-    hover(ingredient) {
-      if (!ref.current) {
-        return;
-      }
+    hover(ingredient, monitor) {
+      if (!ref.current) return;
+
       const dragIndex = ingredient.index;
-      const dropIndex = index;
+      const hoverIndex = index;
+
+      if (dragIndex === hoverIndex) return;
+
+      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      const hoverMiddleY =
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+
+      const clientOffset = monitor.getClientOffset();
+
+      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+
+      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) return;
+      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) return;
       dispatch({
         type: SORT_ITEM,
         dragIndex,
-        dropIndex,
+        hoverIndex,
       });
-      ingredient.index = dropIndex;
+      ingredient.index = hoverIndex;
     },
   });
 

@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 export function OrderDetails() {
   const orderNumber = useSelector((store) => store.order.orderNumber);
-  console.log(orderNumber);
+  
   return (
     <div className={styles.container}>
       <p className="text text_type_digits-large mb-8 mt-4">{orderNumber}</p>

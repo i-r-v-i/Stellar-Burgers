@@ -52,13 +52,15 @@ export const burgerConstructorReducer = (
       };
     }
     case SORT_ITEM: {
-      const dragIngredients = [...state.selectedIngredients];
-      const targetIngredients = dragIngredients.splice(action.dropIndex, 1)[0];
-      dragIngredients.splice(action.dragIndex, 0, targetIngredients);
+      const newArrIngredients = [...state.selectedIngredients];
+      const ingredient = newArrIngredients[action.dragIndex];
+      newArrIngredients[action.dragIndex] =
+        newArrIngredients[action.hoverIndex];
+      newArrIngredients[action.hoverIndex] = ingredient;
 
       return {
         ...state,
-        selectedIngredients: dragIngredients,
+        selectedIngredients: newArrIngredients,
       };
     }
     default: {
