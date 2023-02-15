@@ -1,4 +1,4 @@
-import React from "react";
+import  {useEffect} from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 import { ModalOverlay } from "../modal-overlay/ModalOverlay";
@@ -8,7 +8,7 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 const modalRoot = document.querySelector("#root-modal");
 
 export function Modal({ children, title, closePopup }) {
-  React.useEffect(() => {
+  useEffect(() => {
     const handleEscClose = (evt) => {
       evt.key === "Escape" && closePopup(evt);
     };

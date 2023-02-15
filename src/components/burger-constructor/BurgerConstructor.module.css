@@ -5,6 +5,15 @@
 
 .burgerConstructor {
   width: 600px;
+ 
+}
+.wrapper {
+  display: flex;
+  
+}
+.recomendation {
+  text-align: center;
+  
 }
 
 .ordering {
@@ -30,6 +39,9 @@
 .scrollBarWrapper {
   height: 440px;
   overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .scrollBarWrapper::-webkit-scrollbar {

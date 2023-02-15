@@ -1,133 +1,175 @@
 import React from "react";
+import { useEffect } from "react";
 import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorItem from "../constructor-item/ConstructorItem";
-// import ConstructorList from "../constructor-list/ConstructorList";
 import styles from "./BurgerConstructor.module.css";
-
-import {
-  TotalPriceContext,
-  DataContext,
-  OrderNumberContext,
-} from "../services/productsContext.js";
-import { getOrderNumber } from "../utils/data";
+import ConstructorFillingItem from "../constructor-filling-item/ConstructorFillingItem";
 import { Modal } from "../modal/Modal";
 import { OrderDetails } from "../order-details/OrderDetails";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  ADD_ITEM,
+  ADD_BUN,
+  DELETE_ITEM,
+  CLEAR_STATE,
+} from "../../services/actions/burgerConstructor";
+import { useDrop } from "react-dnd";
+import { GET_NUMBER_FAILED, makeOrder } from "../../services/actions/order";
 
 function BurgerConstructor() {
   const [isOrder, setIsOrder] = React.useState(false);
-  const [orderNumber, setOrderNumber] = React.useState(0);
-  const { totalPrice, setTotalPrice } = React.useContext(TotalPriceContext);
-  const dataIngredients = React.useContext(DataContext);
 
-  const buns = React.useMemo(
-    () => dataIngredients.filter((item) => item.type === "bun"),
-    [dataIngredients]
-  );
-  const randomBun = buns[Math.floor(Math.random() * buns.length)];
+  const { selectedIngredients, selectedBun, dropIngredientSuccess } =
+    useSelector((store) => store.burgerConstructor);
 
-  const products = React.useMemo(
-    () => dataIngredients.filter((item) => item.type !== "bun"),
-    [dataIngredients]
-  );
+  const { modalOpened } = useSelector((store) => store.order);
+
+  const dispatch = useDispatch();
+
+  const onDropBunHandler = (item) => {
+    dispatch({ type: ADD_BUN, selectedIngredient: item });
+  };
+
+  const onDropIngredientHandler = (item) => {
+    dispatch({ type: ADD_ITEM, selectedIngredient: item });
+  };
+
+  function handleDeleteItem(uniqId) {
+    dispatch({ type: DELETE_ITEM, uniqId });
+  }
+
+  const [{ isHover }, dropTarget] = useDrop({
+    accept: "ingredient",
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
+    }),
+    drop(item) {
+      item.type === "bun"
+        ? onDropBunHandler(item)
+        : onDropIngredientHandler(item);
+    },
+  });
 
   const handleCloseModal = (evt) => {
-    setIsOrder(false);
+    dispatch({ type: GET_NUMBER_FAILED });
+    dispatch({ type: CLEAR_STATE });
     evt.stopPropagation();
   };
 
   const ingredientArr = [];
-
-  ingredientArr.push(randomBun._id);
-  products.forEach((ingredient) => {
+  selectedBun && ingredientArr.push(selectedBun._id);
+  selectedIngredients.forEach((ingredient) => {
     ingredientArr.push(ingredient._id);
   });
-  
-
-  const makeOrder = async () => {
-    try {
-      await getOrderNumber(ingredientArr).then((data) => {
-        setOrderNumber(data.order.number);
-      });
-      console.log("Заказу присвоен номер");
-    } catch (er) {
-      console.log(`Ошибка оформления заказа: ${er}`);
-    }
-  };
 
   const hahdleOpenPopupOrder = () => {
-    makeOrder().then(() => setIsOrder(true));
+    const result = [...ingredientArr];
+    result.push(selectedBun._id);
+    dispatch(makeOrder(result));
   };
 
-  React.useEffect(() => {
-    const total = products.reduce(
-      (acc, p) => acc + p.price,
-      randomBun.price * 2
-    );
-    setTotalPrice(total);
-  }, [randomBun]);
+  useEffect(() => {
+    if (selectedBun && selectedIngredients.length > 0) {
+      setIsOrder(true);
+    }
+  }, [selectedBun, selectedIngredients]);
+
+  const totalSum =
+    dropIngredientSuccess && selectedBun
+      ? selectedBun.price * 2 +
+        selectedIngredients?.reduce((sum, item) => sum + item.price, 0)
+      : 0;
 
   return (
-    <section className={`${styles.burgerConstructor} mt-25`}>
-      <ul
-        style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-        className={styles.constructorList}
+    <>
+      <section
+        className={`${styles.burgerConstructor} mt-25`}
+        ref={dropTarget}
+        style={
+          isHover
+            ? {
+                boxShadow: "5px 5px 8px rgba(225, 225, 225, 0.5)",
+                borderRadius: "60px",
+              }
+            : null
+        }
       >
-        <ConstructorItem
-          isLocked={true}
-          type="top"
-          text={`${randomBun.name} (верх)`}
-          price={randomBun.price}
-          thumbnail={randomBun.image_mobile}
-        />
-        <div
+        <ul
           style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-          className={styles.scrollBarWrapper}
+          className={styles.constructorList}
         >
-          {products.map((item) => (
+          {selectedBun && (
             <ConstructorItem
-              key={item._id}
-              text={item.name}
-              price={item.price}
-              thumbnail={item.image_mobile}
+              isLocked={true}
+              type="top"
+              text={`${selectedBun.name} (верх)`}
+              price={selectedBun.price}
+              thumbnail={selectedBun.image_mobile}
             />
-          ))}
-        </div>
-        <ConstructorItem
-          isLocked={true}
-          type="bottom"
-          text={`${randomBun.name} (низ)`}
-          price={randomBun.price}
-          thumbnail={randomBun.image_mobile}
-        />
-      </ul>
-
-      <div className={styles.ordering}>
-        <div className={styles.sum}>
-          <p className="text text_type_main-medium">{totalPrice}</p>
-          <div className={styles.scale}>
-            <CurrencyIcon type="primary" />
+          )}
+          <div className={styles.scrollBarWrapper}>
+            {selectedIngredients.length > 0 &&
+              selectedIngredients.map((item, index) => (
+                <ConstructorFillingItem
+                  index={index}
+                  key={item.uniqId}
+                  ingredient={item}
+                  handleClose={() => handleDeleteItem(item.uniqId)}
+                />
+              ))}
           </div>
-        </div>
-        <Button
-          htmlType="submit"
-          type="primary"
-          size="large"
-          onClick={hahdleOpenPopupOrder}
-        >
-          Оформить заказ
-        </Button>
-      </div>
-      {isOrder && orderNumber && (
+          {selectedBun && (
+            <ConstructorItem
+              isLocked={true}
+              type="bottom"
+              text={`${selectedBun.name} (низ)`}
+              price={selectedBun.price}
+              thumbnail={selectedBun.image_mobile}
+            />
+          )}
+        </ul>
+        {selectedBun || selectedIngredients.length > 0 ? (
+          <div className={styles.ordering}>
+            <div className={styles.sum}>
+              <p className="text text_type_main-medium">{totalSum}</p>
+              <div className={styles.scale}>
+                <CurrencyIcon type="primary" />
+              </div>
+            </div>
+
+            {isOrder ? (
+              <Button
+                htmlType="submit"
+                type="primary"
+                size="large"
+                onClick={hahdleOpenPopupOrder}
+              >
+                Оформить заказ
+              </Button>
+            ) : (
+              <Button htmlType="submit" type="primary" size="large" disabled>
+                Оформить заказ
+              </Button>
+            )}
+          </div>
+        ) : (
+          <div className={styles.wrapper}>
+            <p className={`${styles.recomendation} text text_type_main-medium`}>
+              Перетащите ингредиенты для бургера сюда
+            </p>
+          </div>
+        )}
+      </section>
+
+      {modalOpened && (
         <Modal closePopup={handleCloseModal}>
-          <OrderNumberContext.Provider value={orderNumber}>
-            <OrderDetails />
-          </OrderNumberContext.Provider>
+          <OrderDetails />
         </Modal>
       )}
-    </section>
+    </>
   );
 }
 

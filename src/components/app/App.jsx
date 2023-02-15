@@ -1,43 +1,32 @@
-import React from "react";
+import { useEffect } from "react";
 import styles from "./app.module.css";
 import AppHeader from "../app-header/AppHeader";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import BurgerIngredients from "../burger-ingredients/BurgerIngredients";
 import BurgerConstructor from "../burger-constructor/BurgerConstructor";
-import { getData } from "../utils/data";
-
-import { DataContext } from "../services/productsContext.js";
-import { TotalPriceContext } from "../services/productsContext.js";
+import { getIngredients } from "../../services/actions/ingredients";
+import { useDispatch, useSelector } from "react-redux";
 
 function App() {
-  const [dataIngredients, setIngredients] = React.useState();
-  const [totalPrice, setTotalPrice] = React.useState(0);
+  const ingredients = useSelector((state) => state.ingredients.ingredients);
+  const dispatch = useDispatch();
 
-  const getIngredients = async () => {
-    try {
-      await getData().then((data) => setIngredients(data.data));
-      console.log("Успешная загрузка");
-    } catch (er) {
-      console.log(`При загрузке данных с сервера что-то пошло не так: ${er}`);
-    }
-  };
-
-  React.useEffect(() => {
-    getIngredients();
-  }, []);
+  useEffect(() => {
+    dispatch(getIngredients());
+  }, [dispatch]);
 
   return (
     <div className={styles.app}>
       <AppHeader />
-      <DataContext.Provider value={dataIngredients}>
-        <TotalPriceContext.Provider value={{ totalPrice, setTotalPrice }}>
-          {dataIngredients && (
-            <main className={styles.main}>
-              <BurgerIngredients />
-              <BurgerConstructor />
-            </main>
-          )}
-        </TotalPriceContext.Provider>
-      </DataContext.Provider>
+      {ingredients && (
+        <main className={styles.main}>
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </DndProvider>
+        </main>
+      )}
     </div>
   );
 }

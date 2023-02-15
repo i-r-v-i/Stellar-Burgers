@@ -3,29 +3,47 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import { Modal } from "../modal/Modal";
-import { IngredientDetails } from "../ingredient-details/IngredientDetails";
 import styles from "./Ingredient.module.css";
-import React from "react";
 import { IngredientPropType } from "../types/common-types.js";
+import { useDispatch, useSelector } from "react-redux";
+import { useDrag } from "react-dnd";
+import { DATA_MODAL_SUCCESS } from "../../services/actions/currentIngredient";
 
-const Ingredient = ({ data, name, price, image, type, count }) => {
-  const [isDataModal, setDataModal] = React.useState(null);
+const Ingredient = ({ data, name, price, image, type }) => {
+  const { selectedIngredients, selectedBun } = useSelector(
+    (store) => store.burgerConstructor
+  );
 
-  const handleCloseModal = (evt) => {
-    setDataModal(null);
-    evt.stopPropagation();
-  };
+  const count =
+    data.type !== "bun"
+      ? selectedIngredients.reduce(
+          (sum, item) => (item._id === data._id ? sum + 1 : sum),
+          0
+        )
+      : selectedBun?._id === data._id
+      ? 1
+      : 0;
+  const dispatch = useDispatch();
 
   const hahdleOpen = (data) => {
-    setDataModal(data);
+    dispatch({ type: DATA_MODAL_SUCCESS, payload: data });
   };
+
+  const [{ opacity }, ref] = useDrag({
+    type: "ingredient",
+    item: data,
+    collect: (monitor) => ({
+      opacity: monitor.isDragging() ? 0.5 : 1,
+    }),
+  });
 
   return (
     <li
       className={`${styles.ingredientItem} mb-8`}
       type={type}
       onClick={() => hahdleOpen(data)}
+      style={{ opacity: { opacity } }}
+      ref={ref}
     >
       <img className="ml-4 mr-4 mb-1" src={image} alt={name} />
       {count > 0 && <Counter count={count} size="default" extraClass="m-1" />}
@@ -34,12 +52,6 @@ const Ingredient = ({ data, name, price, image, type, count }) => {
         <CurrencyIcon type="primary" />
       </div>
       <p className={`${styles.name} text text_type_main-default`}>{name}</p>
-
-      {isDataModal && (
-        <Modal closePopup={handleCloseModal} title="Детали ингредиента">
-          <IngredientDetails ingredient={data} />
-        </Modal>
-      )}
     </li>
   );
 };

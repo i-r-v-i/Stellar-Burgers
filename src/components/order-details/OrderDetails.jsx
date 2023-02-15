@@ -1,10 +1,10 @@
 import React from "react";
 import styles from "./OrderDetails.module.css";
-import { OrderNumberContext } from "../services/productsContext.js";
+import { useSelector } from "react-redux";
 
 export function OrderDetails() {
-  const orderNumber = React.useContext(OrderNumberContext);
-
+  const orderNumber = useSelector((store) => store.order.orderNumber);
+  
   return (
     <div className={styles.container}>
       <p className="text text_type_digits-large mb-8 mt-4">{orderNumber}</p>
