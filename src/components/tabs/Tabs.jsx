@@ -8,10 +8,9 @@ export default function Tabs() {
   
   const dispatch = useDispatch();
  
-  const handleTabClick = (target) => {
-    dispatch(setActiveTab(target));
-    const tabItem = document.getElementById(target);
-    tabItem && tabItem.scrollIntoView({behavior: 'smooth'})
+  const handleTabClick = (id) => {
+    dispatch(setActiveTab(id));
+    document.querySelector(`#${id}`)?.scrollIntoView({ behavior: "smooth" });
    
 }
 
