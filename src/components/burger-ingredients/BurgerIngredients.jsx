@@ -11,7 +11,8 @@ import { setActiveTab } from "../../services/actions/activeTab";
 function BurgerIngredients() {
   const dataModal = useSelector((store) => store.currentIngredient.dataModal);
   const dispatch = useDispatch();
-
+  
+  
   useEffect(() => {
     const callback = (entries) => {
       dispatch(setActiveTab(entries[0].target.id));
@@ -29,7 +30,7 @@ function BurgerIngredients() {
     observer.observe(bunSection);
     observer.observe(sauceSection);
     observer.observe(mainSection);
-  }, [dispatch]);
+  }, []);
 
   const handleCloseModal = (evt) => {
     dispatch({ type: DATA_MODAL_FAILED });

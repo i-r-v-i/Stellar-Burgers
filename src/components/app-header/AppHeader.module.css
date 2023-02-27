@@ -17,18 +17,16 @@
   padding-right: 112px;
 }
 
-.navItem {
-  cursor: pointer;
-}
-
 .link {
   text-decoration: none;
   display: flex;
+  cursor: pointer;
+  color: #8585AD;
+   
 }
 
-.active_color {
-  composes: link;
-  color: #f2f2f3;
+.link_active {
+  color:aquamarine
 }
 
 .account {
