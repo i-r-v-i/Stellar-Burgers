@@ -1,25 +1,45 @@
-import {
-    EmailInput,
-  } from "@ya.praktikum/react-developer-burger-ui-components";
-  import Form from "../components/form/Form";
-  import { useState, useRef } from "react";
-  
-  export default function ForgotPassword() {
-    const [value, setValue] = useState(null);
-    const inputRef = useRef(null);
-    const onIconClick = () => {
-      setTimeout(() => inputRef.current.focus(), 0);
-      alert("Icon Click Callback");
-    };
+import { EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import Form from "../components/form/Form";
+import { useNavigate } from "react-router-dom";
+import { useState} from "react";
+import { useDispatch } from "react-redux";
+import { forgotPassword } from "../services/actions/user";
+
+export default function ForgotPassword() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [form, setEmail] = useState({email: ''});
+
+
+
+  const onChange = (e) => {
+    setEmail({email: e.target.value });
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(forgotPassword(form, navigate));
     
-    return (
-      <Form title="Восстановление пароля" buttonText="Восстановить" question='Вспомнили пароль?' link='Войти'>
+  };
+
+  return (
+    <div style={{ paddingTop: "180px" }}>
+      <Form
+        title="Восстановление пароля"
+        button='true'
+        buttonText="Восстановить"
+        question="Вспомнили пароль?"
+        link="Войти"
+        route='/login'
+        onButtonClick={onSubmit}
+      >
         <EmailInput
-          // onChange={onChange}
-          value={value}
+          onChange={onChange}
+          value={form.email}
           name={"email"}
           placeholder="Укажите e-mail"
-        />
+          required />
       </Form>
-    );
-  }
+    </div>
+  );
+}

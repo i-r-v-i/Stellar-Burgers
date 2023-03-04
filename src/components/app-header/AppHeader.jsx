@@ -5,12 +5,15 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./AppHeader.module.css";
-import { NavLink } from "react-router-dom";
+import {useLocation, NavLink } from 'react-router-dom';
+import { useSelector, useDispatch } from "react-redux";
+
 
 function AppHeader() {
-
-
+  const userData = useSelector((store) => store.user.userData);
+  const {pathname} = useLocation();
   
+
   return (
     <header className={styles.header}>
       <div className={styles.wrapper}>
@@ -18,18 +21,19 @@ function AppHeader() {
           <NavLink
             to="/"
             className={`${styles.link} pb-4 pt-4 pl-5 pr-5`}
-            activeClassName={styles.link_active}
+            style={({ isActive }) =>({color: isActive ? " #f2f2f3" : "#8585AD"})}
           >
-            <BurgerIcon type="primary" />
+             
+            <BurgerIcon type={pathname == '/'  ? 'primary' : 'secondary'}/>
             <p className="text text_type_main-default pl-2">Конструктор</p>
           </NavLink>
 
           <NavLink
-            to="#"
+            to="/feed"
             className={`${styles.link} pb-4 pt-4 pl-5 pr-5`}
-            activeClassName={styles.link_active}
+            style={({ isActive }) =>({color: isActive ? " #f2f2f3" : "#8585AD"})}
           >
-            <ListIcon type="primary" />
+            <ListIcon type={pathname == '/feed'  ? 'primary' : 'secondary'} />
             <p className="text text_type_main-default pl-2">Лента заказов</p>
           </NavLink>
         </nav>
@@ -38,11 +42,11 @@ function AppHeader() {
           <NavLink
             to= "/profile"
             className={styles.link}
-            activeClassName={styles.link_active}
+            style={({ isActive }) =>({color: isActive ? " #f2f2f3" : "#8585AD"})}
           >
-            <ProfileIcon type="secondary" />
+            <ProfileIcon type={pathname == '/profile'  ? 'primary' : 'secondary'} />
             <p className= "text text_type_main-default pl-2 pr-5">
-              Личный кабинет
+               {/* {userData ? (userData.user.name) : ('Личный кабинет')} */} Личный кабинет
             </p>
           </NavLink>
         </div>

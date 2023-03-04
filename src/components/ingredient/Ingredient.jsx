@@ -8,8 +8,14 @@ import { IngredientPropType } from "../types/common-types.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
 import { DATA_MODAL_SUCCESS } from "../../services/actions/currentIngredient";
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+
 
 const Ingredient = ({ data, name, price, image, type }) => {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate =useNavigate();
+
   const { selectedIngredients, selectedBun } = useSelector(
     (store) => store.burgerConstructor
   );
@@ -23,11 +29,7 @@ const Ingredient = ({ data, name, price, image, type }) => {
       : selectedBun?._id === data._id
       ? 1
       : 0;
-  const dispatch = useDispatch();
-
-  const hahdleOpen = (data) => {
-    dispatch({ type: DATA_MODAL_SUCCESS, payload: data });
-  };
+  
 
   const [{ opacity }, ref] = useDrag({
     type: "ingredient",
@@ -38,10 +40,10 @@ const Ingredient = ({ data, name, price, image, type }) => {
   });
 
   return (
-    <li
+    <>
+    <Link to = {`/ingredients/${data._id}`} state = {{background: location}}
       className={`${styles.ingredientItem} mb-8`}
       type={type}
-      onClick={() => hahdleOpen(data)}
       style={{ opacity: { opacity } }}
       ref={ref}
     >
@@ -52,7 +54,9 @@ const Ingredient = ({ data, name, price, image, type }) => {
         <CurrencyIcon type="primary" />
       </div>
       <p className={`${styles.name} text text_type_main-default`}>{name}</p>
-    </li>
+    </Link>
+    <Outlet/>
+    </>
   );
 };
 

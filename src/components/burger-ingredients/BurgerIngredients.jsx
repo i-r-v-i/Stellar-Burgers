@@ -1,17 +1,16 @@
 import Tabs from "../tabs/Tabs";
 import styles from "./BurgerIngredients.module.css";
 import IngredientList from "../ingredient-list/IngredientList";
-import { Modal } from "../modal/Modal";
-import { IngredientDetails } from "../ingredient-details/IngredientDetails";
 import { useSelector, useDispatch } from "react-redux";
-import { DATA_MODAL_FAILED } from "../../services/actions/currentIngredient";
 import { useEffect } from "react";
 import { setActiveTab } from "../../services/actions/activeTab";
+import {  useLocation } from "react-router-dom";
+
 
 function BurgerIngredients() {
-  const dataModal = useSelector((store) => store.currentIngredient.dataModal);
   const dispatch = useDispatch();
-  
+  // const name = useSelector((store) => store.user.userData.user.name);
+  // console.log(name);
   
   useEffect(() => {
     const callback = (entries) => {
@@ -32,13 +31,9 @@ function BurgerIngredients() {
     observer.observe(mainSection);
   }, []);
 
-  const handleCloseModal = (evt) => {
-    dispatch({ type: DATA_MODAL_FAILED });
-    evt.stopPropagation();
-  };
+  
 
   return (
-    <>
       <section className={`${styles.burgerIngredients} mb-10 pt-10`}>
         <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
         <Tabs />
@@ -48,13 +43,6 @@ function BurgerIngredients() {
           <IngredientList ingType="main" title="Начинки" />
         </div>
       </section>
-
-      {dataModal && (
-        <Modal closePopup={handleCloseModal} title="Детали ингредиента">
-          <IngredientDetails ingredient={dataModal} />
-        </Modal>
-      )}
-    </>
   );
 }
 

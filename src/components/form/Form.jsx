@@ -3,6 +3,7 @@ import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from 'react-router-dom';
 
 export default function Form({
+  extraClass,
   title,
   children,
   button = true,
@@ -37,15 +38,15 @@ export default function Form({
   };
 
   return (
-    <form className={styles.form}>
-      <h1 className={`${styles.title} text text_type_main-medium`}>{title}</h1>
+    <form className={`${styles.form} ${extraClass}`}>
+      {title ? <h1 className={`${styles.title} text text_type_main-medium`}>{title}</h1> : null}
       {children}
+      
       <div className={styles.buttonContainer}>
-      {button && (
-        <Button htmlType="submit" type="primary" size="medium" onClick={onButtonClick}>
+      {button == "true"? (<Button htmlType="submit" type="primary" size="medium" onClick={onButtonClick}>
           {buttonText}
         </Button>
-      )}
+      ) : null } 
       <GetSpan
         question={question}
         link={link}

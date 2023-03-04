@@ -1,35 +1,54 @@
 import {
-    EmailInput,
-    PasswordInput,
-    //   Button,
-  } from "@ya.praktikum/react-developer-burger-ui-components";
-  import Form from "../components/form/Form";
-  import { useState, useRef } from "react";
-  
-  export default function Login() {
-    const [form, setValue] = useState({ email: '', password: '' });
-    // const inputRef = useRef(null);
+  EmailInput,
+  PasswordInput,
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import Form from "../components/form/Form";
+import { useNavigate } from "react-router-dom";
+import { useState} from "react";
+import { useDispatch } from "react-redux";
+import { isAutn } from "../services/actions/user";
 
-    const onChange = e => {
-      setValue({ ...form, [e.target.name]: e.target.value });
-    };
+export default function Login() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [form, setValue] = useState({ email: "", password: "" });
   
-  
-    return (
-      <Form title="Вход" buttonText="Войти" question='Вы — новый пользователь?' link='Зарегистрироваться' question2='Забыли пароль?' link2='Восстановить пароль' route='/register' route2='/forgot-password'>
+
+  const onChange = (e) => {
+    setValue({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = e => {
+    e.preventDefault();
+   dispatch(isAutn(form, navigate));
+  }
+
+  return (
+    <div style={{paddingTop: "180px"}}>
+      <Form
+        title="Вход"
+        button='true'
+        buttonText="Войти"
+        question="Вы — новый пользователь?"
+        link="Зарегистрироваться"
+        question2="Забыли пароль?"
+        link2="Восстановить пароль"
+        route="/register"
+        route2="/forgot-password"
+        onButtonClick={onSubmit}
+      >
         <EmailInput
           onChange={onChange}
           value={form.email}
-          name={"email"}
+          name="email"
           placeholder="E-mail"
         />
         <PasswordInput
           onChange={onChange}
           value={form.password}
-          name={"password"}
-          
+          name="password"
         />
       </Form>
-    );
-  }
-  
+    </div>
+  );
+}

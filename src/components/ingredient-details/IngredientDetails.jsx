@@ -1,8 +1,16 @@
 import styles from "./IngredientDetails.module.css";
 import PropTypes from "prop-types";
 import { IngredientPropType } from "../types/common-types.js";
+import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from "react-redux";
 
-export function IngredientDetails({ ingredient }) {
+
+export function IngredientDetails() {
+   const { id } = useParams();
+  const ingredients = useSelector((store) => store.ingredients.ingredients);
+  const ingredient = ingredients?.find((ingredient) => ingredient._id === id);
+
+
   return (
     <div className={styles.container}>
       <img

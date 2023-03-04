@@ -2,26 +2,33 @@ import {
   Input,
   EmailInput,
   PasswordInput,
-  //   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Form from "../components/form/Form";
-import { useState, useRef } from "react";
+import { useState } from "react";
+import { useDispatch, useSelector  } from 'react-redux';
+import { registrateUser } from "../services/actions/user";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector((store) => store.user.userData);
   const [form, setValue] = useState({name: '', email: '', password: '' });
-  // const inputRef = useRef(null);
-  // const onIconClick = () => {
-  //   setTimeout(() => inputRef.current.focus(), 0);
-  //   alert("Icon Click Callback");
-  // };
   
   const onChange = e => {
     setValue({ ...form, [e.target.name]: e.target.value });
+    console.log(user);
   };
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(registrateUser(form, navigate));
+    
+  }
 
   return (
-    <Form title="Регистрация" buttonText="Зарегистрироваться" question='Уже зарегистрированы?' link='Войти' route='/login'>
+    <div style={{paddingTop: "180px"}}>
+    <Form title="Регистрация" button = "true" buttonText="Зарегистрироваться" question='Уже зарегистрированы?' link='Войти' route='/login' onButtonClick={onSubmit}>
       <Input
         type={"text"}
         placeholder={"Имя"}
@@ -29,7 +36,6 @@ export default function Register() {
         onChange={onChange}
         name={"name"}
         error={false}
-        // onIconClick={onIconClick}
         errorText={"Ошибка"}
         size={"default"}
       />
@@ -46,5 +52,6 @@ export default function Register() {
         
       />
     </Form>
+    </div>
   );
 }
