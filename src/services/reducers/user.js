@@ -5,9 +5,9 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILED,
-//   LOGOUT,
-//   LOGOUT_SUCCESS,
-//   LOGOUT_FAILED,
+  LOGOUT_REQUEST,
+  LOGOUT_SUCCESS,
+  LOGOUT_FAILED,
   FORGOT_PASSWORD_REQUEST,
   FORGOT_PASSWORD_SUCCESS,
   FORGOT_PASSWORD_FAILED,
@@ -17,7 +17,7 @@ import {
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
   GET_USER_FAILED,
-  //  AUTH_CHECKED,
+  AUTH_CHECKED,
    UPDATE_USER_REQUEST,
    UPDATE_USER_SUCCESS,
    UPDATE_USER_FAILED,
@@ -39,16 +39,16 @@ const initialState = {
   updateUserRequest: false,
   updateUserFailed: false,
 
-  // logoutRequest: false,
-  // logoutFailed: false,
+  logoutRequest: false,
+  logoutFailed: false,
 
   forgotPasswordRequest: false,
   forgotPasswordFailed: false,
-  sentEmail: false,
+  forgotPasswordSuccess: false,
 
   resetPasswordRequest: false,
   resetPasswordFailed: false,
-
+  resetPasswordSuccess: true,
   
 };
 
@@ -64,6 +64,7 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         registrationRequest: false,
+        registrationFailed: false,
         userData: action.payload.user,
       };
     }
@@ -71,7 +72,7 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         registrationRequest: false,
-        registrationRequestFailed: true,
+        registrationFailed: true,
       };
     }
     case FORGOT_PASSWORD_REQUEST: {
@@ -85,7 +86,8 @@ export const userReducer = (state = initialState, action) => {
         return {
           ...state,
           forgotPasswordRequest: false,
-          sentEmail: action.payload
+          forgotPasswordSuccess: true,
+          forgotPasswordFailed: false
         };
       }
       case FORGOT_PASSWORD_FAILED: {
@@ -93,7 +95,7 @@ export const userReducer = (state = initialState, action) => {
           ...state,
           forgotPasswordRequest: false,
           forgotPasswordFailed: true,
-          sentEmail: false
+          forgotPasswordSuccess: false,
         };
       }
       case RESET_PASSWORD_REQUEST: {
@@ -106,6 +108,8 @@ export const userReducer = (state = initialState, action) => {
         return {
           ...state,
           resetPasswordRequest: false,
+          resetPasswordSuccess: true,
+        resetPasswordFailed: false,
         };
       }
       case RESET_PASSWORD_FAILED: {
@@ -125,15 +129,14 @@ export const userReducer = (state = initialState, action) => {
       case LOGIN_SUCCESS: {
         return {
           ...state,
-          isAuthChecked: true,
           userData: action.payload.user,
           loginRequest: false,
+          loginFailed: false
         };
       }
       case LOGIN_FAILED: {
         return {
           ...state,
-          isAuthChecked: false,
           loginFailed: true,
           loginRequest: false,
         };
@@ -147,10 +150,9 @@ export const userReducer = (state = initialState, action) => {
       case GET_USER_SUCCESS: {
         return {
           ...state,
-          
           userData: action.payload,
-          getUserRequest: false
-        
+          getUserRequest: false,
+          getUserFailed: false,
         };
       }
       case GET_USER_FAILED: {
@@ -171,7 +173,8 @@ export const userReducer = (state = initialState, action) => {
         return {
           ...state,
           userData: action.payload,
-          updateUserRequest: false
+          updateUserRequest: false,
+          updateUserFailed: false
         
         };
       }
@@ -182,14 +185,31 @@ export const userReducer = (state = initialState, action) => {
           updateUserFailed: true,
         };
       }
-
-      // case AUTH_CHECKED: {
-      //   return {
-      //     ...state,
-      //     isAuthChecked: true,
+      case LOGOUT_REQUEST:
+        return {
+          ...state,
+          logoutRequest: true,
+        };
+      case LOGOUT_SUCCESS:
+        return {
+          ...state,
+          userData: null,
+          logoutRequest: false,
+          logoutFailed: false,
+        };
+      case LOGOUT_FAILED:
+        return {
+          ...state,
+          logoutRequest: false,
+          logoutFailed: true,
+        };
+      case AUTH_CHECKED: {
+        return {
+          ...state,
+          isAuthChecked: true,
           
-      //   };
-      // }
+        };
+      }
     default: {
       return state;
     }

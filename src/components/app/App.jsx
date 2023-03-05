@@ -8,16 +8,13 @@ import ForgotPassword from "../../pages/forgot-password";
 import ResetPassword from "../../pages/reset-password";
 import NotFound404 from "../../pages/not-found";
 import ProfilePage from "../../pages/profile";
-import { DATA_MODAL_FAILED } from "../../services/actions/currentIngredient";
 import { Modal } from "../modal/Modal";
 import { IngredientDetails } from "../ingredient-details/IngredientDetails";
 
 export default function App() {
   const location = useLocation();
   const background = location.state?.background;
-  // const dataModal = useSelector((store) => store.currentIngredient.dataModal);
   const dispatch = useDispatch();
-  // const ingredients = useSelector((store) => store.ingredients.ingredients);
   const navigate = useNavigate();
 
   const handleCloseModal = (evt) => {

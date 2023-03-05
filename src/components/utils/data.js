@@ -1,5 +1,3 @@
-import { getCookie, setCookie } from "./cookie";
-
 export const url = "https://norma.nomoreparties.space/api";
 
 export function checkResponse(res) {
@@ -34,7 +32,7 @@ export function setUser(data) {
   }).then(checkResponse);
 }
 
-export function sentEmail(data) {
+export function resetPassword(data) {
   return fetch(`${url}/password-reset`, {
     method: "POST",
     headers: {
@@ -44,13 +42,13 @@ export function sentEmail(data) {
   }).then(checkResponse);
 }
 
-export function changePassword(data) {
+export function changePassword(password, token) {
   return fetch(`${url}/password-reset/reset`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify({password, token}),
   }).then(checkResponse);
 }
 
@@ -64,57 +62,70 @@ export function login(data) {
   }).then(checkResponse);
 }
 
-export function getUserRequest() {
-  return fetchWithRefresh(`${url}/auth/user`, {
+export function getUserRequest(token) {
+  return fetch(`${url}/auth/user`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: getCookie("accessToken"),
-    },
-  });
+      Authorization: token,
+    }
+  }).then(checkResponse);
 }
 
- function refreshToken() {
+ export function refreshToken(refreshToken) {
   return fetch(`${url}/auth/token`, {
     method: "POST",
     headers: {
       "Content-type": "application/json",
     },
     body: JSON.stringify({
-      token: localStorage.getItem("refreshToken"),
+      "token": refreshToken
     }),
   }).then(checkResponse);
 }
-//     .then(refreshData => {
-//         if(!refreshData.success) {
-//             Promise.reject(refreshData)
-//         }
 
-//         localStorage.setItem('refreshToken', refreshData.refreshToken);
-//         setCookie('accessToken', refreshData.accessToken)
+export function patchUserData(userData, token) {
+  return fetch(`${url}/auth/user`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token,
+    },
+    body: JSON.stringify({userData}),
+  }).then(checkResponse);
+}
 
-//     })
+
+export function logout(refreshToken) {
+  return fetch(`${url}/auth/logout`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({  "token": refreshToken}),
+  }).then(checkResponse);
+}
+
+
+// const fetchWithRefresh = async (url, options) => {
+//   try {
+//     const res = await fetch(url, options);
+//     return await checkResponse(res);
+//   } catch (err) {
+//     if (err.message === "jwt expired") {
+//       const refreshData = await refreshToken();
+//       if (!refreshData.success) {
+//         Promise.reject(refreshData);
+//       }
+//       localStorage.setItem("refreshToken", refreshData.refreshToken);
+//       setCookie("accessToken", refreshData.accessToken);
+
+//       options.headers.Authorization = refreshData.accessToken;
+
+//       const res = await fetch(url, options);
+//       return await checkResponse(res);
+//     } else {
+//       return Promise.reject(err);
+//     }
+//   }
 // };
-
-const fetchWithRefresh = async (url, options) => {
-  try {
-    const res = await fetch(url, options);
-    return await checkResponse(res);
-  } catch (err) {
-    if (err.message === "jwt expired") {
-      const refreshData = await refreshToken();
-      if (!refreshData.success) {
-        Promise.reject(refreshData);
-      }
-      localStorage.setItem("refreshToken", refreshData.refreshToken);
-      setCookie("accessToken", refreshData.accessToken);
-
-      options.headers.Authorization = refreshData.accessToken;
-
-      const res = await fetch(url, options);
-      return await checkResponse(res);
-    } else {
-      return Promise.reject(err);
-    }
-  }
-};

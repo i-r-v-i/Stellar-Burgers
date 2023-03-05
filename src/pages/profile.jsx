@@ -5,12 +5,15 @@ import {
   Button
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Form from "../components/form/Form";
-import { useState, useRef } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import styles from "./profile.module.css";
+import { useNavigate } from "react-router-dom";
+import { logOut } from "../services/actions/user";
 
 export default function ProfilePage() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const userData = useSelector((store) => store.user.userData)
  
@@ -24,6 +27,10 @@ export default function ProfilePage() {
     changeValue({...user});
 
   }
+
+  const handleLogout = () => {
+    dispatch(logOut(navigate));
+  };
 
   return (
     <div className={styles.profileContainer}>
@@ -49,15 +56,14 @@ export default function ProfilePage() {
             История заказов
           </NavLink>
 
-          <NavLink
-            to="/login"
-            className={`${styles.link} text text_type_main-medium`}
-            style={({ isActive }) => ({
-              color: isActive ? " #f2f2f3" : "#8585AD",
-            })}
+          <Button onClick={handleLogout}
+            htmlType="button"
+            type="secondary"
+            size="medium"
+            extraClass={`${styles.link} text text_type_main-medium`}
           >
             Выход
-          </NavLink>
+          </Button>
         </nav>
         <span className="text text_type_main-default text_color_inactive">
           В&nbsp;этом разделе вы&nbsp;можете изменить&nbsp;свои персональные
@@ -96,6 +102,7 @@ export default function ProfilePage() {
             htmlType="button"
             type="secondary"
             size="medium"
+            extraClass={styles.buttonSize}
             
           >
             Отмена

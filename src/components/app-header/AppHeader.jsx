@@ -10,7 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 
 function AppHeader() {
-  const userData = useSelector((store) => store.user.userData);
+  const { userData } = useSelector((state) => state.user);
   const {pathname} = useLocation();
   
 
@@ -46,7 +46,7 @@ function AppHeader() {
           >
             <ProfileIcon type={pathname == '/profile'  ? 'primary' : 'secondary'} />
             <p className= "text text_type_main-default pl-2 pr-5">
-               {/* {userData ? (userData.user.name) : ('Личный кабинет')} */} Личный кабинет
+               {userData ? (`${userData.name}`) : ('Личный кабинет')} 
             </p>
           </NavLink>
         </div>

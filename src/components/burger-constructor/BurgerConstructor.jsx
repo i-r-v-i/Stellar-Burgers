@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   CurrencyIcon,
   Button,
@@ -18,17 +17,19 @@ import {
 } from "../../services/actions/burgerConstructor";
 import { useDrop } from "react-dnd";
 import { GET_NUMBER_FAILED, makeOrder } from "../../services/actions/order";
+import { useNavigate } from "react-router-dom";
 
 function BurgerConstructor() {
-  const [isOrder, setIsOrder] = React.useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [isOrder, setIsOrder] = useState(false);
 
   const { selectedIngredients, selectedBun, dropIngredientSuccess } =
     useSelector((store) => store.burgerConstructor);
 
   const { modalOpened } = useSelector((store) => store.order);
-
-  const dispatch = useDispatch();
-
+  const { userData } = useSelector((state) => state.user);
   const onDropBunHandler = (item) => {
     dispatch({ type: ADD_BUN, selectedIngredient: item });
   };
@@ -37,9 +38,9 @@ function BurgerConstructor() {
     dispatch({ type: ADD_ITEM, selectedIngredient: item });
   };
 
-  function handleDeleteItem(uniqId) {
+  const handleDeleteItem = (uniqId) => {
     dispatch({ type: DELETE_ITEM, uniqId });
-  }
+  };
 
   const [{ isHover }, dropTarget] = useDrop({
     accept: "ingredient",
@@ -66,9 +67,13 @@ function BurgerConstructor() {
   });
 
   const hahdleOpenPopupOrder = () => {
-    const result = [...ingredientArr];
-    result.push(selectedBun._id);
-    dispatch(makeOrder(result));
+    if (userData) {
+      const result = [...ingredientArr];
+      result.push(selectedBun._id);
+      dispatch(makeOrder(result));
+    } else {
+      navigate("/login");
+    }
   };
 
   useEffect(() => {

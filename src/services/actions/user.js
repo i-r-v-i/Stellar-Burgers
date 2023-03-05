@@ -1,12 +1,13 @@
 import {
   setUser,
-  sentEmail,
+  resetPassword,
   changePassword,
   login,
   getUserRequest,
+  logout,
+  patchUserData, refreshToken
 } from "../../components/utils/data";
-import { getCookie } from "../../components/utils/cookie";
-
+import { getCookie, setCookie, deleteCookie } from "../../components/utils/cookie";
 
 export const REGISTRATION_REQUEST = "REGISTRATION_REQUEST";
 export const REGISTRATION_SUCCESS = "REGISTRATION_SUCCESS";
@@ -16,9 +17,9 @@ export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILED = "LOGIN_FAILED";
 
-// export const LOGOUT = 'LOGOUT';
-// export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
-// export const LOGOUT_FAILED = 'LOGOUT_FAILED';
+export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
+export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+export const LOGOUT_FAILED = "LOGOUT_FAILED";
 
 export const FORGOT_PASSWORD_REQUEST = "FORGOT_PASSWORD_REQUEST";
 export const FORGOT_PASSWORD_SUCCESS = "FORGOT_PASSWORD_SUCCESS";
@@ -36,7 +37,7 @@ export const UPDATE_USER_REQUEST = "UPDATE_USER_REQUEST";
 export const UPDATE_USER_SUCCESS = "UPDATE_USER_SUCCESS";
 export const UPDATE_USER_FAILED = "UPDATE_USER_FAILED";
 
-// export const AUTH_CHECKED = "AUTH_CHECKED";
+export const AUTH_CHECKED = "AUTH_CHECKED";
 
 export function registrateUser(userData, navigate) {
   return function (dispatch) {
@@ -49,11 +50,13 @@ export function registrateUser(userData, navigate) {
           navigate("/login");
         }
         localStorage.setItem("refreshToken", res.refreshToken);
+        setCookie("accessToken", res.accessToken);
       })
       .catch((err) => {
         console.log(`Ошибка регистрации ${err}`);
         dispatch({
           type: REGISTRATION_FAILED,
+          payload: err.message
         });
       });
   };
@@ -62,7 +65,7 @@ export function registrateUser(userData, navigate) {
 export function forgotPassword(userEmail, navigate) {
   return function (dispatch) {
     dispatch({ type: FORGOT_PASSWORD_REQUEST });
-    sentEmail(userEmail)
+    resetPassword(userEmail)
       .then((res) => {
         if (res.success) {
           console.log(res);
@@ -73,16 +76,16 @@ export function forgotPassword(userEmail, navigate) {
       .catch((err) => {
         console.log(`Ошибка cброса пароля ${err}`);
         dispatch({
-          type: FORGOT_PASSWORD_FAILED,
+          type: FORGOT_PASSWORD_FAILED, payload: err.message
         });
       });
   };
 }
 
-export function setNewPassword(newData, navigate) {
+export function setNewPassword(newPassword, token, navigate) {
   return function (dispatch) {
     dispatch({ type: RESET_PASSWORD_REQUEST });
-    changePassword(newData)
+    changePassword(newPassword, token)
       .then((res) => {
         if (res.success) {
           console.log(res);
@@ -91,9 +94,9 @@ export function setNewPassword(newData, navigate) {
         }
       })
       .catch((err) => {
-        console.log(`Ошибка восстановления пароля ${err}`);
+        console.log(`Ошибка изменения пароля ${err}`);
         dispatch({
-          type: RESET_PASSWORD_FAILED,
+          type: RESET_PASSWORD_FAILED, payload: err.message
         });
       });
   };
@@ -107,13 +110,38 @@ export function isAutn(data, navigate) {
         if (res.success) {
           console.log(res);
           dispatch({ type: LOGIN_SUCCESS, payload: res });
+          localStorage.setItem("refreshToken", res.refreshToken);
+          setCookie("accessToken", res.accessToken);
           navigate("/");
         }
       })
       .catch((err) => {
         console.log(`Ошибка авторизации ${err}`);
         dispatch({
-          type: LOGIN_FAILED,
+          type: LOGIN_FAILED, payload:err.message
+        });
+      });
+  };
+}
+
+
+export function logOut(navigate) {
+  return function (dispatch) {
+    dispatch({ type: LOGOUT_REQUEST });
+    logout(localStorage.getItem("refreshToken"))
+      .then((res) => {
+        if (res.success) {
+          console.log(res);
+          dispatch({ type: LOGOUT_SUCCESS});
+          localStorage.removeItem("refreshToken");
+          deleteCookie("accessToken");
+          navigate("/login");
+        }
+      })
+      .catch((err) => {
+        console.log(`Ошибка выхода из профиля ${err}`);
+        dispatch({
+          type: LOGOUT_FAILED, payload:err.message
         });
       });
   };
@@ -122,7 +150,7 @@ export function isAutn(data, navigate) {
 export function getUserData() {
   return function (dispatch) {
     dispatch({ type: GET_USER_REQUEST });
-    return getUserRequest()
+    return getUserRequest(getCookie("accessToken"))
       .then((res) => {
         if (res.success) {
           console.log(res);
@@ -131,24 +159,54 @@ export function getUserData() {
       })
       .catch((err) => {
         console.log(`Ошибка получения данных ${err}`);
+        if (err.message === "jwt expired") {
+          dispatch(refreshToken());
+        }
         dispatch({
           type: GET_USER_FAILED,
+          payload: err.message,
+        })
+        
+      })
+      .finally(() =>
+        dispatch({
+          type: AUTH_CHECKED,
+        })
+      );
+  };
+}
+
+export function setUserData(userData) {
+  return function (dispatch) {
+    dispatch({ type: UPDATE_USER_REQUEST });
+    return patchUserData(userData, getCookie("accessToken"))
+      .then((res) => {
+        if (res.success) {
+          console.log(res);
+          dispatch({ type: UPDATE_USER_SUCCESS, payload: res.user });
+        }
+      })
+      .catch((err) => {
+        console.log(`Ошибка обновления профиля ${err}`);
+        dispatch({
+          type: UPDATE_USER_FAILED,
           payload: err.message,
         });
       });
   };
 }
 
-export const checkAuth = () => (dispatch) => {
-  if (getCookie("accessToken")) {
-    dispatch(getUserData()).finally(() => {
-      // dispatch({
-      //   type: AUTH_CHECKED,
-      // });
-    });
-  } else {
-    // dispatch({
-    //   type: AUTH_CHECKED,
-    // });
-  }
-};
+
+// export const checkAuth = () => (dispatch) => {
+//   if (getCookie("accessToken")) {
+//     dispatch(getUserData()).finally(() => {
+//       // dispatch({
+//       //   type: AUTH_CHECKED,
+//       // });
+//     });
+//   } else {
+//     // dispatch({
+//     //   type: AUTH_CHECKED,
+//     // });
+//   }
+// };
