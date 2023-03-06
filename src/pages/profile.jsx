@@ -11,26 +11,32 @@ import { useSelector, useDispatch } from 'react-redux';
 import styles from "./profile.module.css";
 import { useNavigate } from "react-router-dom";
 import { logOut } from "../services/actions/user";
+import { setNewUserData } from "../services/actions/user";
 
 export default function ProfilePage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userData = useSelector((store) => store.user.userData)
- 
-  const [user, changeValue] = useState({ name: userData.name, email: userData.email, password: "" });
-
+  const {name, email} = useSelector((store) => store.user.userData);
+  const [user, changeValue] = useState({ name: name, email: email, password: "" });
+console.log(user);
   const onChange = (e) => {
     changeValue({ ...user, [e.target.name]: e.target.value });
   };
 
   const canselChanging = () => {
-    changeValue({...user});
+    changeValue({ name: name, email: email});
 
   }
 
   const handleLogout = () => {
     dispatch(logOut(navigate));
   };
+
+const onSubmit=(e) => {
+  e.preventDefault();
+  dispatch(setNewUserData(user));
+  changeValue({ ...user, password: "" });
+}
 
   return (
     <div className={styles.profileContainer}>
@@ -81,6 +87,7 @@ export default function ProfilePage() {
           errorText={"Ошибка"}
           size={"default"}
           icon={"EditIcon"}
+          required
         />
         <EmailInput
           onChange={onChange}
@@ -88,6 +95,7 @@ export default function ProfilePage() {
           name={"email"}
           placeholder="E-mail"
           icon={"EditIcon"}
+          required
         />
         <PasswordInput
           onChange={onChange}
@@ -95,7 +103,7 @@ export default function ProfilePage() {
           name={"password"}
           icon={"EditIcon"}
         />
-        {changeValue && (
+        {changeValue ? (
           <div className={styles.buttons}>
           <Button
             onClick={canselChanging}
@@ -107,11 +115,11 @@ export default function ProfilePage() {
           >
             Отмена
           </Button>
-          <Button htmlType="submit" type="primary" size="medium">
+          <Button htmlType="submit" type="primary" size="medium" onClick={onSubmit}>
             Сохранить
           </Button>
         </div>
-      )}
+      ) : null}
       </Form>
     </div>
   );

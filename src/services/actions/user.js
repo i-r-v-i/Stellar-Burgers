@@ -5,7 +5,7 @@ import {
   login,
   getUserRequest,
   logout,
-  patchUserData, refreshToken
+  patchUserData, refreshTokenApi
 } from "../../components/utils/data";
 import { getCookie, setCookie, deleteCookie } from "../../components/utils/cookie";
 
@@ -82,10 +82,10 @@ export function forgotPassword(userEmail, navigate) {
   };
 }
 
-export function setNewPassword(newPassword, token, navigate) {
+export function setNewPassword(newData, navigate) {
   return function (dispatch) {
     dispatch({ type: RESET_PASSWORD_REQUEST });
-    changePassword(newPassword, token)
+    changePassword(newData)
       .then((res) => {
         if (res.success) {
           console.log(res);
@@ -102,7 +102,7 @@ export function setNewPassword(newPassword, token, navigate) {
   };
 }
 
-export function isAutn(data, navigate) {
+export function logIn(data, navigate) {
   return function (dispatch) {
     dispatch({ type: LOGIN_REQUEST });
     login(data)
@@ -176,7 +176,27 @@ export function getUserData() {
   };
 }
 
-export function setUserData(userData) {
+export const refreshToken = () => {
+  return function (dispatch) {
+    refreshTokenApi(localStorage.getItem("refreshToken"))
+      .then((res) => {
+        if (res.success) {
+          localStorage.setItem("refreshToken", res.refreshToken);
+          setCookie("accessToken", res.accessToken);
+          dispatch(getUserData());
+        }
+      })
+      .catch((err) =>
+        dispatch({
+          type: GET_USER_FAILED,
+          payload: err.message
+        })
+      );
+  };
+};
+
+
+export function setNewUserData(userData) {
   return function (dispatch) {
     dispatch({ type: UPDATE_USER_REQUEST });
     return patchUserData(userData, getCookie("accessToken"))
@@ -188,6 +208,9 @@ export function setUserData(userData) {
       })
       .catch((err) => {
         console.log(`Ошибка обновления профиля ${err}`);
+        if (err.message === "jwt expired") {
+          dispatch(refreshToken());
+        }
         dispatch({
           type: UPDATE_USER_FAILED,
           payload: err.message,

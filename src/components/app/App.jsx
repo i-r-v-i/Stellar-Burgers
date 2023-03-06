@@ -1,4 +1,5 @@
 import AppHeader from "../app-header/AppHeader";
+import { useEffect } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Main from "../main/Main";
@@ -10,6 +11,8 @@ import NotFound404 from "../../pages/not-found";
 import ProfilePage from "../../pages/profile";
 import { Modal } from "../modal/Modal";
 import { IngredientDetails } from "../ingredient-details/IngredientDetails";
+import { getUserData } from "../../services/actions/user";
+
 
 export default function App() {
   const location = useLocation();
@@ -17,11 +20,17 @@ export default function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    dispatch(getUserData());
+  }, [dispatch]);
+
   const handleCloseModal = (evt) => {
     // dispatch({ type: DATA_MODAL_FAILED });
     evt.stopPropagation();
     navigate(-1);
   };
+
+
 
   return (
     <>

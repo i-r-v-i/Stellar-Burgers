@@ -17,7 +17,7 @@ const onChange = e => {
   setValue({...form, [e.target.name]: e.target.value});
 }
 
-
+console.log(form);
 const onSubmit = (e) => {
   e.preventDefault();
   dispatch(setNewPassword(form, navigate));

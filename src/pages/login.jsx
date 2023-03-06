@@ -6,7 +6,7 @@ import Form from "../components/form/Form";
 import { useNavigate } from "react-router-dom";
 import { useState} from "react";
 import { useDispatch } from "react-redux";
-import { isAutn } from "../services/actions/user";
+import { logIn} from "../services/actions/user";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ export default function Login() {
 
   const onSubmit = e => {
     e.preventDefault();
-   dispatch(isAutn(form, navigate));
+   dispatch(logIn(form, navigate));
   }
 
   return (

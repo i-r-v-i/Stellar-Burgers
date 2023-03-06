@@ -42,13 +42,13 @@ export function resetPassword(data) {
   }).then(checkResponse);
 }
 
-export function changePassword(password, token) {
+export function changePassword(data) {
   return fetch(`${url}/password-reset/reset`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({password, token}),
+    body: JSON.stringify(data),
   }).then(checkResponse);
 }
 
@@ -72,7 +72,7 @@ export function getUserRequest(token) {
   }).then(checkResponse);
 }
 
- export function refreshToken(refreshToken) {
+ export function refreshTokenApi(refreshToken) {
   return fetch(`${url}/auth/token`, {
     method: "POST",
     headers: {
@@ -91,7 +91,7 @@ export function patchUserData(userData, token) {
       "Content-Type": "application/json",
       Authorization: token,
     },
-    body: JSON.stringify({userData}),
+    body: JSON.stringify(userData),
   }).then(checkResponse);
 }
 
@@ -102,7 +102,7 @@ export function logout(refreshToken) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({  "token": refreshToken}),
+    body: JSON.stringify({ "token": refreshToken}),
   }).then(checkResponse);
 }
 
