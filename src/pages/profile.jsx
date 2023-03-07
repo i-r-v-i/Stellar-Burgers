@@ -16,9 +16,10 @@ import { setNewUserData } from "../services/actions/user";
 export default function ProfilePage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {name, email} = useSelector((store) => store.user.userData);
+  const name= useSelector((store) => store.user?.userData?.name);
+  const email = useSelector((store) => store.user?.userData?.email);
   const [user, changeValue] = useState({ name: name, email: email, password: "" });
-console.log(user);
+
   const onChange = (e) => {
     changeValue({ ...user, [e.target.name]: e.target.value });
   };
@@ -87,7 +88,7 @@ const onSubmit=(e) => {
           errorText={"Ошибка"}
           size={"default"}
           icon={"EditIcon"}
-          required
+          
         />
         <EmailInput
           onChange={onChange}

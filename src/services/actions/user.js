@@ -38,6 +38,8 @@ export const UPDATE_USER_SUCCESS = "UPDATE_USER_SUCCESS";
 export const UPDATE_USER_FAILED = "UPDATE_USER_FAILED";
 
 export const AUTH_CHECKED = "AUTH_CHECKED";
+export const IS_CHANGING = 'IS_CHANGING';
+
 
 export function registrateUser(userData, navigate) {
   return function (dispatch) {
@@ -158,7 +160,7 @@ export function getUserData() {
         }
       })
       .catch((err) => {
-        console.log(`Ошибка получения данных ${err}`);
+        console.log(`Пользователь не авторизован ${err}`);
         if (err.message === "jwt expired") {
           dispatch(refreshToken());
         }
