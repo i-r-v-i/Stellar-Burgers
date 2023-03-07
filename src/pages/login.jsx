@@ -4,30 +4,31 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Form from "../components/form/Form";
 import { useNavigate } from "react-router-dom";
-import { useState} from "react";
-import { useDispatch } from "react-redux";
-import { logIn} from "../services/actions/user";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { logIn } from "../services/actions/user";
 
 export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const previousRoute = useSelector((store) => store.user.previousRoute);
+
   const [form, setValue] = useState({ email: "", password: "" });
-  
 
   const onChange = (e) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
-   dispatch(logIn(form, navigate));
-  }
+    dispatch(logIn(form, navigate, previousRoute));
+  };
 
   return (
-    <div style={{paddingTop: "180px"}}>
+    <div style={{ paddingTop: "180px" }}>
       <Form
         title="Вход"
-        button='true'
+        button="true"
         buttonText="Войти"
         question="Вы — новый пользователь?"
         link="Зарегистрироваться"

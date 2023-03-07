@@ -12,21 +12,27 @@ import styles from "./profile.module.css";
 import { useNavigate } from "react-router-dom";
 import { logOut } from "../services/actions/user";
 import { setNewUserData } from "../services/actions/user";
+import { IS_CHANGING, STOP_CHANGING } from "../services/actions/user";
 
 export default function ProfilePage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const name= useSelector((store) => store.user?.userData?.name);
   const email = useSelector((store) => store.user?.userData?.email);
+  const isChanging = useSelector((state) => state.user?.isChanging);
   const [user, changeValue] = useState({ name: name, email: email, password: "" });
 
+  
   const onChange = (e) => {
+    dispatch({type: IS_CHANGING});
     changeValue({ ...user, [e.target.name]: e.target.value });
+    
   };
 
   const canselChanging = () => {
     changeValue({ name: name, email: email});
-
+    dispatch({type: STOP_CHANGING});
+    
   }
 
   const handleLogout = () => {
@@ -37,6 +43,7 @@ const onSubmit=(e) => {
   e.preventDefault();
   dispatch(setNewUserData(user));
   changeValue({ ...user, password: "" });
+  dispatch({type: STOP_CHANGING});
 }
 
   return (
@@ -104,7 +111,7 @@ const onSubmit=(e) => {
           name={"password"}
           icon={"EditIcon"}
         />
-        {changeValue ? (
+        {isChanging && (
           <div className={styles.buttons}>
           <Button
             onClick={canselChanging}
@@ -120,7 +127,7 @@ const onSubmit=(e) => {
             Сохранить
           </Button>
         </div>
-      ) : null}
+      )}
       </Form>
     </div>
   );

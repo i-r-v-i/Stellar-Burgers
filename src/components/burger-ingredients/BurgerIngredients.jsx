@@ -9,8 +9,6 @@ import {  useLocation } from "react-router-dom";
 
 function BurgerIngredients() {
   const dispatch = useDispatch();
-  // const name = useSelector((store) => store.user.userData.user.name);
-  // console.log(name);
   
   useEffect(() => {
     const callback = (entries) => {

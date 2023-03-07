@@ -1,7 +1,9 @@
 import AppHeader from "../app-header/AppHeader";
 import { useEffect } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { ProtectedRouteElement} from '../protected-route/ProtectedRouteElement';
+import { OnlyForAuthElement } from "../only-for-auth/OnlyForAuthElement";
+import { useDispatch } from "react-redux";
 import Main from "../main/Main";
 import Register from "../../pages/register";
 import Login from "../../pages/login";
@@ -10,6 +12,7 @@ import ResetPassword from "../../pages/reset-password";
 import NotFound404 from "../../pages/not-found";
 import ProfilePage from "../../pages/profile";
 import { Modal } from "../modal/Modal";
+import Feed from "../feed/Feed";
 import { IngredientDetails } from "../ingredient-details/IngredientDetails";
 import { getUserData } from "../../services/actions/user";
 
@@ -25,7 +28,6 @@ export default function App() {
   }, [dispatch]);
 
   const handleCloseModal = (evt) => {
-    // dispatch({ type: DATA_MODAL_FAILED });
     evt.stopPropagation();
     navigate(-1);
   };
@@ -46,11 +48,12 @@ export default function App() {
             }
           />
         </Route>
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/register" element={<ProtectedRouteElement element={<Register />}/>} />
+        <Route path="/login" element={<OnlyForAuthElement element={<Login />} />} />
+        <Route path="/forgot-password" element={<OnlyForAuthElement element={<ForgotPassword />}/>} />
+        <Route path="/reset-password" element={<OnlyForAuthElement element={<ResetPassword />}/>} />
+        <Route path="/profile" element={<ProtectedRouteElement element={<ProfilePage />}/>} />
+        <Route path="/feed/*" element={<ProtectedRouteElement element={<Feed />}/>}/>
         <Route path="*" element={<NotFound404 />} />
       </Routes>
       {background && (

@@ -9,6 +9,7 @@ import {
 } from "../../components/utils/data";
 import { getCookie, setCookie, deleteCookie } from "../../components/utils/cookie";
 
+
 export const REGISTRATION_REQUEST = "REGISTRATION_REQUEST";
 export const REGISTRATION_SUCCESS = "REGISTRATION_SUCCESS";
 export const REGISTRATION_FAILED = "REGISTRATION_FAILED";
@@ -37,8 +38,15 @@ export const UPDATE_USER_REQUEST = "UPDATE_USER_REQUEST";
 export const UPDATE_USER_SUCCESS = "UPDATE_USER_SUCCESS";
 export const UPDATE_USER_FAILED = "UPDATE_USER_FAILED";
 
-export const AUTH_CHECKED = "AUTH_CHECKED";
 export const IS_CHANGING = 'IS_CHANGING';
+export const STOP_CHANGING = 'STOP_CHANGING';
+export const SAVE_PREVIOUS_ROUTE = 'SAVE_PREVIOUS_ROUTE'
+
+
+export const saveUserPath = (path) => ({
+  type: 'SAVE_PREVIOUS_ROUTE',
+  payload: path
+})
 
 
 export function registrateUser(userData, navigate) {
@@ -104,7 +112,9 @@ export function setNewPassword(newData, navigate) {
   };
 }
 
-export function logIn(data, navigate) {
+
+
+export function logIn(data, navigate, previousRoute) {
   return function (dispatch) {
     dispatch({ type: LOGIN_REQUEST });
     login(data)
@@ -114,7 +124,7 @@ export function logIn(data, navigate) {
           dispatch({ type: LOGIN_SUCCESS, payload: res });
           localStorage.setItem("refreshToken", res.refreshToken);
           setCookie("accessToken", res.accessToken);
-          navigate("/");
+          navigate(previousRoute);
         }
       })
       .catch((err) => {
@@ -170,12 +180,7 @@ export function getUserData() {
         })
         
       })
-      .finally(() =>
-        dispatch({
-          type: AUTH_CHECKED,
-        })
-      );
-  };
+    }
 }
 
 export const refreshToken = () => {
@@ -220,18 +225,3 @@ export function setNewUserData(userData) {
       });
   };
 }
-
-
-// export const checkAuth = () => (dispatch) => {
-//   if (getCookie("accessToken")) {
-//     dispatch(getUserData()).finally(() => {
-//       // dispatch({
-//       //   type: AUTH_CHECKED,
-//       // });
-//     });
-//   } else {
-//     // dispatch({
-//     //   type: AUTH_CHECKED,
-//     // });
-//   }
-// };
