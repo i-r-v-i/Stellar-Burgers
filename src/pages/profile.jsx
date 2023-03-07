@@ -5,7 +5,7 @@ import {
   Button
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Form from "../components/form/Form";
-import { useState } from "react";
+import { useState,useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import styles from "./profile.module.css";
@@ -15,6 +15,7 @@ import { setNewUserData } from "../services/actions/user";
 import { IS_CHANGING, STOP_CHANGING } from "../services/actions/user";
 
 export default function ProfilePage() {
+  const inputRef = useRef(null)
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const name= useSelector((store) => store.user?.userData?.name);
@@ -22,7 +23,10 @@ export default function ProfilePage() {
   const isChanging = useSelector((state) => state.user?.isChanging);
   const [user, changeValue] = useState({ name: name, email: email, password: "" });
 
-  
+  const onIconClick = () => {
+   inputRef.current.focus();
+  }
+
   const onChange = (e) => {
     dispatch({type: IS_CHANGING});
     changeValue({ ...user, [e.target.name]: e.target.value });
@@ -95,6 +99,8 @@ const onSubmit=(e) => {
           errorText={"Ошибка"}
           size={"default"}
           icon={"EditIcon"}
+          ref={inputRef}
+          onIconClick={onIconClick}
           
         />
         <EmailInput
