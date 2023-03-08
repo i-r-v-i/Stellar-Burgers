@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./components/app/App";
@@ -7,7 +6,7 @@ import { Provider } from "react-redux";
 import { rootReducer } from "./services/reducers/index";
 import thunk from "redux-thunk";
 import { BrowserRouter as Router } from "react-router-dom";
-import { resetPasswordMiddleware } from "./services/middleware/user";
+
 
 
 const composeEnhancers =

@@ -6,13 +6,15 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Form from "../components/form/Form";
 import { useState, useRef } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./profile.module.css";
-import { useNavigate } from "react-router-dom";
-import { logOut } from "../services/actions/user";
-import { setNewUserData } from "../services/actions/user";
-import { IS_CHANGING, STOP_CHANGING } from "../services/actions/user";
+import {
+  logOut,
+  setNewUserData,
+  IS_CHANGING,
+  STOP_CHANGING,
+} from "../services/actions/user";
 
 export default function ProfilePage() {
   const inputRef = useRef(null);

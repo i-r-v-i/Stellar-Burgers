@@ -5,10 +5,14 @@ import {
   login,
   getUserRequest,
   logout,
-  patchUserData, refreshTokenApi
+  patchUserData,
+  refreshTokenApi,
 } from "../../components/utils/data";
-import { getCookie, setCookie, deleteCookie } from "../../components/utils/cookie";
-
+import {
+  getCookie,
+  setCookie,
+  deleteCookie,
+} from "../../components/utils/cookie";
 
 export const REGISTRATION_REQUEST = "REGISTRATION_REQUEST";
 export const REGISTRATION_SUCCESS = "REGISTRATION_SUCCESS";
@@ -25,7 +29,7 @@ export const LOGOUT_FAILED = "LOGOUT_FAILED";
 export const FORGOT_PASSWORD_REQUEST = "FORGOT_PASSWORD_REQUEST";
 export const FORGOT_PASSWORD_SUCCESS = "FORGOT_PASSWORD_SUCCESS";
 export const FORGOT_PASSWORD_FAILED = "FORGOT_PASSWORD_FAILED";
-export const SEND_EMAIL = 'SEND_EMAIL';
+export const SEND_EMAIL = "SEND_EMAIL";
 
 export const RESET_PASSWORD_REQUEST = "RESET_PASSWORD_REQUEST";
 export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
@@ -39,16 +43,14 @@ export const UPDATE_USER_REQUEST = "UPDATE_USER_REQUEST";
 export const UPDATE_USER_SUCCESS = "UPDATE_USER_SUCCESS";
 export const UPDATE_USER_FAILED = "UPDATE_USER_FAILED";
 
-export const IS_CHANGING = 'IS_CHANGING';
-export const STOP_CHANGING = 'STOP_CHANGING';
-export const SAVE_PREVIOUS_ROUTE = 'SAVE_PREVIOUS_ROUTE'
-
+export const IS_CHANGING = "IS_CHANGING";
+export const STOP_CHANGING = "STOP_CHANGING";
+export const SAVE_PREVIOUS_ROUTE = "SAVE_PREVIOUS_ROUTE";
 
 export const saveUserPath = (path) => ({
-  type: 'SAVE_PREVIOUS_ROUTE',
-  payload: path
-})
-
+  type: "SAVE_PREVIOUS_ROUTE",
+  payload: path,
+});
 
 export function registrateUser(userData, navigate) {
   return function (dispatch) {
@@ -67,7 +69,7 @@ export function registrateUser(userData, navigate) {
         console.log(`Ошибка регистрации ${err}`);
         dispatch({
           type: REGISTRATION_FAILED,
-          payload: err.message
+          payload: err.message,
         });
       });
   };
@@ -87,7 +89,8 @@ export function forgotPassword(userEmail, navigate) {
       .catch((err) => {
         console.log(`Ошибка cброса пароля ${err}`);
         dispatch({
-          type: FORGOT_PASSWORD_FAILED, payload: err.message
+          type: FORGOT_PASSWORD_FAILED,
+          payload: err.message,
         });
       });
   };
@@ -95,7 +98,6 @@ export function forgotPassword(userEmail, navigate) {
 
 export function setNewPassword(newData, navigate) {
   return function (dispatch) {
-
     dispatch({ type: RESET_PASSWORD_REQUEST });
     changePassword(newData)
       .then((res) => {
@@ -108,13 +110,12 @@ export function setNewPassword(newData, navigate) {
       .catch((err) => {
         console.log(`Ошибка изменения пароля ${err}`);
         dispatch({
-          type: RESET_PASSWORD_FAILED, payload: err.message
+          type: RESET_PASSWORD_FAILED,
+          payload: err.message,
         });
       });
   };
 }
-
-
 
 export function logIn(data, navigate, previousRoute) {
   return function (dispatch) {
@@ -132,12 +133,12 @@ export function logIn(data, navigate, previousRoute) {
       .catch((err) => {
         console.log(`Ошибка авторизации ${err}`);
         dispatch({
-          type: LOGIN_FAILED, payload:err.message
+          type: LOGIN_FAILED,
+          payload: err.message,
         });
       });
   };
 }
-
 
 export function logOut(navigate) {
   return function (dispatch) {
@@ -146,7 +147,7 @@ export function logOut(navigate) {
       .then((res) => {
         if (res.success) {
           console.log(res);
-          dispatch({ type: LOGOUT_SUCCESS});
+          dispatch({ type: LOGOUT_SUCCESS });
           localStorage.removeItem("refreshToken");
           deleteCookie("accessToken");
           navigate("/login");
@@ -155,7 +156,8 @@ export function logOut(navigate) {
       .catch((err) => {
         console.log(`Ошибка выхода из профиля ${err}`);
         dispatch({
-          type: LOGOUT_FAILED, payload:err.message
+          type: LOGOUT_FAILED,
+          payload: err.message,
         });
       });
   };
@@ -179,10 +181,9 @@ export function getUserData() {
         dispatch({
           type: GET_USER_FAILED,
           payload: err.message,
-        })
-        
-      })
-    }
+        });
+      });
+  };
 }
 
 export const refreshToken = () => {
@@ -198,12 +199,11 @@ export const refreshToken = () => {
       .catch((err) =>
         dispatch({
           type: GET_USER_FAILED,
-          payload: err.message
+          payload: err.message,
         })
       );
   };
 };
-
 
 export function setNewUserData(userData) {
   return function (dispatch) {

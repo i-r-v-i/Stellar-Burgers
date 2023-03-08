@@ -26,7 +26,7 @@ export default function ResetPassword() {
     dispatch(setNewPassword(form, navigate));
   };
 
-  return isReset? (
+  return isReset ? (
     <div style={{ paddingTop: "180px" }}>
       <Form
         title="Восстановление пароля"
@@ -50,12 +50,12 @@ export default function ResetPassword() {
           value={form.token}
           onChange={onChange}
           name="token"
-          // error={false}
-          // errorText="Ошибка"
           size="default"
           required
         />
       </Form>
     </div>
-  ) : (<Navigate to='/forgot-password'/>)
+  ) : (
+    <Navigate to="/forgot-password" />
+  );
 }
