@@ -7,6 +7,8 @@ import { Provider } from "react-redux";
 import { rootReducer } from "./services/reducers/index";
 import thunk from "redux-thunk";
 import { BrowserRouter as Router } from "react-router-dom";
+import { resetPasswordMiddleware } from "./services/middleware/user";
+
 
 const composeEnhancers =
   typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__

@@ -3,7 +3,8 @@ import Form from "../components/form/Form";
 import { useNavigate } from "react-router-dom";
 import { useState} from "react";
 import { useDispatch } from "react-redux";
-import { forgotPassword } from "../services/actions/user";
+import { forgotPassword, SEND_EMAIL } from "../services/actions/user";
+
 
 export default function ForgotPassword() {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ export default function ForgotPassword() {
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(forgotPassword(form, navigate));
+    dispatch({type: SEND_EMAIL});
     
   };
 

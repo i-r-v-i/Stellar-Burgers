@@ -2,12 +2,12 @@ import {
   Input,
   EmailInput,
   PasswordInput,
-  Button
+  Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Form from "../components/form/Form";
-import { useState,useRef } from "react";
+import { useState, useRef } from "react";
 import { NavLink } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
 import styles from "./profile.module.css";
 import { useNavigate } from "react-router-dom";
 import { logOut } from "../services/actions/user";
@@ -15,40 +15,42 @@ import { setNewUserData } from "../services/actions/user";
 import { IS_CHANGING, STOP_CHANGING } from "../services/actions/user";
 
 export default function ProfilePage() {
-  const inputRef = useRef(null)
+  const inputRef = useRef(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const name= useSelector((store) => store.user?.userData?.name);
+  const name = useSelector((store) => store.user?.userData?.name);
   const email = useSelector((store) => store.user?.userData?.email);
   const isChanging = useSelector((state) => state.user?.isChanging);
-  const [user, changeValue] = useState({ name: name, email: email, password: "" });
+  const [user, changeValue] = useState({
+    name: name,
+    email: email,
+    password: "",
+  });
 
   const onIconClick = () => {
-   inputRef.current.focus();
-  }
+    inputRef.current.focus();
+  };
 
   const onChange = (e) => {
-    dispatch({type: IS_CHANGING});
+    dispatch({ type: IS_CHANGING });
     changeValue({ ...user, [e.target.name]: e.target.value });
-    
   };
 
   const canselChanging = () => {
-    changeValue({ name: name, email: email});
-    dispatch({type: STOP_CHANGING});
-    
-  }
+    changeValue({ name: name, email: email });
+    dispatch({ type: STOP_CHANGING });
+  };
 
   const handleLogout = () => {
     dispatch(logOut(navigate));
   };
 
-const onSubmit=(e) => {
-  e.preventDefault();
-  dispatch(setNewUserData(user));
-  changeValue({ ...user, password: "" });
-  dispatch({type: STOP_CHANGING});
-}
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(setNewUserData(user));
+    changeValue({ ...user, password: "" });
+    dispatch({ type: STOP_CHANGING });
+  };
 
   return (
     <div className={styles.profileContainer}>
@@ -74,7 +76,8 @@ const onSubmit=(e) => {
             История заказов
           </NavLink>
 
-          <Button onClick={handleLogout}
+          <Button
+            onClick={handleLogout}
             htmlType="button"
             type="secondary"
             size="medium"
@@ -101,7 +104,6 @@ const onSubmit=(e) => {
           icon={"EditIcon"}
           ref={inputRef}
           onIconClick={onIconClick}
-          
         />
         <EmailInput
           onChange={onChange}
@@ -109,31 +111,37 @@ const onSubmit=(e) => {
           name={"email"}
           placeholder="E-mail"
           icon={"EditIcon"}
+          onIconClick={onIconClick}
           required
         />
         <PasswordInput
           onChange={onChange}
           value={user.password}
           name={"password"}
+          onIconClick={onIconClick}
           icon={"EditIcon"}
         />
         {isChanging && (
           <div className={styles.buttons}>
-          <Button
-            onClick={canselChanging}
-            htmlType="button"
-            type="secondary"
-            size="medium"
-            extraClass={styles.buttonSize}
-            
-          >
-            Отмена
-          </Button>
-          <Button htmlType="submit" type="primary" size="medium" onClick={onSubmit}>
-            Сохранить
-          </Button>
-        </div>
-      )}
+            <Button
+              onClick={canselChanging}
+              htmlType="button"
+              type="secondary"
+              size="medium"
+              extraClass={styles.buttonSize}
+            >
+              Отмена
+            </Button>
+            <Button
+              htmlType="submit"
+              type="primary"
+              size="medium"
+              onClick={onSubmit}
+            >
+              Сохранить
+            </Button>
+          </div>
+        )}
       </Form>
     </div>
   );

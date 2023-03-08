@@ -68,18 +68,18 @@ export function getUserRequest(token) {
     headers: {
       "Content-Type": "application/json",
       Authorization: token,
-    }
+    },
   }).then(checkResponse);
 }
 
- export function refreshTokenApi(refreshToken) {
+export function refreshTokenApi(refreshToken) {
   return fetch(`${url}/auth/token`, {
     method: "POST",
     headers: {
       "Content-type": "application/json",
     },
     body: JSON.stringify({
-      "token": refreshToken
+      token: refreshToken,
     }),
   }).then(checkResponse);
 }
@@ -95,17 +95,15 @@ export function patchUserData(userData, token) {
   }).then(checkResponse);
 }
 
-
 export function logout(refreshToken) {
   return fetch(`${url}/auth/logout`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ "token": refreshToken}),
+    body: JSON.stringify({ token: refreshToken }),
   }).then(checkResponse);
 }
-
 
 // const fetchWithRefresh = async (url, options) => {
 //   try {

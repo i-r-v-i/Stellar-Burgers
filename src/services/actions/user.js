@@ -25,6 +25,7 @@ export const LOGOUT_FAILED = "LOGOUT_FAILED";
 export const FORGOT_PASSWORD_REQUEST = "FORGOT_PASSWORD_REQUEST";
 export const FORGOT_PASSWORD_SUCCESS = "FORGOT_PASSWORD_SUCCESS";
 export const FORGOT_PASSWORD_FAILED = "FORGOT_PASSWORD_FAILED";
+export const SEND_EMAIL = 'SEND_EMAIL';
 
 export const RESET_PASSWORD_REQUEST = "RESET_PASSWORD_REQUEST";
 export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
@@ -94,6 +95,7 @@ export function forgotPassword(userEmail, navigate) {
 
 export function setNewPassword(newData, navigate) {
   return function (dispatch) {
+
     dispatch({ type: RESET_PASSWORD_REQUEST });
     changePassword(newData)
       .then((res) => {

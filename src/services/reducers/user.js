@@ -13,6 +13,7 @@ import {
   FORGOT_PASSWORD_FAILED,
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
+  SEND_EMAIL,
   RESET_PASSWORD_FAILED,
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
@@ -46,10 +47,11 @@ const initialState = {
   forgotPasswordRequest: false,
   forgotPasswordFailed: false,
   forgotPasswordSuccess: false,
+  isReset: false,
 
   resetPasswordRequest: false,
   resetPasswordFailed: false,
-  resetPasswordSuccess: true,
+  resetPasswordSuccess: false,
 
   isChanging: false,
   previousRoute: "/"
@@ -82,6 +84,7 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         forgotPasswordRequest: true,
+        isReset: false
       };
     }
 
@@ -90,6 +93,16 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         forgotPasswordRequest: false,
         forgotPasswordSuccess: true,
+        isReset: false,
+        forgotPasswordFailed: false,
+      };
+    }
+    case SEND_EMAIL: {
+      return {
+        ...state,
+        forgotPasswordRequest: false,
+        forgotPasswordSuccess: true,
+        isReset: true,
         forgotPasswordFailed: false,
       };
     }
@@ -99,6 +112,7 @@ export const userReducer = (state = initialState, action) => {
         forgotPasswordRequest: false,
         forgotPasswordFailed: true,
         forgotPasswordSuccess: false,
+        isReset: false
       };
     }
     case RESET_PASSWORD_REQUEST: {
@@ -115,6 +129,7 @@ export const userReducer = (state = initialState, action) => {
         resetPasswordFailed: false,
       };
     }
+    
     case RESET_PASSWORD_FAILED: {
       return {
         ...state,

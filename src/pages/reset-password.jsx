@@ -4,34 +4,37 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Form from "../components/form/Form";
 import { useNavigate } from "react-router-dom";
-import { useState} from "react";
-import { useDispatch } from "react-redux";
-import { setNewPassword } from "../services/actions/user"; 
- 
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setNewPassword } from "../services/actions/user";
+import { Navigate } from "react-router-dom";
+
 export default function ResetPassword() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [form, setValue] = useState({password: '', token: ''});
-  
-const onChange = e => {
-  setValue({...form, [e.target.name]: e.target.value});
-}
+  const isReset = useSelector((state) => state.user.isReset);
+  console.log(isReset);
 
-console.log(form);
-const onSubmit = (e) => {
-  e.preventDefault();
-  dispatch(setNewPassword(form, navigate));
-}
+  const [form, setValue] = useState({ password: "", token: "" });
 
-  return (
+  const onChange = (e) => {
+    setValue({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(setNewPassword(form, navigate));
+  };
+
+  return isReset? (
     <div style={{ paddingTop: "180px" }}>
       <Form
         title="Восстановление пароля"
-        button='true'
+        button="true"
         buttonText="Сохранить"
         question="Вспомнили пароль?"
         link="Войти"
-        route='/login'
+        route="/login"
         onButtonClick={onSubmit}
       >
         <PasswordInput
@@ -40,7 +43,6 @@ const onSubmit = (e) => {
           name="password"
           placeholder="Введите новый пароль"
           required
-          
         />
         <Input
           type={"text"}
@@ -55,5 +57,5 @@ const onSubmit = (e) => {
         />
       </Form>
     </div>
-  );
+  ) : (<Navigate to='/forgot-password'/>)
 }
