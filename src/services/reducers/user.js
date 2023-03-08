@@ -93,7 +93,6 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         forgotPasswordRequest: false,
         forgotPasswordSuccess: true,
-        isReset: false,
         forgotPasswordFailed: false,
       };
     }
