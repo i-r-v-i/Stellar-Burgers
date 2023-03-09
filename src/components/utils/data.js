@@ -1,5 +1,8 @@
 export const url = "https://norma.nomoreparties.space/api";
 
+
+
+
 export function checkResponse(res) {
   return res.ok
     ? res.json()
@@ -105,3 +108,13 @@ export function logout(refreshToken) {
   }).then(checkResponse);
 }
 
+
+// export const getStore = (store) => store;
+// export const getStoreIngredients = (store) => store.ingredients;
+// export const getStoreBurgerConstructor = (store) => store.orderData.number;
+
+// export const getUser = (store) => store.user;
+
+// export const getcurrentIngredient
+// export const getorder
+// export const getactiveTab

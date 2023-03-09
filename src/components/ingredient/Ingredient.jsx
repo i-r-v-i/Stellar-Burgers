@@ -7,7 +7,7 @@ import styles from "./Ingredient.module.css";
 import { IngredientPropType } from "../types/common-types.js";
 import { useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 
 const Ingredient = ({ data, name, price, image, type }) => {
   const location = useLocation();

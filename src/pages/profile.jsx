@@ -18,6 +18,9 @@ import {
 
 export default function ProfilePage() {
   const inputRef = useRef(null);
+  
+
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const name = useSelector((store) => store.user?.userData?.name);
@@ -29,8 +32,8 @@ export default function ProfilePage() {
     password: "",
   });
 
-  const onIconClick = () => {
-    inputRef.current.focus();
+  const onIconClick = (ref) => {
+    ref.current.focus();
   };
 
   const onChange = (e) => {
@@ -105,7 +108,7 @@ export default function ProfilePage() {
           size={"default"}
           icon={"EditIcon"}
           ref={inputRef}
-          onIconClick={onIconClick}
+          onIconClick={()=>onIconClick(inputRef)}
         />
         <EmailInput
           onChange={onChange}
@@ -113,15 +116,15 @@ export default function ProfilePage() {
           name={"email"}
           placeholder="E-mail"
           icon={"EditIcon"}
-          onIconClick={onIconClick}
           required
         />
         <PasswordInput
           onChange={onChange}
           value={user.password}
           name={"password"}
-          onIconClick={onIconClick}
+          
           icon={"EditIcon"}
+         
         />
         {isChanging && (
           <div className={styles.buttons}>

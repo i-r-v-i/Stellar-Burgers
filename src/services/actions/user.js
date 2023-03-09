@@ -176,7 +176,9 @@ export function getUserData() {
       .catch((err) => {
         console.log(`Пользователь не авторизован ${err}`);
         if (err.message === "jwt expired") {
-          dispatch(refreshToken());
+          dispatch(refreshToken())
+          .then(()=> 
+          dispatch(getUserData()))
         }
         dispatch({
           type: GET_USER_FAILED,
@@ -193,7 +195,7 @@ export const refreshToken = () => {
         if (res.success) {
           localStorage.setItem("refreshToken", res.refreshToken);
           setCookie("accessToken", res.accessToken);
-          dispatch(getUserData());
+          // dispatch(getUserData());
         }
       })
       .catch((err) =>
@@ -208,7 +210,7 @@ export const refreshToken = () => {
 export function setNewUserData(userData) {
   return function (dispatch) {
     dispatch({ type: UPDATE_USER_REQUEST });
-    return patchUserData(userData, getCookie("accessToken"))
+     patchUserData(userData, getCookie("accessToken"))
       .then((res) => {
         if (res.success) {
           console.log(res);
@@ -218,7 +220,9 @@ export function setNewUserData(userData) {
       .catch((err) => {
         console.log(`Ошибка обновления профиля ${err}`);
         if (err.message === "jwt expired") {
-          dispatch(refreshToken());
+          dispatch(refreshToken())
+          .then(()=> 
+          dispatch(patchUserData(userData, getCookie("accessToken"))));
         }
         dispatch({
           type: UPDATE_USER_FAILED,

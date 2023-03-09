@@ -1,10 +1,10 @@
 import Tabs from "../tabs/Tabs";
 import styles from "./BurgerIngredients.module.css";
 import IngredientList from "../ingredient-list/IngredientList";
-import { useSelector, useDispatch } from "react-redux";
+import {  useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { setActiveTab } from "../../services/actions/activeTab";
-import {  useLocation } from "react-router-dom";
+
 
 
 function BurgerIngredients() {

@@ -13,10 +13,9 @@ export const ProtectedRouteElement = ({ element }) => {
 
   useEffect(() => {
     {
-      !user && dispatch(getUserData());
       dispatch(saveUserPath(location.pathname));
     }
-  }, [user]);
+  }, []);
 
   return user ? element : <Navigate to="/login" replace />;
 };
