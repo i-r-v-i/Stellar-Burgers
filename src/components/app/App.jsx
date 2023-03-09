@@ -15,7 +15,7 @@ import { Modal } from "../modal/Modal";
 import Feed from "../feed/Feed";
 import { IngredientDetails } from "../ingredient-details/IngredientDetails";
 import { getUserData } from "../../services/actions/user";
-
+import { getIngredients } from "../../services/actions/ingredients";
 
 export default function App() {
   const location = useLocation();
@@ -23,15 +23,16 @@ export default function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  console.log(background);
   useEffect(() => {
     dispatch(getUserData());
+    dispatch(getIngredients());
   }, [dispatch]);
 
   const handleCloseModal = (evt) => {
     evt.stopPropagation();
     navigate(-1);
   };
-
 
 
   return (
@@ -65,7 +66,7 @@ export default function App() {
             path="/ingredients/:id"
             element={
               <Modal closePopup={handleCloseModal} title="Детали ингредиента">
-                <IngredientDetails />
+                <IngredientDetails bac/>
               </Modal>
             }
           />
