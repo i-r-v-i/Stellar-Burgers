@@ -10,8 +10,8 @@ export function IngredientDetails() {
   const ingredients = useSelector((store) => store.ingredients.ingredients);
   const ingredient = ingredients?.find((ingredient) => ingredient._id === id);
 
-
-  return (
+console.log(ingredients);
+  return ingredient ? ( 
     <div className={styles.container}>
       <img
         className="mb-4"
@@ -62,7 +62,7 @@ export function IngredientDetails() {
         </p>
       </div>
     </div>
-  );
+  ) : null;
 }
 
 IngredientDetails.prototype = {

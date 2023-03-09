@@ -38,16 +38,19 @@ export default function App() {
     <>
       <AppHeader />
       <Routes location={background || location}>
-        <Route path="/" element={<Main />}>
+      <Route path="/" element={<Main />}/>
+      <Route path="/ingredients/:id" element={<IngredientDetails />} />
+        
+        {/* <Route path="/" element={<Main />}>
           <Route
-            path="/ingredients/:id"
+            path="ingredients/:id"
             element={
               <Modal title="Детали ингредиента">
                 <IngredientDetails />
               </Modal>
             }
           />
-        </Route>
+        </Route> */}
         <Route path="/register" element={<ProtectedRouteElement element={<Register />}/>} />
         <Route path="/login" element={<OnlyForAuthElement element={<Login />} />} />
         <Route path="/forgot-password" element={<OnlyForAuthElement element={<ForgotPassword />}/>} />
