@@ -5,11 +5,13 @@ import { getUserData } from "../../services/actions/user";
 import { useSelector, useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { saveUserPath } from "../../services/actions/user";
+import { getUser } from "../utils/data";
+
 
 export const ProtectedRouteElement = ({ element }) => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const user = useSelector((store) => store.user.userData);
+  const {user} = useSelector(getUser);
 
   useEffect(() => {
     {

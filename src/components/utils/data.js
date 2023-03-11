@@ -2,18 +2,34 @@ import { getCookie, setCookie } from "../../components/utils/cookie";
 
 export const url = "https://norma.nomoreparties.space/api";
 
+export const URL = {
+    
+  ingredients: 'https://norma.nomoreparties.space/api/ingredients',
+  orders: 'https://norma.nomoreparties.space/api/orders',
+  forgotPassword: 'https://norma.nomoreparties.space/api/password-reset',
+  resetPassword: 'https://norma.nomoreparties.space/api/password-reset/reset',
+  register: 'https://norma.nomoreparties.space/api/auth/register',
+  login: 'https://norma.nomoreparties.space/api/auth/login',
+  user: 'https://norma.nomoreparties.space/api/auth/user',
+  logout: 'https://norma.nomoreparties.space/api/auth/logout',
+  token: 'https://norma.nomoreparties.space/api/auth/token'
+};
+
+
+
+
 export function checkResponse(res) {
   return res.ok
     ? res.json()
-    : Promise.reject(`Что-то пошло не так: ${res.status}`);
+    : Promise.reject(`Что-то пошло не так: ${res.status}` );
 }
 
 export function getData() {
-  return fetch(`${url}/ingredients`).then(checkResponse);
+  return fetch(URL.ingredients).then(checkResponse);
 }
 
 export function getOrderNumber(data) {
-  return fetch(`${url}/orders`, {
+  return fetch(URL.orders, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -25,7 +41,7 @@ export function getOrderNumber(data) {
 }
 
 export function setUser(data) {
-  return fetch(`${url}/auth/register`, {
+  return fetch(URL.register, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -35,7 +51,7 @@ export function setUser(data) {
 }
 
 export function resetPassword(data) {
-  return fetch(`${url}/password-reset`, {
+  return fetch(URL.forgotPassword, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -45,7 +61,7 @@ export function resetPassword(data) {
 }
 
 export function changePassword(data) {
-  return fetch(`${url}/password-reset/reset`, {
+  return fetch(URL.resetPassword, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -55,7 +71,7 @@ export function changePassword(data) {
 }
 
 export function login(data) {
-  return fetch(`${url}/auth/login`, {
+  return fetch(URL.login, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -65,26 +81,26 @@ export function login(data) {
 }
 
 export function getUserApi() {
-  return fetchWithRefresh(`${url}/auth/user`, {
+  return fetch(URL.user, {
     headers: {
       authorization: getCookie("accessToken"),
     },
-  });
+  }).then((data)=>checkResponse(data));
 }
 
 export function patchUserData(userData) {
-  return fetchWithRefresh(`${url}/auth/user`, {
+  return fetch(URL.user, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
       authorization: getCookie("accessToken"),
     },
     body: JSON.stringify(userData),
-  });
+  }).then((data)=>checkResponse(data));
 }
 
-function refreshTokenApi() {
-  return fetch(`${url}/auth/token`, {
+export function refreshTokenApi() {
+  return fetch(URL.token, {
     method: "POST",
     headers: {
       "Content-type": "application/json",
@@ -93,39 +109,18 @@ function refreshTokenApi() {
       token: localStorage.getItem("refreshToken"),
     }),
   }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      return Promise.reject(`Ошибка ${res.status}`);
-    }
-  });
+    console.log(res);
+    // if(!res.ok ) {
+
+    // }
+      setCookie('accessToken', res.accessToken);
+      localStorage.setItem("refreshToken", res.refreshToken);
+  }
+).catch()
 }
 
-
-const fetchWithRefresh = (url, options) => {
-  return fetch(url, options)
-    .then((res) => checkResponse(res))
-    .catch((error) => {
-      if (error.message === "jwt expired") {
-        return refreshTokenApi().then((refreshData) => {
-          if (!refreshData.success) {
-            return Promise.reject(refreshData);
-          }
-          localStorage.setItem("refreshToken", refreshData.refreshToken);
-          setCookie("accessToken", refreshData.accessToken);
-          options.headers.authorization = refreshData.accessToken;
-          return fetch(url, options)
-            .then((res) => checkResponse(res))
-            .catch((error) => Promise.reject(error));
-        });
-      } else {
-        return Promise.reject(error);
-      }
-    });
-};
-
 export function logout(refreshToken) {
-  return fetch(`${url}/auth/logout`, {
+  return fetch(URL.logout, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -138,7 +133,6 @@ export const getStore = (store) => store;
 export const getStoreIngredients = (store) => store.ingredients;
 export const getStoreBurgerConstructor = (store) => store.burgerConstructor;
 export const getUser = (store) => store.user;
-
-// export const getcurrentIngredient
+export const getcurrentIngredient = (store) => store.currentIngredient
 export const getorder = (store) => store.order;
-// export const getactiveTab
+export const getactiveTab = (store) => store.activeTab;

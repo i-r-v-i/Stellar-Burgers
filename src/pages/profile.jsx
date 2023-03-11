@@ -9,6 +9,8 @@ import { useState, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./profile.module.css";
+import { useEffect } from "react";
+import { checkAuth } from "../services/actions/user";
 import {
   logOut,
   setNewUserData,
@@ -31,6 +33,12 @@ export default function ProfilePage() {
     email: email,
     password: "",
   });
+
+  useEffect(() => {
+   
+    dispatch(checkAuth());
+  }, [dispatch]);
+
 
   const onIconClick = (ref) => {
     ref.current.focus();

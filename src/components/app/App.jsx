@@ -30,7 +30,7 @@ export default function App() {
 
   useEffect(() => {
     dispatch(getIngredients());
-    dispatch(checkAuth());
+    // dispatch(checkAuth());
   }, [dispatch]);
 
   const handleCloseModal = (evt) => {

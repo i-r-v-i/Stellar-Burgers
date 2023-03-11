@@ -3,10 +3,10 @@ import {
   resetPassword,
   changePassword,
   login,
-  getUserRequest,
   logout,
   patchUserData,
-  refreshTokenApi, getUserApi 
+  refreshTokenApi,
+  getUserApi,
 } from "../../components/utils/data";
 import {
   getCookie,
@@ -47,65 +47,55 @@ export const IS_CHANGING = "IS_CHANGING";
 export const STOP_CHANGING = "STOP_CHANGING";
 export const SAVE_PREVIOUS_ROUTE = "SAVE_PREVIOUS_ROUTE";
 
-
 export const checkAuth = () => (dispatch) => {
- if (getCookie('accessToken')) {
-  dispatch(getUserData())
- }
-      
+  if (getCookie("accessToken")) {
+    console.log(getCookie("accessToken"));
+    dispatch(getUserData());
   }
+};
 
-
-  export function getUserData() {
-    return function (dispatch) {
-      dispatch({ type: GET_USER_REQUEST });
-      return getUserApi()
-        .then((res) => {
-          if (res.success) {
-            console.log(res);
-            console.log('получен пользователь');
-            dispatch({ type: GET_USER_SUCCESS, payload: res.user });
-          }
-        })
-        .catch((err) => {
-          console.log(`Пользователь не авторизован ${err}`);
-          // if (err.message === "jwt expired") {
-          //   dispatch(refreshToken());
-          // }
+export function getUserData() {
+  return function (dispatch) {
+    dispatch({ type: GET_USER_REQUEST });
+    return getUserApi()
+      .then((res) => {
+        dispatch({ type: GET_USER_SUCCESS, payload: res.user });
+      })
+      .catch((err) => {
+        console.log(`Пользователь не авторизован ${err}`);
+        if (err) {
+          refreshTokenApi().then(() => dispatch(getUserData));
+        } else {
           dispatch({
             type: GET_USER_FAILED,
             payload: err.message,
           });
-        });
-    };
-  }
+        }
+      });
+  };
+}
 
-  export function setNewUserData(userData) {
-    return function (dispatch) {
-      dispatch({ type: UPDATE_USER_REQUEST });
-      return patchUserData(userData)
-        .then((res) => {
-          if (res.success) {
-            console.log(res);
-            console.log('обновлен пользователь');
-            dispatch({ type: UPDATE_USER_SUCCESS, payload: res.user });
-          }
-        })
-        .catch((err) => {
-          console.log(`Ошибка обновления профиля ${err}`);
-          // if (err.message === "jwt expired") {
-          //   dispatch(refreshToken());
-          // }
+export function setNewUserData(userData) {
+  return function (dispatch) {
+    dispatch({ type: UPDATE_USER_REQUEST });
+    patchUserData(userData)
+      .then((res) => {
+        console.log("обновлен пользователь");
+        dispatch({ type: UPDATE_USER_SUCCESS, payload: res.user });
+      })
+      .catch((err) => {
+        console.log(`Ошибка обновления профиля ${err}`);
+        if (err) {
+          refreshTokenApi().then(() => dispatch(setNewUserData(userData)));
+        } else {
           dispatch({
             type: UPDATE_USER_FAILED,
             payload: err.message,
           });
-        });
-    };
-  }
-  
-
-
+        }
+      });
+  };
+}
 
 export const saveUserPath = (path) => ({
   type: "SAVE_PREVIOUS_ROUTE",

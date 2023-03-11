@@ -1,3 +1,4 @@
+import React from "react";
 import {
   CurrencyIcon,
   Counter,
@@ -56,7 +57,7 @@ const Ingredient = ({ data, name, price, image, type }) => {
   );
 };
 
-export default Ingredient;
+export default React.memo(Ingredient);
 
 Ingredient.prototype = {
   data: PropTypes.shape(IngredientPropType).isRequired,
