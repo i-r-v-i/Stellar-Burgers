@@ -64,7 +64,7 @@ export function getUserData() {
       .catch((err) => {
         console.log(`Пользователь не авторизован ${err}`);
         if (err) {
-          refreshTokenApi().then(() => dispatch(getUserData));
+          refreshTokenApi().then(() => dispatch(getUserData()));
         } else {
           dispatch({
             type: GET_USER_FAILED,

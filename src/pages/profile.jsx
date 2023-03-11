@@ -9,8 +9,6 @@ import { useState, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./profile.module.css";
-import { useEffect } from "react";
-import { checkAuth } from "../services/actions/user";
 import {
   logOut,
   setNewUserData,
@@ -20,8 +18,6 @@ import {
 
 export default function ProfilePage() {
   const inputRef = useRef(null);
-  
-
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -33,12 +29,6 @@ export default function ProfilePage() {
     email: email,
     password: "",
   });
-
-  useEffect(() => {
-   
-    dispatch(checkAuth());
-  }, [dispatch]);
-
 
   const onIconClick = (ref) => {
     ref.current.focus();
@@ -116,7 +106,7 @@ export default function ProfilePage() {
           size={"default"}
           icon={"EditIcon"}
           ref={inputRef}
-          onIconClick={()=>onIconClick(inputRef)}
+          onIconClick={() => onIconClick(inputRef)}
         />
         <EmailInput
           onChange={onChange}
@@ -130,9 +120,7 @@ export default function ProfilePage() {
           onChange={onChange}
           value={user.password}
           name={"password"}
-          
           icon={"EditIcon"}
-         
         />
         {isChanging && (
           <div className={styles.buttons}>

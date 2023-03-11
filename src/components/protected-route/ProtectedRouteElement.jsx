@@ -7,11 +7,10 @@ import { Navigate } from "react-router-dom";
 import { saveUserPath } from "../../services/actions/user";
 import { getUser } from "../utils/data";
 
-
 export const ProtectedRouteElement = ({ element }) => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const {user} = useSelector(getUser);
+  const { userData } = useSelector(getUser);
 
   useEffect(() => {
     {
@@ -19,7 +18,7 @@ export const ProtectedRouteElement = ({ element }) => {
     }
   }, []);
 
-  return user ? element : <Navigate to="/login" replace />;
+  return userData ? element : <Navigate to="/login" replace />;
 };
 
 ProtectedRouteElement.propTypes = {

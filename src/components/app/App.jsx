@@ -26,11 +26,11 @@ export default function App() {
 
   const cookie = getCookie("accessToken");
   console.log(cookie);
-  console.log( localStorage.getItem("refreshToken"));
+  console.log(localStorage.getItem("refreshToken"));
 
   useEffect(() => {
     dispatch(getIngredients());
-    // dispatch(checkAuth());
+    dispatch(checkAuth());
   }, [dispatch]);
 
   const handleCloseModal = (evt) => {

@@ -4,9 +4,9 @@ import { getUser } from "../utils/data";
 import { Navigate } from "react-router-dom";
 
 export function OnlyForAuthElement({ element }) {
-  const {user} = useSelector(getUser);
+  const {userData} = useSelector(getUser);
 
-  if (user) {
+  if (userData) {
     return <Navigate to="/" replace={true} />;
   }
 

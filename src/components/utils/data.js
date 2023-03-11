@@ -3,25 +3,21 @@ import { getCookie, setCookie } from "../../components/utils/cookie";
 export const url = "https://norma.nomoreparties.space/api";
 
 export const URL = {
-    
-  ingredients: 'https://norma.nomoreparties.space/api/ingredients',
-  orders: 'https://norma.nomoreparties.space/api/orders',
-  forgotPassword: 'https://norma.nomoreparties.space/api/password-reset',
-  resetPassword: 'https://norma.nomoreparties.space/api/password-reset/reset',
-  register: 'https://norma.nomoreparties.space/api/auth/register',
-  login: 'https://norma.nomoreparties.space/api/auth/login',
-  user: 'https://norma.nomoreparties.space/api/auth/user',
-  logout: 'https://norma.nomoreparties.space/api/auth/logout',
-  token: 'https://norma.nomoreparties.space/api/auth/token'
+  ingredients: "https://norma.nomoreparties.space/api/ingredients",
+  orders: "https://norma.nomoreparties.space/api/orders",
+  forgotPassword: "https://norma.nomoreparties.space/api/password-reset",
+  resetPassword: "https://norma.nomoreparties.space/api/password-reset/reset",
+  register: "https://norma.nomoreparties.space/api/auth/register",
+  login: "https://norma.nomoreparties.space/api/auth/login",
+  user: "https://norma.nomoreparties.space/api/auth/user",
+  logout: "https://norma.nomoreparties.space/api/auth/logout",
+  token: "https://norma.nomoreparties.space/api/auth/token",
 };
-
-
-
 
 export function checkResponse(res) {
   return res.ok
     ? res.json()
-    : Promise.reject(`Что-то пошло не так: ${res.status}` );
+    : Promise.reject(`Что-то пошло не так: ${res.status}`);
 }
 
 export function getData() {
@@ -85,7 +81,7 @@ export function getUserApi() {
     headers: {
       authorization: getCookie("accessToken"),
     },
-  }).then((data)=>checkResponse(data));
+  }).then((data) => checkResponse(data));
 }
 
 export function patchUserData(userData) {
@@ -96,7 +92,7 @@ export function patchUserData(userData) {
       authorization: getCookie("accessToken"),
     },
     body: JSON.stringify(userData),
-  }).then((data)=>checkResponse(data));
+  }).then((data) => checkResponse(data));
 }
 
 export function refreshTokenApi() {
@@ -108,15 +104,15 @@ export function refreshTokenApi() {
     body: JSON.stringify({
       token: localStorage.getItem("refreshToken"),
     }),
-  }).then((res) => {
-    console.log(res);
-    // if(!res.ok ) {
-
-    // }
-      setCookie('accessToken', res.accessToken);
+  })
+    .then((data) => checkResponse(data))
+    .then((res) => {
+      setCookie("accessToken", res.accessToken);
       localStorage.setItem("refreshToken", res.refreshToken);
-  }
-).catch()
+    })
+    .catch((err) => {
+      console.log(`Ошибка рефреша токена ${err}`);
+    });
 }
 
 export function logout(refreshToken) {
@@ -133,6 +129,6 @@ export const getStore = (store) => store;
 export const getStoreIngredients = (store) => store.ingredients;
 export const getStoreBurgerConstructor = (store) => store.burgerConstructor;
 export const getUser = (store) => store.user;
-export const getcurrentIngredient = (store) => store.currentIngredient
+export const getcurrentIngredient = (store) => store.currentIngredient;
 export const getorder = (store) => store.order;
 export const getactiveTab = (store) => store.activeTab;

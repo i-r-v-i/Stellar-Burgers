@@ -20,7 +20,6 @@ import { GET_NUMBER_FAILED, makeOrder } from "../../services/actions/order";
 import { useNavigate } from "react-router-dom";
 import { getStoreBurgerConstructor, getorder, getUser } from "../utils/data";
 
-
 function BurgerConstructor() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
