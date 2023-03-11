@@ -14,7 +14,7 @@ import ProfilePage from "../../pages/profile";
 import { Modal } from "../modal/Modal";
 import Feed from "../feed/Feed";
 import { IngredientDetails } from "../ingredient-details/IngredientDetails";
-import { getUserData } from "../../services/actions/user";
+import { checkAuth } from "../../services/actions/user";
 import { getIngredients } from "../../services/actions/ingredients";
 import { getCookie } from "../../components/utils/cookie";
 
@@ -26,10 +26,11 @@ export default function App() {
 
   const cookie = getCookie("accessToken");
   console.log(cookie);
+  console.log( localStorage.getItem("refreshToken"));
 
   useEffect(() => {
     dispatch(getIngredients());
-    cookie && dispatch(getUserData());
+    dispatch(checkAuth());
   }, [dispatch]);
 
   const handleCloseModal = (evt) => {
@@ -64,7 +65,7 @@ export default function App() {
           element={<ProtectedRouteElement element={<ProfilePage />} />}
         />
         <Route
-          path="/feed/*"
+          path="/feed/"
           element={<ProtectedRouteElement element={<Feed />} />}
         />
         <Route path="*" element={<NotFound404 />} />

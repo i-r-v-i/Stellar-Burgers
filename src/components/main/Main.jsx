@@ -4,9 +4,11 @@ import { DndProvider } from "react-dnd";
  import BurgerConstructor from "../burger-constructor/BurgerConstructor";
 import {  useSelector } from "react-redux";
 import styles from "./Main.module.css";
+import { getStoreIngredients } from "../utils/data";
+
 
 export default function Main() {
-  const ingredients = useSelector((state) => state.ingredients.ingredients);
+  const {ingredients} = useSelector(getStoreIngredients);
 
   return (
     <DndProvider backend={HTML5Backend}>

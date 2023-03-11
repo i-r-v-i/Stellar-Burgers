@@ -8,13 +8,12 @@ import { IngredientPropType } from "../types/common-types.js";
 import { useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
 import { Link, Outlet, useLocation } from "react-router-dom";
+import { getStoreBurgerConstructor } from "../utils/data";
 
 const Ingredient = ({ data, name, price, image, type }) => {
   const location = useLocation();
 
-  const { selectedIngredients, selectedBun } = useSelector(
-    (store) => store.burgerConstructor
-  );
+  const { selectedIngredients, selectedBun } = useSelector(getStoreBurgerConstructor);
 
   const count =
     data.type !== "bun"

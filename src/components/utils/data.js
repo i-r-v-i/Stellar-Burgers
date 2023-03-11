@@ -1,7 +1,6 @@
+import { getCookie, setCookie } from "../../components/utils/cookie";
+
 export const url = "https://norma.nomoreparties.space/api";
-
-
-
 
 export function checkResponse(res) {
   return res.ok
@@ -65,38 +64,65 @@ export function login(data) {
   }).then(checkResponse);
 }
 
-export function getUserRequest(token) {
-  return fetch(`${url}/auth/user`, {
-    method: "GET",
+export function getUserApi() {
+  return fetchWithRefresh(`${url}/auth/user`, {
     headers: {
-      "Content-Type": "application/json",
-      Authorization: token,
+      authorization: getCookie("accessToken"),
     },
-  }).then(checkResponse);
+  });
 }
 
-export function refreshTokenApi(refreshToken) {
+export function patchUserData(userData) {
+  return fetchWithRefresh(`${url}/auth/user`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: getCookie("accessToken"),
+    },
+    body: JSON.stringify(userData),
+  });
+}
+
+function refreshTokenApi() {
   return fetch(`${url}/auth/token`, {
     method: "POST",
     headers: {
       "Content-type": "application/json",
     },
     body: JSON.stringify({
-      token: refreshToken,
+      token: localStorage.getItem("refreshToken"),
     }),
-  }).then(checkResponse);
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    } else {
+      return Promise.reject(`Ошибка ${res.status}`);
+    }
+  });
 }
 
-export function patchUserData(userData, token) {
-  return fetch(`${url}/auth/user`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: token,
-    },
-    body: JSON.stringify(userData),
-  }).then(checkResponse);
-}
+
+const fetchWithRefresh = (url, options) => {
+  return fetch(url, options)
+    .then((res) => checkResponse(res))
+    .catch((error) => {
+      if (error.message === "jwt expired") {
+        return refreshTokenApi().then((refreshData) => {
+          if (!refreshData.success) {
+            return Promise.reject(refreshData);
+          }
+          localStorage.setItem("refreshToken", refreshData.refreshToken);
+          setCookie("accessToken", refreshData.accessToken);
+          options.headers.authorization = refreshData.accessToken;
+          return fetch(url, options)
+            .then((res) => checkResponse(res))
+            .catch((error) => Promise.reject(error));
+        });
+      } else {
+        return Promise.reject(error);
+      }
+    });
+};
 
 export function logout(refreshToken) {
   return fetch(`${url}/auth/logout`, {
@@ -108,13 +134,11 @@ export function logout(refreshToken) {
   }).then(checkResponse);
 }
 
-
-// export const getStore = (store) => store;
-// export const getStoreIngredients = (store) => store.ingredients;
-// export const getStoreBurgerConstructor = (store) => store.orderData.number;
-
-// export const getUser = (store) => store.user;
+export const getStore = (store) => store;
+export const getStoreIngredients = (store) => store.ingredients;
+export const getStoreBurgerConstructor = (store) => store.burgerConstructor;
+export const getUser = (store) => store.user;
 
 // export const getcurrentIngredient
-// export const getorder
+export const getorder = (store) => store.order;
 // export const getactiveTab

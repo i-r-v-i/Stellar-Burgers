@@ -6,7 +6,7 @@ import {
   getUserRequest,
   logout,
   patchUserData,
-  refreshTokenApi,
+  refreshTokenApi, getUserApi 
 } from "../../components/utils/data";
 import {
   getCookie,
@@ -46,6 +46,66 @@ export const UPDATE_USER_FAILED = "UPDATE_USER_FAILED";
 export const IS_CHANGING = "IS_CHANGING";
 export const STOP_CHANGING = "STOP_CHANGING";
 export const SAVE_PREVIOUS_ROUTE = "SAVE_PREVIOUS_ROUTE";
+
+
+export const checkAuth = () => (dispatch) => {
+ if (getCookie('accessToken')) {
+  dispatch(getUserData())
+ }
+      
+  }
+
+
+  export function getUserData() {
+    return function (dispatch) {
+      dispatch({ type: GET_USER_REQUEST });
+      return getUserApi()
+        .then((res) => {
+          if (res.success) {
+            console.log(res);
+            console.log('получен пользователь');
+            dispatch({ type: GET_USER_SUCCESS, payload: res.user });
+          }
+        })
+        .catch((err) => {
+          console.log(`Пользователь не авторизован ${err}`);
+          // if (err.message === "jwt expired") {
+          //   dispatch(refreshToken());
+          // }
+          dispatch({
+            type: GET_USER_FAILED,
+            payload: err.message,
+          });
+        });
+    };
+  }
+
+  export function setNewUserData(userData) {
+    return function (dispatch) {
+      dispatch({ type: UPDATE_USER_REQUEST });
+      return patchUserData(userData)
+        .then((res) => {
+          if (res.success) {
+            console.log(res);
+            console.log('обновлен пользователь');
+            dispatch({ type: UPDATE_USER_SUCCESS, payload: res.user });
+          }
+        })
+        .catch((err) => {
+          console.log(`Ошибка обновления профиля ${err}`);
+          // if (err.message === "jwt expired") {
+          //   dispatch(refreshToken());
+          // }
+          dispatch({
+            type: UPDATE_USER_FAILED,
+            payload: err.message,
+          });
+        });
+    };
+  }
+  
+
+
 
 export const saveUserPath = (path) => ({
   type: "SAVE_PREVIOUS_ROUTE",
@@ -157,75 +217,6 @@ export function logOut(navigate) {
         console.log(`Ошибка выхода из профиля ${err}`);
         dispatch({
           type: LOGOUT_FAILED,
-          payload: err.message,
-        });
-      });
-  };
-}
-
-export function getUserData() {
-  return function (dispatch) {
-    dispatch({ type: GET_USER_REQUEST });
-    return getUserRequest(getCookie("accessToken"))
-      .then((res) => {
-        if (res.success) {
-          console.log(res);
-          dispatch({ type: GET_USER_SUCCESS, payload: res.user });
-        }
-      })
-      .catch((err) => {
-        console.log(`Пользователь не авторизован ${err}`);
-        if (err.message === "jwt expired") {
-          dispatch(refreshToken())
-          .then(()=> 
-          dispatch(getUserData()))
-        }
-        dispatch({
-          type: GET_USER_FAILED,
-          payload: err.message,
-        });
-      });
-  };
-}
-
-export const refreshToken = () => {
-  return function (dispatch) {
-    refreshTokenApi(localStorage.getItem("refreshToken"))
-      .then((res) => {
-        if (res.success) {
-          localStorage.setItem("refreshToken", res.refreshToken);
-          setCookie("accessToken", res.accessToken);
-          // dispatch(getUserData());
-        }
-      })
-      .catch((err) =>
-        dispatch({
-          type: GET_USER_FAILED,
-          payload: err.message,
-        })
-      );
-  };
-};
-
-export function setNewUserData(userData) {
-  return function (dispatch) {
-    dispatch({ type: UPDATE_USER_REQUEST });
-     patchUserData(userData, getCookie("accessToken"))
-      .then((res) => {
-        if (res.success) {
-          console.log(res);
-          dispatch({ type: UPDATE_USER_SUCCESS, payload: res.user });
-        }
-      })
-      .catch((err) => {
-        console.log(`Ошибка обновления профиля ${err}`);
-        if (err.message === "jwt expired") {
-          dispatch(refreshToken())
-          .then(()=> 
-          dispatch(patchUserData(userData, getCookie("accessToken"))));
-        }
-        dispatch({
-          type: UPDATE_USER_FAILED,
           payload: err.message,
         });
       });

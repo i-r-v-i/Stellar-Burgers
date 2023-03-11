@@ -3,11 +3,12 @@ import PropTypes from "prop-types";
 import { IngredientPropType } from "../types/common-types.js";
 import { useParams } from 'react-router-dom';
 import { useSelector} from "react-redux";
+import { getStoreIngredients } from "../utils/data";
 
 
 export function IngredientDetails({bac}) {
    const { id } = useParams();
-  const ingredients = useSelector((store) => store.ingredients.ingredients);
+  const {ingredients} = useSelector(getStoreIngredients);
   const ingredient = ingredients?.find((ingredient) => ingredient._id === id);
   
 const IngredientDetailsModal = () => {

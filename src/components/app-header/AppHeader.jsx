@@ -7,9 +7,10 @@ import {
 import styles from "./AppHeader.module.css";
 import { useLocation, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { getUser } from "../utils/data";
 
 function AppHeader() {
-  const { userData } = useSelector((state) => state.user);
+  const { userData } = useSelector(getUser);
   const { pathname } = useLocation();
 
   return (
