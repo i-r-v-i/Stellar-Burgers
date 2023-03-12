@@ -1,10 +1,10 @@
 import {
   setUser,
-  resetPassword,
-  changePassword,
-  login,
-  logout,
-  patchUserData,
+  resetPasswordApi,
+  changePasswordApi,
+  loginApi,
+  logoutApi,
+  patchUserDataApi,
   refreshTokenApi,
   getUserApi,
 } from "../../components/utils/data";
@@ -51,20 +51,22 @@ export const checkAuth = () => (dispatch) => {
   if (getCookie("accessToken")) {
     console.log(getCookie("accessToken"));
     dispatch(getUserData());
+    
   }
 };
 
 export function getUserData() {
   return function (dispatch) {
     dispatch({ type: GET_USER_REQUEST });
-    return getUserApi()
+    return getUserApi(getCookie("accessToken"))
       .then((res) => {
         dispatch({ type: GET_USER_SUCCESS, payload: res.user });
+        console.log('getUser');
       })
       .catch((err) => {
         console.log(`Пользователь не авторизован ${err}`);
         if (err) {
-          refreshTokenApi().then(() => dispatch(getUserData()));
+          refreshToken().then(() => dispatch(getUserData()));
         } else {
           dispatch({
             type: GET_USER_FAILED,
@@ -78,7 +80,7 @@ export function getUserData() {
 export function setNewUserData(userData) {
   return function (dispatch) {
     dispatch({ type: UPDATE_USER_REQUEST });
-    patchUserData(userData)
+    patchUserDataApi(userData, getCookie("accessToken"))
       .then((res) => {
         console.log("обновлен пользователь");
         dispatch({ type: UPDATE_USER_SUCCESS, payload: res.user });
@@ -86,7 +88,7 @@ export function setNewUserData(userData) {
       .catch((err) => {
         console.log(`Ошибка обновления профиля ${err}`);
         if (err) {
-          refreshTokenApi().then(() => dispatch(setNewUserData(userData)));
+          refreshToken().then(() => dispatch(setNewUserData(userData)));
         } else {
           dispatch({
             type: UPDATE_USER_FAILED,
@@ -128,7 +130,7 @@ export function registrateUser(userData, navigate) {
 export function forgotPassword(userEmail, navigate) {
   return function (dispatch) {
     dispatch({ type: FORGOT_PASSWORD_REQUEST });
-    resetPassword(userEmail)
+    resetPasswordApi(userEmail)
       .then((res) => {
         if (res.success) {
           console.log(res);
@@ -149,7 +151,7 @@ export function forgotPassword(userEmail, navigate) {
 export function setNewPassword(newData, navigate) {
   return function (dispatch) {
     dispatch({ type: RESET_PASSWORD_REQUEST });
-    changePassword(newData)
+    changePasswordApi(newData)
       .then((res) => {
         if (res.success) {
           console.log(res);
@@ -170,7 +172,7 @@ export function setNewPassword(newData, navigate) {
 export function logIn(data, navigate, previousRoute) {
   return function (dispatch) {
     dispatch({ type: LOGIN_REQUEST });
-    login(data)
+    loginApi(data)
       .then((res) => {
         if (res.success) {
           console.log(res);
@@ -190,10 +192,21 @@ export function logIn(data, navigate, previousRoute) {
   };
 }
 
+export function refreshToken() {
+  return refreshTokenApi()
+    .then((res) => {
+      setCookie("accessToken", res.accessToken);
+      localStorage.setItem("refreshToken", res.refreshToken);
+    })
+    .catch((err) => {
+      console.log(`Ошибка рефреша токена ${err}`);
+    });
+}
+
 export function logOut(navigate) {
   return function (dispatch) {
     dispatch({ type: LOGOUT_REQUEST });
-    logout(localStorage.getItem("refreshToken"))
+    logoutApi(localStorage.getItem("refreshToken"))
       .then((res) => {
         if (res.success) {
           console.log(res);

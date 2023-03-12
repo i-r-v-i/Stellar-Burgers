@@ -1,6 +1,4 @@
-import { getCookie, setCookie } from "../../components/utils/cookie";
-
-export const url = "https://norma.nomoreparties.space/api";
+import { getCookie } from "../../components/utils/cookie";
 
 export const URL = {
   ingredients: "https://norma.nomoreparties.space/api/ingredients",
@@ -46,7 +44,7 @@ export function setUser(data) {
   }).then(checkResponse);
 }
 
-export function resetPassword(data) {
+export function resetPasswordApi(data) {
   return fetch(URL.forgotPassword, {
     method: "POST",
     headers: {
@@ -56,7 +54,7 @@ export function resetPassword(data) {
   }).then(checkResponse);
 }
 
-export function changePassword(data) {
+export function changePasswordApi(data) {
   return fetch(URL.resetPassword, {
     method: "POST",
     headers: {
@@ -66,7 +64,7 @@ export function changePassword(data) {
   }).then(checkResponse);
 }
 
-export function login(data) {
+export function loginApi(data) {
   return fetch(URL.login, {
     method: "POST",
     headers: {
@@ -76,23 +74,23 @@ export function login(data) {
   }).then(checkResponse);
 }
 
-export function getUserApi() {
+export function getUserApi(accessToken) {
   return fetch(URL.user, {
     headers: {
-      authorization: getCookie("accessToken"),
+      authorization: accessToken,
     },
-  }).then((data) => checkResponse(data));
+  }).then(checkResponse);
 }
 
-export function patchUserData(userData) {
+export function patchUserDataApi(userData, accessToken) {
   return fetch(URL.user, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
-      authorization: getCookie("accessToken"),
+      authorization: accessToken,
     },
     body: JSON.stringify(userData),
-  }).then((data) => checkResponse(data));
+  }).then(checkResponse);
 }
 
 export function refreshTokenApi() {
@@ -104,18 +102,10 @@ export function refreshTokenApi() {
     body: JSON.stringify({
       token: localStorage.getItem("refreshToken"),
     }),
-  })
-    .then((data) => checkResponse(data))
-    .then((res) => {
-      setCookie("accessToken", res.accessToken);
-      localStorage.setItem("refreshToken", res.refreshToken);
-    })
-    .catch((err) => {
-      console.log(`Ошибка рефреша токена ${err}`);
-    });
+  }).then((data) => checkResponse(data));   
 }
 
-export function logout(refreshToken) {
+export function logoutApi(refreshToken) {
   return fetch(URL.logout, {
     method: "POST",
     headers: {
