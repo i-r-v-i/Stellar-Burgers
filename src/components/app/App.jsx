@@ -66,7 +66,7 @@ export default function App() {
         />
         <Route
           path="/feed/"
-          element={<ProtectedRouteElement element={<Feed />} />}
+          element={<Feed />}
         />
         <Route path="*" element={<NotFound404 />} />
       </Routes>
