@@ -116,7 +116,7 @@ function BurgerConstructor() {
               thumbnail={selectedBun.image_mobile}
             />
           )}
-          <div className={styles.scrollBarWrapper}>
+          <div className={selectedIngredients.length > 5 ? styles.scrollBarWrapper : styles.noScrollBar }>
             {selectedIngredients.length > 0 &&
               selectedIngredients.map((item, index) => (
                 <ConstructorFillingItem

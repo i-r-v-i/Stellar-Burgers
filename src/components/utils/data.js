@@ -1,5 +1,3 @@
-import { getCookie } from "../../components/utils/cookie";
-
 export const URL = {
   ingredients: "https://norma.nomoreparties.space/api/ingredients",
   orders: "https://norma.nomoreparties.space/api/orders",

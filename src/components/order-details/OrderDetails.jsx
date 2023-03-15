@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./OrderDetails.module.css";
 import { useSelector } from "react-redux";
 import { getorder } from "../utils/data";

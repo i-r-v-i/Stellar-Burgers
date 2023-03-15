@@ -12,7 +12,7 @@ export function IngredientDetails({ bac }) {
 
   const IngredientDetailsModal = () => {
     return ingredient ? (
-      <div className={`${styles.container}`}>
+      <div className={styles.container}>
         <img
           className="mb-4"
           src={ingredient.image_large}

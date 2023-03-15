@@ -17,6 +17,7 @@ import { IngredientDetails } from "../ingredient-details/IngredientDetails";
 import { checkAuth } from "../../services/actions/user";
 import { getIngredients } from "../../services/actions/ingredients";
 import { getCookie } from "../../components/utils/cookie";
+import FeedOrderDetails from "../feed-order-details/FeedOrderDetails";
 
 export default function App() {
   const location = useLocation();
@@ -68,6 +69,10 @@ export default function App() {
           path="/feed/"
           element={<Feed />}
         />
+        <Route
+          path="/feed/cid"
+          element={<FeedOrderDetails />}
+        />
         <Route path="*" element={<NotFound404 />} />
       </Routes>
       {background && (
@@ -77,6 +82,14 @@ export default function App() {
             element={
               <Modal closePopup={handleCloseModal} title="Детали ингредиента">
                 <IngredientDetails bac />
+              </Modal>
+            }
+          />
+          <Route
+            path="/feed/cid"
+            element={
+              <Modal closePopup={handleCloseModal} title="000340">
+                <FeedOrderDetails bac />
               </Modal>
             }
           />
