@@ -76,12 +76,6 @@
 .name {
   width: 320px;
 }
-.priceContainer {
-  display: flex;
-  gap: 8px;
-  width: 192px;
-  justify-content: end;
-}
 
 .footer {
     display: flex;

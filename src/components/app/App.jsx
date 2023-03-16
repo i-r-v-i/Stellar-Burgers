@@ -70,7 +70,7 @@ export default function App() {
           element={<Feed />}
         />
         <Route
-          path="/feed/cid"
+          path="/feed/id"
           element={<FeedOrderDetails />}
         />
         <Route path="*" element={<NotFound404 />} />
@@ -86,7 +86,7 @@ export default function App() {
             }
           />
           <Route
-            path="/feed/cid"
+            path="/feed/id"
             element={
               <Modal closePopup={handleCloseModal} title="000340">
                 <FeedOrderDetails bac />

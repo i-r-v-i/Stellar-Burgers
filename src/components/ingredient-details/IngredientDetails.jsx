@@ -17,7 +17,7 @@ export function IngredientDetails({ bac }) {
           className="mb-4"
           src={ingredient.image_large}
           alt={ingredient.name}
-        ></img>
+        />
         <p className="text text_type_main-medium mb-8">{ingredient.name}</p>
         <div className={styles.energyValue}>
           <p

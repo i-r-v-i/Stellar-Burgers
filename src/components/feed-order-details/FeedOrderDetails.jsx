@@ -3,12 +3,106 @@ import {
   CurrencyIcon,
   FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import PriceContainer from "../price-container/PriceContainer";
 import { useParams } from "react-router-dom";
 
 export default function FeedOrderDetails({ bac }) {
   // const { id } = useParams();
   const FeedOrderDetailsModal = () => {
-    return null;
+    return (
+      <>
+        <h2 className="text text_type_main-medium mt-5 mb-2">
+          Black Hole Singularity острый бургер
+        </h2>
+        <p className={`${styles.status} text text_type_main-small mb-15`}>
+          Выполнен
+        </p>
+        <h3 className="text text_type_main-medium">Состав:</h3>
+        <div className={styles.scrollWrapper}>
+          <ul className={styles.ingredients}>
+            <li className={styles.ingredient}>
+              <img
+                className={styles.image}
+                src="https://code.s3.yandex.net/react/code/bun-02-mobile.png"
+                alt=""
+              />
+              <p className={`${styles.name} text text_type_main-default`}>
+                Флюоресцентная булка R2-D3
+              </p>
+              <div className={styles.priceContainer}>
+                <span className="text text_type_digits-default">{`${"2"} x ${30}`}</span>
+                <CurrencyIcon type="primary" />
+              </div>
+            </li>
+            <li className={styles.ingredient}>
+              <img
+                className={styles.image}
+                src="https://code.s3.yandex.net/react/code/meat-01-mobile.png"
+                alt=""
+              />
+              <p className={`${styles.name} text text_type_main-default`}>
+                Филе Люминесцентного тетраодонтимформа
+              </p>
+              <div className={styles.priceContainer}>
+                <span className="text text_type_digits-default">{`${"1"} x ${300}`}</span>
+                <CurrencyIcon type="primary" />
+              </div>
+            </li>
+            <li className={styles.ingredient}>
+              <img
+                className={styles.image}
+                src="https://code.s3.yandex.net/react/code/meat-01-mobile.png"
+                alt=""
+              />
+              <p className={`${styles.name} text text_type_main-default`}>
+                Соус традиционный галактический
+              </p>
+              <div className={styles.priceContainer}>
+                <span className="text text_type_digits-default">{`${"1"} x ${300}`}</span>
+                <CurrencyIcon type="primary" />
+              </div>
+            </li>
+            <li className={styles.ingredient}>
+              <img
+                className={styles.image}
+                src="https://code.s3.yandex.net/react/code/meat-01-mobile.png"
+                alt=""
+              />
+              <p className={`${styles.name} text text_type_main-default`}>
+                Плоды фалленианского дерева
+              </p>
+              <div className={styles.priceContainer}>
+                <span className="text text_type_digits-default">{`${"1"} x ${300}`}</span>
+                <CurrencyIcon type="primary" />
+              </div>
+            </li>
+            {/* <li className={styles.ingredient}>
+                <img
+                  className={styles.image}
+                  src="https://code.s3.yandex.net/react/code/meat-01-mobile.png"
+                  alt=""
+                />
+                <p className={`${styles.name} text text_type_main-default`}>
+                  Филе Люминесцентного тетраодонтимформа
+                </p>
+                <div className={styles.priceContainer}>
+                  <span className="text text_type_digits-default">{`${"1"} x ${300}`}</span>
+                  <CurrencyIcon type="primary" />
+                </div>
+              </li> */}
+          </ul>
+        </div>
+        <div className={styles.footer}>
+          <p className="text text_type_main-default text_color_inactive">
+            Вчера, 13:50 i-GMT+3 510
+          </p>
+          <div className={styles.priceContainer}>
+            <span className="text text_type_digits-default">510</span>
+            <CurrencyIcon type="primary" />
+          </div>
+        </div>
+      </>
+    );
   };
 
   const FeedOrderDetailsRoute = () => {
@@ -62,7 +156,7 @@ export default function FeedOrderDetails({ bac }) {
                   alt=""
                 />
                 <p className={`${styles.name} text text_type_main-default`}>
-                Соус традиционный галактический
+                  Соус традиционный галактический
                 </p>
                 <div className={styles.priceContainer}>
                   <span className="text text_type_digits-default">{`${"1"} x ${300}`}</span>
@@ -76,7 +170,7 @@ export default function FeedOrderDetails({ bac }) {
                   alt=""
                 />
                 <p className={`${styles.name} text text_type_main-default`}>
-                Плоды фалленианского дерева
+                  Плоды фалленианского дерева
                 </p>
                 <div className={styles.priceContainer}>
                   <span className="text text_type_digits-default">{`${"1"} x ${300}`}</span>
@@ -100,14 +194,11 @@ export default function FeedOrderDetails({ bac }) {
             </ul>
           </div>
           <div className={styles.footer}>
-              <p className="text text_type_main-default text_color_inactive">
-                Вчера, 13:50 i-GMT+3 510
-              </p>
-              <div className={styles.priceContainer}>
-                <span className="text text_type_digits-default">510</span>
-                <CurrencyIcon type="primary" />
-              </div>
-            </div>
+            <p className="text text_type_main-default text_color_inactive">
+              Вчера, 13:50 i-GMT+3 510
+            </p>
+            <PriceContainer/>
+          </div>
         </div>
       </section>
     );
