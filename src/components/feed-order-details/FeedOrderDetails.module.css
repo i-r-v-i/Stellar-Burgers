@@ -43,8 +43,9 @@
     width: 608px;
     list-style-type: none;
     padding: 0;
-    margin: 0;
+    margin: 4px 0;
     gap: 16px;
+    /* height: 300px; */
   }
 .number {
   align-self: center;
