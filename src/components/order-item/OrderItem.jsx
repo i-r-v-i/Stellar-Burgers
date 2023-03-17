@@ -11,7 +11,7 @@ export default function OrderItem() {
           Сегодня, 16:20 i-GMT+3
         </span>
       </div>
-      <h2 className="text text_type_main-medium mt-5 mb-2">
+      <h2 className={`${styles.name}  text text_type_main-medium mt-5 mb-2}`}>
         Black Hole Singularity острый бургер
       </h2>
       <div className={styles.ingredients}>

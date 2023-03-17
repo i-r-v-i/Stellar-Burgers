@@ -1,0 +1,43 @@
+.gridContainer {
+  max-width: 640px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, min-content);
+  box-sizing: border-box;
+  column-gap: 36px;
+  row-gap: 60px;
+  grid-template-areas:
+    "ready inProcess"
+    "all all"
+    "today today";
+}
+.orderList {
+    min-width: 272px;
+    list-style-type: none;
+    padding-left: 0;
+    display: flex;
+	flex-wrap: wrap;
+	height: 170px;
+	flex-direction: column;
+    
+}
+.ready {
+    grid-area: ready;
+    
+}
+
+.inProcess {
+    grid-area: inProcess;
+}
+.readyItem {
+    color: #00CCCC;
+
+}
+
+.all {
+    grid-area: all;
+}
+
+.today {
+    grid-area: today;
+}
