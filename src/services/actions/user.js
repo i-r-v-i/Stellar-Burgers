@@ -213,7 +213,7 @@ export function logOut(navigate) {
           dispatch({ type: LOGOUT_SUCCESS });
           localStorage.removeItem("refreshToken");
           deleteCookie("accessToken");
-          navigate("/login");
+          navigate("/login", {replace: true});
         }
       })
       .catch((err) => {
