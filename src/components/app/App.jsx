@@ -2,7 +2,7 @@ import AppHeader from "../app-header/AppHeader";
 import { useEffect } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { ProtectedRouteElement } from "../protected-route/ProtectedRouteElement";
-import { OnlyForAuthElement } from "../only-for-auth/OnlyForAuthElement";
+import { OnlyUnauthElement } from "../only-for-auth/OnlyForAuthElement";
 import { useDispatch } from "react-redux";
 import Main from "../main/Main";
 import Register from "../../pages/register";
@@ -18,6 +18,8 @@ import { checkAuth } from "../../services/actions/user";
 import { getIngredients } from "../../services/actions/ingredients";
 import { getCookie } from "../../components/utils/cookie";
 import FeedOrderDetails from "../feed-order-details/FeedOrderDetails";
+import ProfileForm from "../profile-form/ProfileForm";
+import OrderList from "../order-list/OrderList";
 
 export default function App() {
   const location = useLocation();
@@ -45,34 +47,33 @@ export default function App() {
       <Routes location={background || location}>
         <Route path="/" element={<Main />} />
         <Route path="/ingredients/:id" element={<IngredientDetails />} />
+        <Route path="/feed/" element={<Feed />} />
+        <Route path="/feed/id" element={<FeedOrderDetails />} />
         <Route
           path="/register"
-          element={<OnlyForAuthElement element={<Register />} />}
+          element={<OnlyUnauthElement element={<Register />} />}
         />
         <Route
           path="/login"
-          element={<OnlyForAuthElement element={<Login />} />}
+          element={<OnlyUnauthElement element={<Login />} />}
         />
         <Route
           path="/forgot-password"
-          element={<OnlyForAuthElement element={<ForgotPassword />} />}
+          element={<OnlyUnauthElement element={<ForgotPassword />} />}
         />
         <Route
           path="/reset-password"
-          element={<OnlyForAuthElement element={<ResetPassword />} />}
+          element={<OnlyUnauthElement element={<ResetPassword />} />}
         />
         <Route
           path="/profile"
           element={<ProtectedRouteElement element={<ProfilePage />} />}
-        />
-        <Route
-          path="/feed/"
-          element={<Feed />}
-        />
-        <Route
-          path="/feed/id"
-          element={<FeedOrderDetails />}
-        />
+        >
+          <Route index element={<ProfileForm />} />
+          <Route path="orders" element={<OrderList width="860px" />} />
+         
+        </Route>
+        <Route path="profile/orders/id" element={<FeedOrderDetails />} />
         <Route path="*" element={<NotFound404 />} />
       </Routes>
       {background && (
@@ -88,8 +89,8 @@ export default function App() {
           <Route
             path="/feed/id"
             element={
-              <Modal closePopup={handleCloseModal} title="000340">
-                <FeedOrderDetails bac />
+              <Modal closePopup={handleCloseModal} title="#000340">
+                <FeedOrderDetails isModal={true} />
               </Modal>
             }
           />

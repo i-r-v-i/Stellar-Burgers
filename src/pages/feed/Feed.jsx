@@ -11,7 +11,7 @@ export default function Feed() {
         Лента заказов
       </h1>
       <div className={`${styles.bloksContainer}`}>
-        <OrderList />
+        <OrderList width={'600px'} />
         <InfoBoard/>
       </div>
     </main>

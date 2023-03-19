@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { getUser } from "../utils/data";
 import { Navigate } from "react-router-dom";
 
-export function OnlyForAuthElement({ element }) {
+export function OnlyUnauthElement({ element }) {
   const {userData} = useSelector(getUser);
 
   if (userData) {
@@ -13,6 +13,6 @@ export function OnlyForAuthElement({ element }) {
   return element;
 }
 
-OnlyForAuthElement.propTypes = {
+OnlyUnauthElement.propTypes = {
   element: PropTypes.element,
 };

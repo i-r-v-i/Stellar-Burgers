@@ -1,0 +1,13 @@
+.position {
+  margin-left: 0;
+}
+
+.buttons {
+  display: flex;
+  gap: 20px;
+  align-self: flex-end;
+}
+
+.buttonSize {
+  padding: 16px 8px;
+}

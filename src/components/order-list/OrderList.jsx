@@ -1,10 +1,10 @@
 import styles from "./OrderList.module.css";
 import OrderItem from "../order-item/OrderItem";
 
-export default function OrderList() {
+export default function OrderList({width}) {
   return (
 
-    <section className={styles.orderSection}>
+    <section style= {{width: width}}>
         <div className={styles.scroll}>
       <ul className={styles.orderList}>
         <OrderItem />

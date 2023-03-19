@@ -1,5 +1,7 @@
 import styles from "./OrderItem.module.css";
 import PriceContainer from "../price-container/PriceContainer";
+
+
 export default function OrderItem() {
   return (
     <li className={`${styles.element} pt-6 pb-6 pl-6 pr-6`}>
@@ -16,9 +18,7 @@ export default function OrderItem() {
       </h2>
       <div className={styles.ingredients}>
         <ul className={styles.ingredientsList}>
-          {/* {selectedIngredients.map((ingredient, index) => {
-              if (index < 6) {
-                return (*/}
+        
           <li className={styles.iconItem} style={{ zIndex: 6 - 0 }}>
             <img className={styles.icon} src="https://code.s3.yandex.net/react/code/bun-02-mobile.png" />
           </li>
@@ -40,17 +40,7 @@ export default function OrderItem() {
               src="https://code.s3.yandex.net/react/code/meat-01-mobile.png"
             />
           </li>
-          {/* ) */}
-          {/* })}
-                        {index === 5 && (
-                      <>
-                        <div className={styles.orderBrief__imageOverlay}></div>
-                        <span
-                          className={`${styles.orderBrief__hiddenCount} text text_type_main-small`}
-                        >{`+${hiddenImagesCount}`}</span>
-                      </>
-                    )}
-          {/* </li>} */}
+         
         </ul>
         <PriceContainer />
       </div>
