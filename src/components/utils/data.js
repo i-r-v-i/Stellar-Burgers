@@ -1,19 +1,9 @@
-export const URL = {
-  ingredients: "https://norma.nomoreparties.space/api/ingredients",
-  orders: "https://norma.nomoreparties.space/api/orders",
-  forgotPassword: "https://norma.nomoreparties.space/api/password-reset",
-  resetPassword: "https://norma.nomoreparties.space/api/password-reset/reset",
-  register: "https://norma.nomoreparties.space/api/auth/register",
-  login: "https://norma.nomoreparties.space/api/auth/login",
-  user: "https://norma.nomoreparties.space/api/auth/user",
-  logout: "https://norma.nomoreparties.space/api/auth/logout",
-  token: "https://norma.nomoreparties.space/api/auth/token",
-};
+import { URL } from "./constants";
 
 export function checkResponse(res) {
   return res.ok
     ? res.json()
-    : Promise.reject(`Что-то пошло не так: ${res.status}`);
+    : Promise.reject(`Ошибка: ${res.status}`);
 }
 
 export function getData() {
@@ -112,11 +102,3 @@ export function logoutApi(refreshToken) {
     body: JSON.stringify({ token: refreshToken }),
   }).then(checkResponse);
 }
-
-export const getStore = (store) => store;
-export const getStoreIngredients = (store) => store.ingredients;
-export const getStoreBurgerConstructor = (store) => store.burgerConstructor;
-export const getUser = (store) => store.user;
-export const getcurrentIngredient = (store) => store.currentIngredient;
-export const getorder = (store) => store.order;
-export const getactiveTab = (store) => store.activeTab;

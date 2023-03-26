@@ -4,7 +4,7 @@ import BurgerIngredients from "../burger-ingredients/BurgerIngredients";
 import BurgerConstructor from "../burger-constructor/BurgerConstructor";
 import { useSelector } from "react-redux";
 import styles from "./Main.module.css";
-import { getStoreIngredients } from "../utils/data";
+import { getStoreIngredients } from "../utils/constants";
 
 export default function Main() {
   const { ingredients } = useSelector(getStoreIngredients);

@@ -3,7 +3,7 @@ import styles from "./IngredientList.module.css";
 import { useMemo } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { getStoreIngredients } from "../utils/data";
+import { getStoreIngredients } from "../utils/constants";
 
 const IngredientList = ({ ingType, title }) => {
   const { ingredients } = useSelector(getStoreIngredients);

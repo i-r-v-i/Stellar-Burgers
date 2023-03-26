@@ -9,7 +9,7 @@ import { IngredientPropType } from "../types/common-types.js";
 import { useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { getStoreBurgerConstructor } from "../utils/data";
+import { getStoreBurgerConstructor } from "../utils/constants";
 
 const Ingredient = ({ data, name, price, image, type }) => {
   const location = useLocation();

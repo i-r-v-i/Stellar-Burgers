@@ -2,7 +2,7 @@ import AppHeader from "../app-header/AppHeader";
 import { useEffect } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { ProtectedRouteElement } from "../protected-route/ProtectedRouteElement";
-import { OnlyUnauthElement } from "../only-for-auth/OnlyForAuthElement";
+import { OnlyUnauthElement } from "../only-unauth/OnlyAnauthElement";
 import { useDispatch } from "react-redux";
 import Main from "../main/Main";
 import Register from "../../pages/register";
@@ -19,7 +19,7 @@ import { getIngredients } from "../../services/actions/ingredients";
 import { getCookie } from "../../components/utils/cookie";
 import FeedOrderDetails from "../feed-order-details/FeedOrderDetails";
 import ProfileForm from "../profile-form/ProfileForm";
-import OrderList from "../order-list/OrderList";
+import ProfileOrders from "../profile-orders/ProfileOrders";
 
 export default function App() {
   const location = useLocation();
@@ -47,8 +47,8 @@ export default function App() {
       <Routes location={background || location}>
         <Route path="/" element={<Main />} />
         <Route path="/ingredients/:id" element={<IngredientDetails />} />
-        <Route path="/feed/" element={<Feed />} />
-        <Route path="/feed/id" element={<FeedOrderDetails />} />
+        <Route path="/feed" element={<Feed />} />
+        <Route path="/feed/:id" element={<FeedOrderDetails isModal='true'/>} />
         <Route
           path="/register"
           element={<OnlyUnauthElement element={<Register />} />}
@@ -70,12 +70,12 @@ export default function App() {
           element={<ProtectedRouteElement element={<ProfilePage />} />}
         >
           <Route index element={<ProfileForm />} />
-          <Route path="orders" element={<OrderList width="860px" />} />
-         
+          <Route path="orders" element={<ProfileOrders />} />
         </Route>
-        <Route path="profile/orders/id" element={<FeedOrderDetails />} />
+        <Route path="/profile/orders/:id" element={<FeedOrderDetails />} />
         <Route path="*" element={<NotFound404 />} />
       </Routes>
+
       {background && (
         <Routes>
           <Route
@@ -87,9 +87,17 @@ export default function App() {
             }
           />
           <Route
-            path="/feed/id"
+            path="/feed/:id"
             element={
-              <Modal closePopup={handleCloseModal} title="#000340">
+              <Modal closePopup={handleCloseModal} modalForOrder='true'>
+                <FeedOrderDetails isModal={true}/>
+              </Modal>
+            }
+          />
+          <Route
+            path="/profile/orders/:id"
+            element={
+              <Modal closePopup={handleCloseModal} modalForOrder='true'>
                 <FeedOrderDetails isModal={true} />
               </Modal>
             }

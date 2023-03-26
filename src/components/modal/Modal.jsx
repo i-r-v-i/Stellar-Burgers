@@ -7,7 +7,8 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 const modalRoot = document.querySelector("#root-modal");
 
-export function Modal({ children, title, closePopup }) {
+export function Modal({ children, title, closePopup, modalForOrder }) {
+  
   useEffect(() => {
     const handleEscClose = (evt) => {
       evt.key === "Escape" && closePopup(evt);
@@ -19,8 +20,9 @@ export function Modal({ children, title, closePopup }) {
   }, [closePopup]);
 
   return ReactDOM.createPortal(
+    
     <>
-      <div className={styles.modal}>
+      <div className={modalForOrder ? styles.modal : styles.modal_center} >
         <div className={styles.head}>
           <h1 className={`${styles.title} text text_type_main-large`}>
             {title}

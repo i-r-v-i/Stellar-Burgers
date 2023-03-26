@@ -5,8 +5,7 @@ import { getUserData } from "../../services/actions/user";
 import { useSelector, useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { saveUserPath } from "../../services/actions/user";
-import { getUser } from "../utils/data";
-
+import { getUser } from "../utils/constants";
 export const ProtectedRouteElement = ({ element }) => {
   const location = useLocation();
   const dispatch = useDispatch();

@@ -2,7 +2,7 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector, useDispatch } from "react-redux";
 import { setActiveTab } from "../../services/actions/activeTab";
 import { useCallback } from "react";
-import { getactiveTab } from "../utils/data";
+import { getactiveTab } from "../utils/constants";
 
 export default function Tabs() {
   const { activeTab } = useSelector(getactiveTab);

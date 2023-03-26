@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { IngredientPropType } from "../types/common-types.js";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { getStoreIngredients } from "../utils/data";
+import { getStoreIngredients } from "../utils/constants";
 
 export function IngredientDetails({ bac }) {
   const { id } = useParams();

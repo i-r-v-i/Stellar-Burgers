@@ -1,6 +1,6 @@
 import styles from "./OrderDetails.module.css";
 import { useSelector } from "react-redux";
-import { getorder } from "../utils/data";
+import { getorder } from "../utils/constants";
 
 export function OrderDetails() {
   const { orderNumber } = useSelector(getorder);

@@ -1,9 +1,11 @@
 .wrapperRoute {
   margin-top: 120px;
   display: flex;
-  justify-content: center;
+ 
 }
-
+.modal_name {
+  align-items: start;
+}
 .routeStyle {
   width: 640px;
   display: flex;
@@ -16,30 +18,31 @@
   min-height: 34px;
   display: flex;
   align-items: center;
+  
 }
 
-  .ingredients {
-    display: flex;
-    flex-direction: column;
-    list-style-type: none;
-    padding: 0;
-    margin: 24px 0 48px;
-    gap: 16px;
-    height: 316px;
-    box-sizing: border-box;
-    overflow-y: scroll;
-    overflow-x: hidden;
-  }
-  
-  .ingredients::-webkit-scrollbar {
-    width: 8px;
-    background: #2f2f37;
-    height: 192px;
-  }
-  
-  .ingredients::-webkit-scrollbar-thumb {
-    background-color: #8585ad;
-  }
+.ingredients {
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  padding: 0;
+  margin: 24px 0 48px;
+  gap: 16px;
+  height: 316px;
+  box-sizing: border-box;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.ingredients::-webkit-scrollbar {
+  width: 8px;
+  background: #2f2f37;
+  height: 192px;
+}
+
+.ingredients::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+}
 .number {
   align-self: center;
   width: 640px;
@@ -65,16 +68,16 @@
   gap: 16px;
   height: auto;
   margin-right: 24px;
-  width: 608px
-  
+  width: 608px;
 }
 .name {
   width: 320px;
+  
 }
 
 .footer {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .priceContainer {
