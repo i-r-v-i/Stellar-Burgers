@@ -29,6 +29,14 @@
   list-style-type: none;
 }
 
+.statusDone {
+  color: #00cccc;
+}
+
+.statusPending {
+  color: #f2f2f3;
+}
+
 .iconItem {
   position: relative;
   display: flex;
@@ -56,6 +64,7 @@
 .lastIcon {
   opacity: 0.6;
   position: relative;
+  
 }
 
 .countIcon {
@@ -67,4 +76,5 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
+ 
 }

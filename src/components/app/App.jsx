@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { ProtectedRouteElement } from "../protected-route/ProtectedRouteElement";
 import { OnlyUnauthElement } from "../only-unauth/OnlyAnauthElement";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Main from "../main/Main";
 import Register from "../../pages/register";
 import Login from "../../pages/login";
@@ -16,10 +16,11 @@ import Feed from "../../pages/feed/Feed";
 import { IngredientDetails } from "../ingredient-details/IngredientDetails";
 import { checkAuth } from "../../services/actions/user";
 import { getIngredients } from "../../services/actions/ingredients";
-import { getCookie } from "../../components/utils/cookie";
+import { getOrderNumber, getStoreOrders, getUser } from "../utils/constants";
 import FeedOrderDetails from "../feed-order-details/FeedOrderDetails";
 import ProfileForm from "../profile-form/ProfileForm";
 import ProfileOrders from "../profile-orders/ProfileOrders";
+
 
 export default function App() {
   const location = useLocation();
@@ -27,19 +28,22 @@ export default function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const cookie = getCookie("accessToken");
-  console.log(cookie);
-  console.log(localStorage.getItem("refreshToken"));
-
   useEffect(() => {
     dispatch(getIngredients());
     dispatch(checkAuth());
   }, [dispatch]);
 
+// const user = useSelector(getUser);
+// console.log(user)
+
+  
   const handleCloseModal = (evt) => {
     evt.stopPropagation();
     navigate(-1);
   };
+
+  const { orderNumber } = useSelector(getOrderNumber);
+   console.log(orderNumber);
 
   return (
     <>
@@ -48,7 +52,7 @@ export default function App() {
         <Route path="/" element={<Main />} />
         <Route path="/ingredients/:id" element={<IngredientDetails />} />
         <Route path="/feed" element={<Feed />} />
-        <Route path="/feed/:id" element={<FeedOrderDetails isModal='true'/>} />
+        <Route path="/feed/:id" element={<FeedOrderDetails allOrders='true'/>} />
         <Route
           path="/register"
           element={<OnlyUnauthElement element={<Register />} />}
@@ -72,7 +76,7 @@ export default function App() {
           <Route index element={<ProfileForm />} />
           <Route path="orders" element={<ProfileOrders />} />
         </Route>
-        <Route path="/profile/orders/:id" element={<FeedOrderDetails />} />
+        <Route path="/profile/orders/:id"  element={<ProtectedRouteElement element={<FeedOrderDetails />} /> } />
         <Route path="*" element={<NotFound404 />} />
       </Routes>
 
@@ -89,15 +93,15 @@ export default function App() {
           <Route
             path="/feed/:id"
             element={
-              <Modal closePopup={handleCloseModal} modalForOrder='true'>
-                <FeedOrderDetails isModal={true}/>
+              <Modal closePopup={handleCloseModal} modalForOrder='true' title={`#${orderNumber}`}>
+                <FeedOrderDetails isModal={true} allOrders='true' />
               </Modal>
             }
           />
           <Route
             path="/profile/orders/:id"
             element={
-              <Modal closePopup={handleCloseModal} modalForOrder='true'>
+              <Modal closePopup={handleCloseModal} modalForOrder='true' title={`#${orderNumber}`}>
                 <FeedOrderDetails isModal={true} />
               </Modal>
             }

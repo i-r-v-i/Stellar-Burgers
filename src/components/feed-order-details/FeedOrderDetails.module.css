@@ -1,16 +1,17 @@
 .wrapperRoute {
   margin-top: 120px;
   display: flex;
- 
+  
 }
 .modal_name {
-  align-items: start;
+  align-items: flex-start;
 }
 .routeStyle {
   width: 640px;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  margin: auto;
 }
 
 .status {
@@ -18,7 +19,6 @@
   min-height: 34px;
   display: flex;
   align-items: center;
-  
 }
 
 .ingredients {
@@ -28,7 +28,7 @@
   padding: 0;
   margin: 24px 0 48px;
   gap: 16px;
-  height: 316px;
+  max-height: 316px;
   box-sizing: border-box;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -72,7 +72,6 @@
 }
 .name {
   width: 320px;
-  
 }
 
 .footer {
@@ -84,5 +83,5 @@
   display: flex;
   gap: 8px;
   width: 192px;
-  justify-content: end;
+  justify-content: flex-end;
 }

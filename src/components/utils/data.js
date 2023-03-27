@@ -10,11 +10,12 @@ export function getData() {
   return fetch(URL.ingredients).then(checkResponse);
 }
 
-export function getOrderNumber(data) {
+export function getOrderNumber(data, token) {
   return fetch(URL.orders, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      authorization: token
     },
     body: JSON.stringify({
       ingredients: data,

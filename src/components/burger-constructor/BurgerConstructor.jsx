@@ -18,7 +18,7 @@ import {
 import { useDrop } from "react-dnd";
 import { GET_NUMBER_FAILED, makeOrder } from "../../services/actions/order";
 import { useNavigate } from "react-router-dom";
-import { getStoreBurgerConstructor, getorder, getUser } from "../utils/constants";
+import { getStoreBurgerConstructor, getOrderNumber, getUser } from "../utils/constants";
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ function BurgerConstructor() {
 
   const { selectedIngredients, selectedBun, dropIngredientSuccess } =
     useSelector(getStoreBurgerConstructor);
-  const { modalOpened } = useSelector(getorder);
+  const { modalOpened } = useSelector(getOrderNumber);
   const { userData } = useSelector(getUser);
 
   const onDropBunHandler = (item) => {

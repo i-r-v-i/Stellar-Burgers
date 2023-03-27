@@ -3,19 +3,20 @@ import {
   WS_CONNECTING,
   WS_DISCONNECTING,
 } from "../../services/actions/wsActions";
-import { URL } from "../utils/constants";
+import { tokenWS, URL } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import OrderList from "../order-list/OrderList";
-import { getCookie } from "../utils/cookie";
+import { checkAuth } from "../../services/actions/user";
+
 
 export default function ProfileOrders() {
-    const dispatch = useDispatch();
-    const token = getCookie("accessToken").split(' ')[1];
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: WS_CONNECTING, payload: `${URL.socket}/?token=${token}` });
+    dispatch(checkAuth());
+    dispatch({ type: WS_CONNECTING, payload: `${URL.socket}?token=${tokenWS}` });
     return () => dispatch({ type: WS_DISCONNECTING });
-  }, [dispatch, token]);
+  }, [dispatch, tokenWS]);
 
-  return <OrderList width="860px" isStatus="true" />;
+  return <OrderList width="860px" isStatus="true" myOrders/>;
 }

@@ -4,11 +4,13 @@ import ReactDOM from "react-dom";
 import { ModalOverlay } from "../modal-overlay/ModalOverlay";
 import styles from "./Modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useDispatch } from "react-redux";
+
 
 const modalRoot = document.querySelector("#root-modal");
 
 export function Modal({ children, title, closePopup, modalForOrder }) {
-  
+
   useEffect(() => {
     const handleEscClose = (evt) => {
       evt.key === "Escape" && closePopup(evt);
@@ -19,12 +21,13 @@ export function Modal({ children, title, closePopup, modalForOrder }) {
     };
   }, [closePopup]);
 
+
   return ReactDOM.createPortal(
     
     <>
       <div className={modalForOrder ? styles.modal : styles.modal_center} >
         <div className={styles.head}>
-          <h1 className={`${styles.title} text text_type_main-large`}>
+          <h1 className={modalForOrder ? `${styles.title} text text_type_digits-default` : `${styles.title} text text_type_main-large`}>
             {title}
           </h1>
           <button className={styles.closeButton} onClick={closePopup}>

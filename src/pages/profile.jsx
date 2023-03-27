@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import styles from "./profile.module.css";
-import { logOut } from "../services/actions/user";
+import { checkAuth, logOut } from "../services/actions/user";
 
 
 function ProfilePage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
 
 const activeLink = ({isActive}) => ({
   color: isActive ? " #f2f2f3" : "#8585AD",

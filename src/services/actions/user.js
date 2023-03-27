@@ -49,7 +49,6 @@ export const SAVE_PREVIOUS_ROUTE = "SAVE_PREVIOUS_ROUTE";
 
 export const checkAuth = () => (dispatch) => {
   if (getCookie("accessToken")) {
-    console.log(getCookie("accessToken"));
     dispatch(getUserData());
     
   }

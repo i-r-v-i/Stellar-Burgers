@@ -1,4 +1,8 @@
 import { getOrderNumber } from "../../components/utils/data";
+import {
+  getCookie,
+  
+} from "../../components/utils/cookie";
 export const GET_NUMBER_REQUEST = 'GET_NUMBER_REQUEST';
 export const GET_NUMBER_SUCCESS = "GET_NUMBER_SUCCESS";
 export const GET_NUMBER_FAILED = "GET_NUMBER_FAILED";
@@ -10,7 +14,7 @@ export function makeOrder(ingredientArr) {
     dispatch({
         type: GET_NUMBER_REQUEST,
       });
-    getOrderNumber(ingredientArr).then((res) => {
+    getOrderNumber(ingredientArr, getCookie("accessToken")).then((res) => {
       if (res.success) {
         dispatch({
           type: GET_NUMBER_SUCCESS,

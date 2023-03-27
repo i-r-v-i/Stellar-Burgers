@@ -1,10 +1,12 @@
 import { getCookie } from "../../components/utils/cookie"; 
+import { refreshToken } from "../actions/user";
+import { tokenWS } from "../../components/utils/constants";
 
 export const socketMiddleware = (wsActions) => {
   return (store) => {
     let socket = null;
     let url = "";
-    const token = getCookie("accessToken").split(' ')[1];
+    // const token = getCookie("accessToken").split(' ')[1];
 
 
     return (next) => (action) => {
@@ -29,6 +31,9 @@ export const socketMiddleware = (wsActions) => {
         socket.onopen = (event) => {
           console.log("socket.open", event);
           dispatch({ type: onOpen, payload: event });
+          // if(payload.success == "false") {
+          //   refreshToken().then(() => dispatch({ type: onOpen, payload: event }))
+          // }
         };
 
         socket.onerror = (event) => {
@@ -42,14 +47,16 @@ export const socketMiddleware = (wsActions) => {
         };
 
         socket.onclose = (event) => {
-          console.log("socket.onclose", event);
+          if (event.code !== 1000 ) {
+            console.log('socket.onclose', event);
+          
           dispatch({ type: onClose, payload: event });
         };
 
         if (type === wsSendOrder) {
           const order = {
             ...payload,
-            token: token,
+            token: tokenWS,
           };
           socket.send(JSON.stringify(order));
         }
@@ -63,3 +70,4 @@ export const socketMiddleware = (wsActions) => {
     };
   };
 };
+}
