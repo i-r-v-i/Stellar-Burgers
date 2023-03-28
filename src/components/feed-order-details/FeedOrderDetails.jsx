@@ -5,7 +5,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PriceContainer from "../price-container/PriceContainer";
 import { useParams } from "react-router-dom";
-import { getStoreOrders, tokenWS } from "../utils/constants";
+import { getStoreOrders} from "../utils/constants";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { URL, getStoreIngredients } from "../utils/constants";
@@ -14,10 +14,13 @@ import {
   WS_DISCONNECTING,
 } from "../../services/actions/wsActions";
 import { getStatus, getOrderItem, getTotalPrice } from "../utils/constants";
+import { getCookie } from "../utils/cookie";
 
 export default function FeedOrderDetails({ isModal, allOrders}) {
   const dispatch = useDispatch();
   const { id } = useParams();
+
+  let token = getCookie("accessToken").split(' ')[1];
 
   useEffect(() => {
     if (allOrders) {
@@ -28,7 +31,7 @@ export default function FeedOrderDetails({ isModal, allOrders}) {
   } else {
     dispatch({
       type: WS_CONNECTING,
-      payload: `${URL.socket}?token=${tokenWS}`
+      payload: `${URL.socket}?token=${token}`
     });
   }
     return () => {
@@ -36,7 +39,7 @@ export default function FeedOrderDetails({ isModal, allOrders}) {
         type: WS_DISCONNECTING,
       });
     };
-  }, [dispatch, tokenWS]);
+  }, [dispatch, token]);
 
 
   const { orders,  wsConnected} = useSelector(getStoreOrders);

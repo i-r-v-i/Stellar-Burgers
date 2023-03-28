@@ -13,10 +13,10 @@ export const URL = {
   socket: "wss://norma.nomoreparties.space/orders",
 };
 
-export let tokenWS;
-if(getCookie("accessToken")) {
-  tokenWS = getCookie("accessToken").split(" ")[1];
-}
+// export let tokenWS;
+// if(getCookie("accessToken")) {
+//   tokenWS = getCookie("accessToken").split(" ")[1];
+// }
 
 
 export const getStore = (store) => store;
