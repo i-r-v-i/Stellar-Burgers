@@ -1,9 +1,7 @@
 import { URL } from "./constants";
 
 export function checkResponse(res) {
-  return res.ok
-    ? res.json()
-    : Promise.reject(`Ошибка: ${res.status}`);
+  return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
 }
 
 export function getData() {
@@ -15,7 +13,7 @@ export function getOrderNumber(data, token) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      authorization: token
+      authorization: token,
     },
     body: JSON.stringify({
       ingredients: data,
@@ -91,7 +89,7 @@ export function refreshTokenApi() {
     body: JSON.stringify({
       token: localStorage.getItem("refreshToken"),
     }),
-  }).then((data) => checkResponse(data));   
+  }).then((data) => checkResponse(data));
 }
 
 export function logoutApi(refreshToken) {

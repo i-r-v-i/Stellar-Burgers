@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import styles from "./profile.module.css";
 import { checkAuth, logOut } from "../services/actions/user";
 
-
 function ProfilePage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -14,9 +13,9 @@ function ProfilePage() {
     dispatch(checkAuth());
   }, [dispatch]);
 
-const activeLink = ({isActive}) => ({
-  color: isActive ? " #f2f2f3" : "#8585AD",
-})
+  const activeLink = ({ isActive }) => ({
+    color: isActive ? " #f2f2f3" : "#8585AD",
+  });
 
   const handleLogout = () => {
     dispatch(logOut(navigate));
@@ -26,14 +25,16 @@ const activeLink = ({isActive}) => ({
     <div className={styles.profileContainer}>
       <div className={styles.profileSection}>
         <nav className={styles.profileList}>
-          <NavLink end
+          <NavLink
+            end
             to="/profile"
             className={`${styles.link} text text_type_main-medium`}
             style={activeLink}
           >
             Профиль
           </NavLink>
-          <NavLink end
+          <NavLink
+            end
             to="/profile/orders"
             className={`${styles.link} text text_type_main-medium`}
             style={activeLink}
@@ -55,7 +56,7 @@ const activeLink = ({isActive}) => ({
           данные
         </span>
       </div>
-      <Outlet/>
+      <Outlet />
     </div>
   );
 }

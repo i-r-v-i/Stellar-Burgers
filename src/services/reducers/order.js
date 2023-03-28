@@ -2,6 +2,7 @@ import {
   GET_NUMBER_SUCCESS,
   GET_NUMBER_FAILED,
   GET_NUMBER_REQUEST,
+  GET_NUMBER_FOR_MODAL
 } from "../actions/order";
 
 const orderInitialState = {
@@ -21,6 +22,12 @@ export const orderReducer = (state = orderInitialState, action) => {
       return {
         orderNumber: action.payload,
         modalOpened: true,
+      };
+    }
+    case GET_NUMBER_FOR_MODAL: {
+      return {
+        orderNumber: action.payload,
+        modalOpened: false,
       };
     }
     case GET_NUMBER_FAILED: {

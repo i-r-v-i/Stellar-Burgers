@@ -18,7 +18,11 @@ import {
 import { useDrop } from "react-dnd";
 import { GET_NUMBER_FAILED, makeOrder } from "../../services/actions/order";
 import { useNavigate } from "react-router-dom";
-import { getStoreBurgerConstructor, getOrderNumber, getUser } from "../utils/constants";
+import {
+  getStoreBurgerConstructor,
+  getOrderNumber,
+  getUser,
+} from "../utils/constants";
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
@@ -116,7 +120,13 @@ function BurgerConstructor() {
               thumbnail={selectedBun.image_mobile}
             />
           )}
-          <div className={selectedIngredients.length > 5 ? styles.scrollBarWrapper : styles.noScrollBar }>
+          <div
+            className={
+              selectedIngredients.length > 5
+                ? styles.scrollBarWrapper
+                : styles.noScrollBar
+            }
+          >
             {selectedIngredients.length > 0 &&
               selectedIngredients.map((item, index) => (
                 <ConstructorFillingItem

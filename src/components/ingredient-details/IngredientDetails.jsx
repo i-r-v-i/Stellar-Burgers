@@ -1,6 +1,5 @@
 import styles from "./IngredientDetails.module.css";
 import PropTypes from "prop-types";
-import { IngredientPropType } from "../types/common-types.js";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getStoreIngredients } from "../utils/constants";
@@ -127,5 +126,5 @@ export function IngredientDetails({ bac }) {
 }
 
 IngredientDetails.prototype = {
-  ingredient: PropTypes.shape(IngredientPropType).isRequired,
+  bac: PropTypes.bool
 };

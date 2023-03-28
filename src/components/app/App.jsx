@@ -16,11 +16,10 @@ import Feed from "../../pages/feed/Feed";
 import { IngredientDetails } from "../ingredient-details/IngredientDetails";
 import { checkAuth } from "../../services/actions/user";
 import { getIngredients } from "../../services/actions/ingredients";
-import { getOrderNumber, getStoreOrders, getUser } from "../utils/constants";
+import { getOrderNumber } from "../utils/constants";
 import FeedOrderDetails from "../feed-order-details/FeedOrderDetails";
 import ProfileForm from "../profile-form/ProfileForm";
 import ProfileOrders from "../profile-orders/ProfileOrders";
-
 
 export default function App() {
   const location = useLocation();
@@ -33,17 +32,12 @@ export default function App() {
     dispatch(checkAuth());
   }, [dispatch]);
 
-// const user = useSelector(getUser);
-// console.log(user)
-
-  
   const handleCloseModal = (evt) => {
     evt.stopPropagation();
     navigate(-1);
   };
 
   const { orderNumber } = useSelector(getOrderNumber);
-   console.log(orderNumber);
 
   return (
     <>
@@ -52,7 +46,10 @@ export default function App() {
         <Route path="/" element={<Main />} />
         <Route path="/ingredients/:id" element={<IngredientDetails />} />
         <Route path="/feed" element={<Feed />} />
-        <Route path="/feed/:id" element={<FeedOrderDetails allOrders='true'/>} />
+        <Route
+          path="/feed/:id"
+          element={<FeedOrderDetails allOrders="true" />}
+        />
         <Route
           path="/register"
           element={<OnlyUnauthElement element={<Register />} />}
@@ -76,7 +73,10 @@ export default function App() {
           <Route index element={<ProfileForm />} />
           <Route path="orders" element={<ProfileOrders />} />
         </Route>
-        <Route path="/profile/orders/:id"  element={<ProtectedRouteElement element={<FeedOrderDetails />} /> } />
+        <Route
+          path="/profile/orders/:id"
+          element={<ProtectedRouteElement element={<FeedOrderDetails />} />}
+        />
         <Route path="*" element={<NotFound404 />} />
       </Routes>
 
@@ -93,16 +93,24 @@ export default function App() {
           <Route
             path="/feed/:id"
             element={
-              <Modal closePopup={handleCloseModal} modalForOrder='true' title={`#${orderNumber}`}>
-                <FeedOrderDetails isModal={true} allOrders='true' />
+              <Modal
+                closePopup={handleCloseModal}
+                modalForOrder
+                title={`#${orderNumber}`}
+              >
+                <FeedOrderDetails isModal allOrders />
               </Modal>
             }
           />
           <Route
             path="/profile/orders/:id"
             element={
-              <Modal closePopup={handleCloseModal} modalForOrder='true' title={`#${orderNumber}`}>
-                <FeedOrderDetails isModal={true} />
+              <Modal
+                closePopup={handleCloseModal}
+                modalForOrder
+                title={`#${orderNumber}`}
+              >
+                <FeedOrderDetails isModal />
               </Modal>
             }
           />

@@ -5,10 +5,12 @@ import styles from "./OrderItem.module.css";
 import { getStoreIngredients } from "../utils/constants";
 import { Link, useLocation } from "react-router-dom";
 import { getStatus, getOrderItem, getTotalPrice } from "../utils/constants";
-import { GET_NUMBER_SUCCESS } from "../../services/actions/order";
+import { GET_NUMBER_FOR_MODAL } from "../../services/actions/order";
 import { useCallback } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 
-export default function OrderItem({ order, isStatus }) {
+function OrderItem({ order, isStatus }) {
   const dispatch = useDispatch();
   const location = useLocation();
   const {
@@ -23,10 +25,9 @@ export default function OrderItem({ order, isStatus }) {
 
   const getOrderItemNumber = useCallback(
     (number) => {
-      dispatch({ type: GET_NUMBER_SUCCESS, payload: number });
-      console.log("chf,jnfkj");
+      dispatch({ type: GET_NUMBER_FOR_MODAL, payload: number });
     },
-    [number]
+    [dispatch]
   );
 
   return (
@@ -82,7 +83,7 @@ export default function OrderItem({ order, isStatus }) {
                   />
                 </li>
               );
-            } else if (index === 5) {
+            } else if (index > 5) {
               return (
                 <li
                   className={styles.iconItem}
@@ -109,3 +110,10 @@ export default function OrderItem({ order, isStatus }) {
     </Link>
   );
 }
+
+export default React.memo(OrderItem);
+
+OrderItem.prototype = {
+  order: PropTypes.object.isRequired,
+  isStatus: PropTypes.bool,
+};

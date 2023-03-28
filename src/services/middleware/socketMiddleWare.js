@@ -47,9 +47,9 @@ export const socketMiddleware = (wsActions) => {
         socket.onclose = (event) => {
              console.log('socket.onclose', event);
           dispatch({ type: onClose, payload: event });
-          if(payload.success == "false") {
-            refreshToken().then(() => dispatch({ type: onOpen, payload: event }))
-          }
+          // if(payload.success == "false") {
+          //   refreshToken().then(() => dispatch({ type: onOpen, payload: event }))
+          // }
         };
 
         if (type === wsSendOrder) {

@@ -1,5 +1,3 @@
-import { getCookie } from "../utils/cookie";
-
 export const URL = {
   ingredients: "https://norma.nomoreparties.space/api/ingredients",
   orders: "https://norma.nomoreparties.space/api/orders",
@@ -12,12 +10,6 @@ export const URL = {
   token: "https://norma.nomoreparties.space/api/auth/token",
   socket: "wss://norma.nomoreparties.space/orders",
 };
-
-// export let tokenWS;
-// if(getCookie("accessToken")) {
-//   tokenWS = getCookie("accessToken").split(" ")[1];
-// }
-
 
 export const getStore = (store) => store;
 export const getStoreIngredients = (store) => store.ingredients;

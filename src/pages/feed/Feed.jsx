@@ -7,8 +7,7 @@ import {
   WS_CONNECTING,
   WS_DISCONNECTING,
 } from "../../services/actions/wsActions";
-import { URL } from '../../components/utils/constants'
-
+import { URL } from "../../components/utils/constants";
 
 export default function Feed() {
   const dispatch = useDispatch();
@@ -31,8 +30,8 @@ export default function Feed() {
         Лента заказов
       </h1>
       <div className={`${styles.bloksContainer}`}>
-        <OrderList width={'600px'} />
-        <InfoBoard/>
+        <OrderList width={"600px"} />
+        <InfoBoard />
       </div>
     </main>
   );

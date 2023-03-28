@@ -2,6 +2,7 @@ import styles from "./PriceContainer.module.css";
 import {
     CurrencyIcon
   } from "@ya.praktikum/react-developer-burger-ui-components";
+  import PropTypes from "prop-types";
 
 
 export default function PriceContainer({totalPrice}) {
@@ -12,3 +13,8 @@ export default function PriceContainer({totalPrice}) {
     </div>
   );
 }
+
+PriceContainer.prototype = {
+  totalPrice: PropTypes.number.isRequired,
+  
+};

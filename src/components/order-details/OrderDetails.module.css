@@ -14,3 +14,25 @@
   background-repeat: no-repeat;
   background-position: center;
 }
+
+.title {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 30px;
+  text-align: center;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+.scale {
+  transform: scale(1.5);
+  align-self: center;
+  display: flex;
+  gap: 20px;
+}
