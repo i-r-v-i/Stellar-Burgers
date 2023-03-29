@@ -3,10 +3,10 @@ import {
   EmailInput,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import Form from "../components/form/Form";
+import Form from "../../components/form/Form";
 import { useState } from "react";
 import { useDispatch, useSelector  } from 'react-redux';
-import { registrateUser } from "../services/actions/user";
+import { registrateUser } from "../../services/actions/user";
 import { useNavigate } from "react-router-dom";
 
 export default function Register() {

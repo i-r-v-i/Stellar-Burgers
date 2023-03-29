@@ -1,13 +1,9 @@
-import { getCookie } from "../../components/utils/cookie"; 
 import { refreshToken } from "../actions/user";
-import { tokenWS } from "../../components/utils/constants";
 
 export const socketMiddleware = (wsActions) => {
   return (store) => {
     let socket = null;
     let url = "";
-    let token = getCookie("accessToken").split(' ')[1];
-
 
     return (next) => (action) => {
       const { dispatch } = store;
@@ -18,7 +14,6 @@ export const socketMiddleware = (wsActions) => {
         onClose,
         onError,
         onMessage,
-        wsSendOrder,
         wsDisconnecting,
       } = wsActions;
 
@@ -29,9 +24,7 @@ export const socketMiddleware = (wsActions) => {
 
       if (socket) {
         socket.onopen = (event) => {
-          console.log("socket.open", event);
           dispatch({ type: onOpen, payload: event });
-          
         };
 
         socket.onerror = (event) => {
@@ -41,32 +34,25 @@ export const socketMiddleware = (wsActions) => {
         socket.onmessage = (event) => {
           const { data } = event;
           const parsedData = JSON.parse(data);
+          if (!data.success) {
+            if (data.message === "Invalid or missing token") {
+              socket.close();
+              return refreshToken(dispatch({type: wsConnecting}))
+            }
+          } 
           dispatch({ type: onMessage, payload: parsedData });
         };
 
         socket.onclose = (event) => {
-             console.log('socket.onclose', event);
           dispatch({ type: onClose, payload: event });
-          // if(payload.success == "false") {
-          //   refreshToken().then(() => dispatch({ type: onOpen, payload: event }))
-          // }
         };
-
-        if (type === wsSendOrder) {
-          const order = {
-            ...payload,
-            token: token,
-          };
-          socket.send(JSON.stringify(order));
-        }
 
         if (type === wsDisconnecting) {
           socket.close();
         }
       }
-   
+
       next(action);
     };
   };
 };
-

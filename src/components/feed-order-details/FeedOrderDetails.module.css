@@ -16,7 +16,7 @@
 
 .status {
   color: #00cccc;
-  min-height: 34px;
+  max-height: 34px;
   display: flex;
   align-items: center;
 }
@@ -28,20 +28,25 @@
   padding: 0;
   margin: 24px 0 48px;
   gap: 16px;
-  max-height: 316px;
+  max-height: 312px;
   box-sizing: border-box;
   overflow-y: scroll;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 
 .ingredients::-webkit-scrollbar {
   width: 8px;
-  background: #2f2f37;
-  height: 192px;
+  
+ 
+}
+.ingredients::-webkit-scrollbar-track {
+height: 312px;
+background: #2f2f37;
 }
 
 .ingredients::-webkit-scrollbar-thumb {
   background-color: #8585ad;
+  height: 140px;
 }
 .number {
   align-self: center;

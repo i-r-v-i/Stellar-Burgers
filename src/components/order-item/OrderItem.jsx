@@ -2,13 +2,13 @@ import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-component
 import PriceContainer from "../price-container/PriceContainer";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./OrderItem.module.css";
-import { getStoreIngredients } from "../utils/constants";
+import { countOfIconIngredients, getStoreIngredients } from "../utils/constants";
 import { Link, useLocation } from "react-router-dom";
 import { getStatus, getOrderItem, getTotalPrice } from "../utils/constants";
 import { GET_NUMBER_FOR_MODAL } from "../../services/actions/order";
-import { useCallback } from "react";
-import React from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
+import { OrderPropType } from "../types/common-types";
 
 function OrderItem({ order, isStatus }) {
   const dispatch = useDispatch();
@@ -23,14 +23,14 @@ function OrderItem({ order, isStatus }) {
   } = order;
   const { ingredients } = useSelector(getStoreIngredients);
 
-  const getOrderItemNumber = useCallback(
+  const getOrderItemNumber =
     (number) => {
       dispatch({ type: GET_NUMBER_FOR_MODAL, payload: number });
-    },
-    [dispatch]
-  );
+    }
 
-  return (
+const calculateTotalPrice = useMemo( () => getTotalPrice(orderIngs, ingredients), [orderIngs, ingredients]) 
+
+  return order &&(
     <Link
       to={`${location.pathname}/${_id}`}
       state={{ background: location }}
@@ -69,7 +69,7 @@ function OrderItem({ order, isStatus }) {
         <ul className={styles.ingredientsList}>
           {orderIngs.map((ing, index) => {
             const item = getOrderItem(ing, ingredients);
-            if (index < 5) {
+            if (index < countOfIconIngredients) {
               return (
                 <li
                   className={styles.iconItem}
@@ -78,12 +78,12 @@ function OrderItem({ order, isStatus }) {
                 >
                   <img
                     className={styles.icon}
-                    src={item.image_mobile}
-                    alt={item.name}
+                    src={item?.image_mobile}
+                    alt={item?.name}
                   />
                 </li>
               );
-            } else if (index > 5) {
+            } else if (index === countOfIconIngredients) {
               return (
                 <li
                   className={styles.iconItem}
@@ -92,8 +92,8 @@ function OrderItem({ order, isStatus }) {
                 >
                   <img
                     className={`${styles.icon} ${styles.lastIcon}`}
-                    src={item.image_mobile}
-                    alt={item.name}
+                    src={item?.image_mobile}
+                    alt={item?.name}
                   />
                   <p
                     className={`${styles.countIcon} text text_type_digits-default`}
@@ -105,7 +105,7 @@ function OrderItem({ order, isStatus }) {
             }
           })}
         </ul>
-        <PriceContainer totalPrice={getTotalPrice(orderIngs, ingredients)} />
+        <PriceContainer totalPrice={calculateTotalPrice} />
       </div>
     </Link>
   );
@@ -114,6 +114,6 @@ function OrderItem({ order, isStatus }) {
 export default React.memo(OrderItem);
 
 OrderItem.prototype = {
-  order: PropTypes.object.isRequired,
+  order: PropTypes.shape(OrderPropType).isRequired,
   isStatus: PropTypes.bool,
 };

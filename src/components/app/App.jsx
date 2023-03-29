@@ -5,12 +5,12 @@ import { ProtectedRouteElement } from "../protected-route/ProtectedRouteElement"
 import { OnlyUnauthElement } from "../only-unauth/OnlyAnauthElement";
 import { useDispatch, useSelector } from "react-redux";
 import Main from "../main/Main";
-import Register from "../../pages/register";
-import Login from "../../pages/login";
-import ForgotPassword from "../../pages/forgot-password";
-import ResetPassword from "../../pages/reset-password";
-import NotFound404 from "../../pages/not-found";
-import ProfilePage from "../../pages/profile";
+import Register from "../../pages/register/register";
+import Login from "../../pages/login/login";
+import ForgotPassword from "../../pages/forgot-password/forgot-password";
+import ResetPassword from "../../pages/reset-password/reset-password";
+import NotFound404 from "../../pages/not-found/not-found";
+import ProfilePage from "../../pages/profile/profile";
 import { Modal } from "../modal/Modal";
 import Feed from "../../pages/feed/Feed";
 import { IngredientDetails } from "../ingredient-details/IngredientDetails";
@@ -20,6 +20,7 @@ import { getOrderNumber } from "../utils/constants";
 import FeedOrderDetails from "../feed-order-details/FeedOrderDetails";
 import ProfileForm from "../profile-form/ProfileForm";
 import ProfileOrders from "../profile-orders/ProfileOrders";
+import { GET_NUMBER_FAILED } from "../../services/actions/order";
 
 export default function App() {
   const location = useLocation();
@@ -35,6 +36,7 @@ export default function App() {
   const handleCloseModal = (evt) => {
     evt.stopPropagation();
     navigate(-1);
+    dispatch({ type: GET_NUMBER_FAILED });
   };
 
   const { orderNumber } = useSelector(getOrderNumber);
@@ -75,7 +77,7 @@ export default function App() {
         </Route>
         <Route
           path="/profile/orders/:id"
-          element={<ProtectedRouteElement element={<FeedOrderDetails />} />}
+         element={<FeedOrderDetails />}
         />
         <Route path="*" element={<NotFound404 />} />
       </Routes>

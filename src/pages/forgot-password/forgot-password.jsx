@@ -1,9 +1,9 @@
 import { EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import Form from "../components/form/Form";
+import Form from "../../components/form/Form";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { forgotPassword, SEND_EMAIL } from "../services/actions/user";
+import { forgotPassword, SEND_EMAIL } from "../../services/actions/user";
 
 export default function ForgotPassword() {
   const dispatch = useDispatch();

@@ -17,11 +17,11 @@ export const ProtectedRouteElement = ({ element }) => {
     {
       dispatch(saveUserPath(location.pathname));
     }
-  }, []);
+  }, [dispatch, location.pathname]);
 
   return userData ? element : <Navigate to="/login" replace />;
 };
 
 ProtectedRouteElement.propTypes = {
-  element: PropTypes.element,
+  element: PropTypes.element.isRequired,
 };

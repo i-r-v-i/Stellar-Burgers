@@ -14,5 +14,5 @@ export function OnlyUnauthElement({ element }) {
 }
 
 OnlyUnauthElement.propTypes = {
-  element: PropTypes.element,
+  element: PropTypes.element.isRequired,
 };

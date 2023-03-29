@@ -48,7 +48,7 @@ import {
     };
   
     return (
-        <Form extraClass={styles.position} button="false">
+        <Form extraClass={styles.position} button="false" onButtonClick={onSubmit}>
           <Input
             type={"text"}
             placeholder={"Имя"}
@@ -91,7 +91,7 @@ import {
                 htmlType="submit"
                 type="primary"
                 size="medium"
-                onClick={onSubmit}
+                // onClick={onSubmit}
               >
                 Сохранить
               </Button>

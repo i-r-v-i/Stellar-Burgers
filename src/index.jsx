@@ -6,26 +6,8 @@ import { Provider } from "react-redux";
 import { rootReducer } from "./services/reducers/index";
 import thunk from "redux-thunk";
 import { BrowserRouter as Router } from "react-router-dom";
-import {
-  WS_CONNECTING,
-  WS_CONNECTION_SUCCESS,
-  WS_ERROR,
-  WS_CONNECTION_CLOSED,
-  WS_GET_ORDERS,
-  WS_DISCONNECTING,
-  WS_SEND_ORDER
-} from "./services/actions/wsActions";
 import { socketMiddleware } from "./services/middleware/socketMiddleWare";
-
-const wsActions = {
-  wsConnecting: WS_CONNECTING,
-  wsDisconnecting: WS_DISCONNECTING,
-  onOpen: WS_CONNECTION_SUCCESS,
-  onClose: WS_CONNECTION_CLOSED,
-  onError: WS_ERROR,
-  onMessage: WS_GET_ORDERS,
-  wsSendOrder: WS_SEND_ORDER
-};
+import { wsActions } from "./services/actions/wsActions";
 
 const composeEnhancers =
   typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__

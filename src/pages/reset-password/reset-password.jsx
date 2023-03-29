@@ -2,11 +2,11 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import Form from "../components/form/Form";
+import Form from "../../components/form/Form";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setNewPassword } from "../services/actions/user";
+import { setNewPassword } from "../../services/actions/user";
 import { Navigate } from "react-router-dom";
 
 export default function ResetPassword() {

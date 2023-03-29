@@ -30,13 +30,23 @@ export const getStatus = (status) => {
   }
 };
 
+export const orderStatus = {
+  done: 'done', 
+  pending: 'pending'
+}
+
+export const countOfIconIngredients = 5;
+
+
 export const getOrderItem = (ing, ingredients) => {
   return ingredients.find((item) => item._id === ing);
 };
 
 export const getTotalPrice = (arrOrder, arrAll) => {
+  if (arrOrder && arrAll) {
   return arrOrder.reduce(
-    (sum, id) => sum + arrAll.find((item) => item._id === id).price,
+    (sum, id) => sum + arrAll.find((item) => item._id === id)?.price,
     0
   );
+  }
 };

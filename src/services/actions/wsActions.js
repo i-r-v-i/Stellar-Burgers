@@ -7,4 +7,12 @@ export const WS_SEND_ORDER = 'WS_SEND_ORDER';
 export const WS_CONNECTION_CLOSED = 'WS_CONNECTION_CLOSED';
 
   
-  
+export const wsActions = {
+    wsConnecting: WS_CONNECTING,
+    wsDisconnecting: WS_DISCONNECTING,
+    onOpen: WS_CONNECTION_SUCCESS,
+    onClose: WS_CONNECTION_CLOSED,
+    onError: WS_ERROR,
+    onMessage: WS_GET_ORDERS,
+    wsSendOrder: WS_SEND_ORDER
+  };

@@ -1,5 +1,5 @@
 import styles from "./InfoBoard.module.css";
-import { getStoreOrders } from "../utils/constants";
+import { getStoreOrders, orderStatus } from "../utils/constants";
 import { useSelector } from "react-redux";
 
 export default function InfoBoard() {
@@ -12,7 +12,7 @@ export default function InfoBoard() {
         <ul className={styles.orderList}>
           {orders?.map(
             (order, index) =>
-              order.status === "done" && (
+              order.status === orderStatus.done && (
                 <li
                   key={index}
                   className={`${styles.readyItem} text text_type_digits-default pb-2 pr-2`}
@@ -28,7 +28,7 @@ export default function InfoBoard() {
         <ul className={styles.orderList}>
           {orders?.map(
             (order, index) =>
-              order.status === "pending" && (
+              order.status === orderStatus.pending && (
                 <li
                   key={index}
                   className={`text text_type_digits-default pb-2 pr-2`}

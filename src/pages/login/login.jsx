@@ -2,11 +2,11 @@ import {
   EmailInput,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import Form from "../components/form/Form";
+import Form from "../../components/form/Form";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logIn } from "../services/actions/user";
+import { logIn } from "../../services/actions/user";
 
 export default function Login() {
   const dispatch = useDispatch();
