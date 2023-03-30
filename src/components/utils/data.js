@@ -1,4 +1,6 @@
+import { refreshToken } from "../../services/actions/user";
 import { URL } from "./constants";
+import { getCookie } from "./cookie";
 
 export function checkResponse(res) {
   return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
@@ -19,6 +21,36 @@ export function getOrderNumber(data, token) {
       ingredients: data,
     }),
   }).then(checkResponse);
+}
+
+export const fetchWithRefresh = (url, options) => {
+  return fetch(url, options)
+    .then(checkResponse)
+    .catch((err) => {
+      console.log(err, 'попали сюда')
+         return refreshToken()
+        .then((res) => options.headers.authorization = res.accessToken)
+        .then(() => fetch(url, options).then(checkResponse))
+      })
+};
+
+export function getUserApi() {
+  return fetchWithRefresh(URL.user, {
+    headers: {
+      authorization: getCookie("accessToken"),
+    },
+  });
+}
+
+export function patchUserDataApi(userData) {
+  return fetchWithRefresh(URL.user, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: getCookie("accessToken"),
+    },
+    body: JSON.stringify(userData),
+  });
 }
 
 export function setUser(data) {
@@ -58,25 +90,6 @@ export function loginApi(data) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
-  }).then(checkResponse);
-}
-
-export function getUserApi(accessToken) {
-  return fetch(URL.user, {
-    headers: {
-      authorization: accessToken,
-    },
-  }).then(checkResponse);
-}
-
-export function patchUserDataApi(userData, accessToken) {
-  return fetch(URL.user, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      authorization: accessToken,
-    },
-    body: JSON.stringify(userData),
   }).then(checkResponse);
 }
 

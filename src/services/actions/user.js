@@ -50,42 +50,36 @@ export const SAVE_PREVIOUS_ROUTE = "SAVE_PREVIOUS_ROUTE";
 export const checkAuth = () => (dispatch) => {
   if (getCookie("accessToken")) {
     dispatch(getUserData());
+    console.log('app done')
   }
 };
 
-export function refreshToken(method) {
-  return (dispatch) => {
-    refreshTokenApi()
-      .then((res) => {
-        setCookie("accessToken", res.accessToken);
-        localStorage.setItem("refreshToken", res.refreshToken);
-        dispatch(method);
-      })
-      .catch((err) => {
-        console.log(`Ошибка рефреша токена ${err}`);
-      });
-  };
+export function refreshToken() {
+  return refreshTokenApi()
+    .then((res) => {
+      console.log('рефреш....');
+      setCookie("accessToken", res.accessToken);
+      localStorage.setItem("refreshToken", res.refreshToken);
+
+    })
+    .catch((err) => {
+      console.log(`Ошибка рефреша токена ${err}`);
+    });
 }
 
 export function getUserData() {
   return function (dispatch) {
     dispatch({ type: GET_USER_REQUEST });
-    return getUserApi(getCookie("accessToken"))
+    return getUserApi()
       .then((res) => {
         dispatch({ type: GET_USER_SUCCESS, payload: res.user });
         console.log("getUser");
       })
       .catch((err) => {
-        console.log(`Пользователь не авторизован ${err}`);
-        if (err === 401 || err === 403) {
-          console.log("начнем рефреш");
-          refreshToken(dispatch(getUserData()));
-        } else {
           dispatch({
             type: GET_USER_FAILED,
             payload: err.message,
           });
-        }
       });
   };
 }
@@ -93,21 +87,24 @@ export function getUserData() {
 export function setNewUserData(userData) {
   return function (dispatch) {
     dispatch({ type: UPDATE_USER_REQUEST });
-    patchUserDataApi(userData, getCookie("accessToken"))
+    return patchUserDataApi(userData)
       .then((res) => {
-        console.log("обновлен пользователь");
+        if(res.success) {
+          console.log("обновлен пользователь");
         dispatch({ type: UPDATE_USER_SUCCESS, payload: res.user });
+      }
+        
       })
       .catch((err) => {
         console.log(`Ошибка обновления профиля ${err}`);
-        if (err === 401 || err === 403) {
-          refreshToken(dispatch(setNewUserData(userData)));
-        } else {
+        // if (err === 401 || err === 403) {
+        //   refreshToken(dispatch(setNewUserData(userData)));
+        // } else {
           dispatch({
             type: UPDATE_USER_FAILED,
             payload: err.message,
           });
-        }
+        // }
       });
   };
 }

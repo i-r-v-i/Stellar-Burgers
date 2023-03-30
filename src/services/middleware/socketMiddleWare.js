@@ -37,7 +37,8 @@ export const socketMiddleware = (wsActions) => {
           if (!data.success) {
             if (data.message === "Invalid or missing token") {
               socket.close();
-              return refreshToken(dispatch({type: wsConnecting}))
+              return refreshToken()
+              .then(() => dispatch({type: wsConnecting}))
             }
           } 
           dispatch({ type: onMessage, payload: parsedData });
