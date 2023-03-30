@@ -1,3 +1,4 @@
+import { getCookie } from "../../components/utils/cookie";
 import { refreshToken } from "../actions/user";
 
 export const socketMiddleware = (wsActions) => {
@@ -20,6 +21,7 @@ export const socketMiddleware = (wsActions) => {
       if (type === wsConnecting) {
         url = payload;
         socket = new WebSocket(url);
+       
       }
 
       if (socket) {
@@ -32,16 +34,17 @@ export const socketMiddleware = (wsActions) => {
         };
 
         socket.onmessage = (event) => {
-          const { data } = event;
-          const parsedData = JSON.parse(data);
+          let data = JSON.parse(event.data);
           if (!data.success) {
             if (data.message === "Invalid or missing token") {
               socket.close();
               return refreshToken()
-              .then(() => dispatch({type: wsConnecting}))
+              .then(() => {dispatch({type: wsConnecting})})
+              .catch((err) => {console.log(err)})
             }
+
           } 
-          dispatch({ type: onMessage, payload: parsedData });
+          dispatch({ type: onMessage, payload: data });
         };
 
         socket.onclose = (event) => {
