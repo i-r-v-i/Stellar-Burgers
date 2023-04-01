@@ -1,37 +1,58 @@
-import { getCookie } from "../../components/utils/cookie";
-
-export const URL = {
-  ingredients: "https://norma.nomoreparties.space/api/ingredients",
-  orders: "https://norma.nomoreparties.space/api/orders",
-  forgotPassword: "https://norma.nomoreparties.space/api/password-reset",
-  resetPassword: "https://norma.nomoreparties.space/api/password-reset/reset",
-  register: "https://norma.nomoreparties.space/api/auth/register",
-  login: "https://norma.nomoreparties.space/api/auth/login",
-  user: "https://norma.nomoreparties.space/api/auth/user",
-  logout: "https://norma.nomoreparties.space/api/auth/logout",
-  token: "https://norma.nomoreparties.space/api/auth/token",
-};
+import { refreshToken } from "../../services/actions/user";
+import { URL } from "./constants";
+import { getCookie } from "./cookie";
 
 export function checkResponse(res) {
-  return res.ok
-    ? res.json()
-    : Promise.reject(`Что-то пошло не так: ${res.status}`);
+  return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
 }
 
 export function getData() {
   return fetch(URL.ingredients).then(checkResponse);
 }
 
-export function getOrderNumber(data) {
+export function getOrderNumber(data, token) {
   return fetch(URL.orders, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      authorization: token,
     },
     body: JSON.stringify({
       ingredients: data,
     }),
   }).then(checkResponse);
+}
+
+export const fetchWithRefresh = (url, options) => {
+  return fetch(url, options)
+    .then(checkResponse)
+    .catch((err) => {
+      if(err === 401 || err ===403) {
+        return refreshToken()
+        .then((res) => (options.headers.authorization = res.accessToken))
+        .then(() => fetch(url, options).then(checkResponse));
+      }
+      
+});
+};
+
+export function getUserApi() {
+  return fetchWithRefresh(URL.user, {
+    headers: {
+      authorization: getCookie("accessToken"),
+    },
+  });
+}
+
+export function patchUserDataApi(userData) {
+  return fetchWithRefresh(URL.user, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: getCookie("accessToken"),
+    },
+    body: JSON.stringify(userData),
+  });
 }
 
 export function setUser(data) {
@@ -74,25 +95,6 @@ export function loginApi(data) {
   }).then(checkResponse);
 }
 
-export function getUserApi(accessToken) {
-  return fetch(URL.user, {
-    headers: {
-      authorization: accessToken,
-    },
-  }).then(checkResponse);
-}
-
-export function patchUserDataApi(userData, accessToken) {
-  return fetch(URL.user, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      authorization: accessToken,
-    },
-    body: JSON.stringify(userData),
-  }).then(checkResponse);
-}
-
 export function refreshTokenApi() {
   return fetch(URL.token, {
     method: "POST",
@@ -102,7 +104,7 @@ export function refreshTokenApi() {
     body: JSON.stringify({
       token: localStorage.getItem("refreshToken"),
     }),
-  }).then((data) => checkResponse(data));   
+  }).then((data) => checkResponse(data));
 }
 
 export function logoutApi(refreshToken) {
@@ -114,11 +116,3 @@ export function logoutApi(refreshToken) {
     body: JSON.stringify({ token: refreshToken }),
   }).then(checkResponse);
 }
-
-export const getStore = (store) => store;
-export const getStoreIngredients = (store) => store.ingredients;
-export const getStoreBurgerConstructor = (store) => store.burgerConstructor;
-export const getUser = (store) => store.user;
-export const getcurrentIngredient = (store) => store.currentIngredient;
-export const getorder = (store) => store.order;
-export const getactiveTab = (store) => store.activeTab;

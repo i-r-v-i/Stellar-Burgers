@@ -49,30 +49,35 @@ export const SAVE_PREVIOUS_ROUTE = "SAVE_PREVIOUS_ROUTE";
 
 export const checkAuth = () => (dispatch) => {
   if (getCookie("accessToken")) {
-    console.log(getCookie("accessToken"));
     dispatch(getUserData());
-    
   }
 };
+
+export function refreshToken() {
+  return refreshTokenApi()
+    .then((res) => {
+      setCookie("accessToken", res.accessToken);
+      localStorage.setItem("refreshToken", res.refreshToken);
+
+    })
+    .catch((err) => {
+      console.log(`Ошибка рефреша токена ${err}`);
+    });
+}
 
 export function getUserData() {
   return function (dispatch) {
     dispatch({ type: GET_USER_REQUEST });
-    return getUserApi(getCookie("accessToken"))
+    return getUserApi()
       .then((res) => {
         dispatch({ type: GET_USER_SUCCESS, payload: res.user });
-        console.log('getUser');
+        console.log("getUser");
       })
       .catch((err) => {
-        console.log(`Пользователь не авторизован ${err}`);
-        if (err) {
-          refreshToken().then(() => dispatch(getUserData()));
-        } else {
           dispatch({
             type: GET_USER_FAILED,
             payload: err.message,
           });
-        }
       });
   };
 }
@@ -80,21 +85,20 @@ export function getUserData() {
 export function setNewUserData(userData) {
   return function (dispatch) {
     dispatch({ type: UPDATE_USER_REQUEST });
-    patchUserDataApi(userData, getCookie("accessToken"))
+    return patchUserDataApi(userData)
       .then((res) => {
-        console.log("обновлен пользователь");
+        if(res.success) {
+          console.log("обновлен пользователь");
         dispatch({ type: UPDATE_USER_SUCCESS, payload: res.user });
+      }
+        
       })
       .catch((err) => {
         console.log(`Ошибка обновления профиля ${err}`);
-        if (err) {
-          refreshToken().then(() => dispatch(setNewUserData(userData)));
-        } else {
           dispatch({
             type: UPDATE_USER_FAILED,
             payload: err.message,
           });
-        }
       });
   };
 }
@@ -192,17 +196,6 @@ export function logIn(data, navigate, previousRoute) {
   };
 }
 
-export function refreshToken() {
-  return refreshTokenApi()
-    .then((res) => {
-      setCookie("accessToken", res.accessToken);
-      localStorage.setItem("refreshToken", res.refreshToken);
-    })
-    .catch((err) => {
-      console.log(`Ошибка рефреша токена ${err}`);
-    });
-}
-
 export function logOut(navigate) {
   return function (dispatch) {
     dispatch({ type: LOGOUT_REQUEST });
@@ -213,7 +206,7 @@ export function logOut(navigate) {
           dispatch({ type: LOGOUT_SUCCESS });
           localStorage.removeItem("refreshToken");
           deleteCookie("accessToken");
-          navigate("/login");
+          navigate("/login", { replace: true });
         }
       })
       .catch((err) => {

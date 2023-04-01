@@ -2,12 +2,9 @@
   display: flex;
   padding-top: 120px;
 }
-.position {
-  margin-left: 60px;
-}
 
 .profileSection {
-  margin-left: 340px;
+  margin: 0 60px 0 340px;
   width: 320px;
 }
 .profileList {
@@ -28,13 +25,5 @@
   align-items: center;
 }
 
-.buttons {
-  display: flex;
-  gap: 20px;
-  align-self: flex-end;
-}
 
-.buttonSize {
-padding: 16px 8px;
-}
 

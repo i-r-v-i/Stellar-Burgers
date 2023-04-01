@@ -1,0 +1,92 @@
+.wrapperRoute {
+  margin-top: 120px;
+  display: flex;
+  
+}
+.modal_name {
+  align-items: flex-start;
+}
+.routeStyle {
+  width: 640px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin: auto;
+}
+
+.status {
+  color: #00cccc;
+  max-height: 34px;
+  display: flex;
+  align-items: center;
+}
+
+.ingredients {
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  padding: 0;
+  margin: 24px 0 48px;
+  gap: 16px;
+  max-height: 312px;
+  box-sizing: border-box;
+  overflow-y: scroll;
+  /* overflow-x: hidden; */
+}
+
+.ingredients::-webkit-scrollbar {
+  width: 8px;
+  
+ 
+}
+.ingredients::-webkit-scrollbar-track {
+height: 312px;
+background: #2f2f37;
+}
+
+.ingredients::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+  height: 140px;
+}
+.number {
+  align-self: center;
+  width: 640px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  background: linear-gradient(#000000, #000000) padding-box,
+    linear-gradient(70deg, #801ab2, #4c4cff) border-box;
+  border-radius: 50%;
+  border: 2px solid transparent;
+}
+
+.ingredient {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: auto;
+  margin-right: 24px;
+  width: 608px;
+}
+.name {
+  width: 320px;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.priceContainer {
+  display: flex;
+  gap: 8px;
+  width: 192px;
+  justify-content: flex-end;
+}

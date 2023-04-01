@@ -49,7 +49,7 @@ export default function Form({
   };
 
   return (
-    <form className={`${styles.form} ${extraClass}`}>
+    <form className={`${styles.form} ${extraClass}`} onSubmit={onButtonClick}>
       {title ? (
         <h1 className={`${styles.title} text text_type_main-medium`}>
           {title}
@@ -63,7 +63,6 @@ export default function Form({
             htmlType="submit"
             type="primary"
             size="medium"
-            onClick={onButtonClick}
           >
             {buttonText}
           </Button>

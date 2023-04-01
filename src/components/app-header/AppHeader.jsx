@@ -7,7 +7,7 @@ import {
 import styles from "./AppHeader.module.css";
 import { useLocation, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { getUser } from "../utils/data";
+import { getUser } from "../utils/constants";
 
 function AppHeader() {
   const { userData } = useSelector(getUser);

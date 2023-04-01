@@ -1,0 +1,80 @@
+.element {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: #1c1c21;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06),
+    0px 0px 1px rgba(0, 0, 0, 0.04);
+  border-radius: 40px;
+  text-decoration: none;
+  color: #f2f2f3;
+}
+
+.orderData {
+  display: flex;
+  justify-content: space-between;
+}
+.name {
+  margin: 0;
+}
+.ingredients {
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  align-items: center;
+}
+.ingredientsList {
+  padding: 0;
+  display: flex;
+  list-style-type: none;
+}
+
+.statusDone {
+  color: #00cccc;
+}
+
+.statusPending {
+  color: #f2f2f3;
+}
+
+.iconItem {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 64px;
+  width: 64px;
+  background: linear-gradient(#000000, #000000) padding-box,
+    linear-gradient(70deg, #801ab2, #4c4cff) border-box;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  margin-right: -16px;
+  box-sizing: border-box;
+}
+
+.icon {
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  width: 60px;
+  height: 60px;
+  background-color: #1c1c21;
+}
+
+.lastIcon {
+  opacity: 0.6;
+  position: relative;
+  
+}
+
+.countIcon {
+  margin: 0;
+  position: absolute;
+  z-index: 8;
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+ 
+}

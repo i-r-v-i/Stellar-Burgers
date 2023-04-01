@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom';
 
 import styles from './not-found.module.css';
-import pageNotFound from "../images/burger_404.gif";
+import pageNotFound from "../../images/burger_404.gif";
 
 export default function NotFound404() {
   return (

@@ -44,6 +44,14 @@
   gap: 10px;
 }
 
+.noScrollBar {
+  height: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
 .scrollBarWrapper::-webkit-scrollbar {
   width: 8px;
   background: #2f2f37;

@@ -1,0 +1,48 @@
+.gridContainer {
+  max-width: 640px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, min-content);
+  box-sizing: border-box;
+  column-gap: 36px;
+  row-gap: 60px;
+  grid-template-areas:
+    "ready inProcess"
+    "all all"
+    "today today";
+}
+.orderList {
+  /* min-width: 272px;
+    list-style-type: none;
+    padding-left: 0;
+    display: flex;
+	flex-wrap: wrap;
+	height: 322px;
+	flex-direction: column; */
+  display: grid;
+  min-width: 272px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(5, 24px);
+  grid-auto-rows: 24px;
+  list-style-type: none;
+  padding: 24px 0 0 0;
+  margin: 0;
+}
+.ready {
+  grid-area: ready;
+}
+
+.inProcess {
+  grid-area: inProcess;
+}
+.readyItem {
+  color: #00cccc;
+}
+
+.all {
+  grid-area: all;
+}
+
+.today {
+  grid-area: today;
+}

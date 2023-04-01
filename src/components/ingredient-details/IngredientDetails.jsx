@@ -1,9 +1,8 @@
 import styles from "./IngredientDetails.module.css";
 import PropTypes from "prop-types";
-import { IngredientPropType } from "../types/common-types.js";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { getStoreIngredients } from "../utils/data";
+import { getStoreIngredients } from "../utils/constants";
 
 export function IngredientDetails({ bac }) {
   const { id } = useParams();
@@ -12,12 +11,12 @@ export function IngredientDetails({ bac }) {
 
   const IngredientDetailsModal = () => {
     return ingredient ? (
-      <div className={`${styles.container}`}>
+      <div className={styles.container}>
         <img
           className="mb-4"
           src={ingredient.image_large}
           alt={ingredient.name}
-        ></img>
+        />
         <p className="text text_type_main-medium mb-8">{ingredient.name}</p>
         <div className={styles.energyValue}>
           <p
@@ -127,5 +126,5 @@ export function IngredientDetails({ bac }) {
 }
 
 IngredientDetails.prototype = {
-  ingredient: PropTypes.shape(IngredientPropType).isRequired,
+  bac: PropTypes.bool
 };

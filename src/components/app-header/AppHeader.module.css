@@ -14,7 +14,8 @@
 
 .navList {
   display: flex;
-  padding-right: 112px;
+  padding-right: 100px;
+  gap: 8px;
 }
 
 .link {
