@@ -27,11 +27,13 @@ export const fetchWithRefresh = (url, options) => {
   return fetch(url, options)
     .then(checkResponse)
     .catch((err) => {
-      console.log(err, 'попали сюда')
-         return refreshToken()
-        .then((res) => options.headers.authorization = res.accessToken)
-        .then(() => fetch(url, options).then(checkResponse))
-      })
+      if(err === 401 || err ===403) {
+        return refreshToken()
+        .then((res) => (options.headers.authorization = res.accessToken))
+        .then(() => fetch(url, options).then(checkResponse));
+      }
+      
+});
 };
 
 export function getUserApi() {

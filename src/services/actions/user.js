@@ -50,14 +50,12 @@ export const SAVE_PREVIOUS_ROUTE = "SAVE_PREVIOUS_ROUTE";
 export const checkAuth = () => (dispatch) => {
   if (getCookie("accessToken")) {
     dispatch(getUserData());
-    console.log('app done')
   }
 };
 
 export function refreshToken() {
   return refreshTokenApi()
     .then((res) => {
-      console.log('рефреш....');
       setCookie("accessToken", res.accessToken);
       localStorage.setItem("refreshToken", res.refreshToken);
 
@@ -97,14 +95,10 @@ export function setNewUserData(userData) {
       })
       .catch((err) => {
         console.log(`Ошибка обновления профиля ${err}`);
-        // if (err === 401 || err === 403) {
-        //   refreshToken(dispatch(setNewUserData(userData)));
-        // } else {
           dispatch({
             type: UPDATE_USER_FAILED,
             payload: err.message,
           });
-        // }
       });
   };
 }
