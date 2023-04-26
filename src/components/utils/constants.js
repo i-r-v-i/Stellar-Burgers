@@ -15,9 +15,9 @@ export const getStore = (store) => store;
 export const getStoreIngredients = (store) => store.ingredients;
 export const getStoreBurgerConstructor = (store) => store.burgerConstructor;
 export const getUser = (store) => store.user;
-export const getcurrentIngredient = (store) => store.currentIngredient;
+export const getCurrentIngredient = (store) => store.currentIngredient;
 export const getOrderNumber = (store) => store.order;
-export const getactiveTab = (store) => store.activeTab;
+export const getActiveTab = (store) => store.activeTab;
 export const getStoreOrders = (store) => store.ws;
 
 export const getStatus = (status) => {

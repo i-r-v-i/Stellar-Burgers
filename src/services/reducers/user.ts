@@ -1,3 +1,4 @@
+import { TUserState, TUserActions } from './../types/user';
 import {
   REGISTRATION_REQUEST,
   REGISTRATION_SUCCESS,
@@ -26,7 +27,8 @@ import {
   SAVE_PREVIOUS_ROUTE
 } from "../actions/user";
 
-const initialState = {
+
+const initialState: TUserState = {
   userData: null,
 
   registrationRequest: false,
@@ -57,9 +59,9 @@ const initialState = {
   previousRoute: "/"
 };
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (state = initialState, action: TUserActions): TUserState => {
   switch (action.type) {
-    case REGISTRATION_REQUEST: {
+    case REGISTRATION_REQUEST:  {
       return {
         ...state,
         registrationRequest: true,
@@ -70,7 +72,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         registrationRequest: false,
         registrationFailed: false,
-        userData: action.payload.user,
+        userData: action.payload,
       };
     }
     case REGISTRATION_FAILED: {
@@ -145,7 +147,7 @@ export const userReducer = (state = initialState, action) => {
     case LOGIN_SUCCESS: {
       return {
         ...state,
-        userData: action.payload.user,
+        userData: action.payload,
         loginRequest: false,
         loginFailed: false,
       };

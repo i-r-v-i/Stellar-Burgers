@@ -21,14 +21,15 @@ import FeedOrderDetails from "../feed-order-details/FeedOrderDetails";
 import ProfileForm from "../profile-form/ProfileForm";
 import ProfileOrders from "../profile-orders/ProfileOrders";
 import { GET_NUMBER_FAILED } from "../../services/actions/order";
+import { FC } from 'react';
 
-export default function App() {
+ const App: FC = () => {
   const location = useLocation();
   const background = location.state?.background;
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
+  useEffect(() =>  {
     dispatch(getIngredients());
     dispatch(checkAuth());
   }, [dispatch]);
@@ -121,3 +122,6 @@ export default function App() {
     </>
   );
 }
+
+
+export default App;

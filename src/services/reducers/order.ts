@@ -1,3 +1,4 @@
+import { TOrderState, TOrderActions } from './../types/order';
 import {
   GET_NUMBER_SUCCESS,
   GET_NUMBER_FAILED,
@@ -5,12 +6,12 @@ import {
   GET_NUMBER_FOR_MODAL
 } from "../actions/order";
 
-const orderInitialState = {
+const orderInitialState: TOrderState = {
   orderNumber: null,
   modalOpened: false,
 };
 
-export const orderReducer = (state = orderInitialState, action) => {
+export const orderReducer = (state = orderInitialState, action: TOrderActions): TOrderState => {
   switch (action.type) {
     case GET_NUMBER_REQUEST: {
       return {
