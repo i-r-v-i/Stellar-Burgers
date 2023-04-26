@@ -50,3 +50,4 @@ export const getTotalPrice = (arrOrder, arrAll) => {
   );
   }
 };
+/////
