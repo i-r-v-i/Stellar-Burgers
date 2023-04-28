@@ -1,4 +1,3 @@
-import { getCookie } from "../../components/utils/cookie";
 import { refreshToken } from "../actions/user";
 
 export const socketMiddleware = (wsActions) => {

@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { ProtectedRouteElement } from "../protected-route/ProtectedRouteElement";
 import { OnlyUnauthElement } from "../only-unauth/OnlyAnauthElement";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
 import Main from "../main/Main";
 import Register from "../../pages/register/register";
 import Login from "../../pages/login/login";
@@ -14,7 +14,7 @@ import ProfilePage from "../../pages/profile/profile";
 import { Modal } from "../modal/Modal";
 import Feed from "../../pages/feed/Feed";
 import { IngredientDetails } from "../ingredient-details/IngredientDetails";
-import { checkAuth } from "../../services/actions/user";
+import { getUserData } from "../../services/actions/user";
 import { getIngredients } from "../../services/actions/ingredients";
 import { getOrderNumber } from "../utils/constants";
 import FeedOrderDetails from "../feed-order-details/FeedOrderDetails";
@@ -22,25 +22,29 @@ import ProfileForm from "../profile-form/ProfileForm";
 import ProfileOrders from "../profile-orders/ProfileOrders";
 import { GET_NUMBER_FAILED } from "../../services/actions/order";
 import { FC } from 'react';
+import { getCookie } from "../utils/cookie";
+import { useAppDispatch, useAppSelector } from "../../services/types/hooks";
 
  const App: FC = () => {
   const location = useLocation();
   const background = location.state?.background;
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   useEffect(() =>  {
     dispatch(getIngredients());
-    dispatch(checkAuth());
+    if (getCookie("accessToken")) {
+    dispatch(getUserData());
+    }
   }, [dispatch]);
 
-  const handleCloseModal = (evt) => {
+  const handleCloseModal = (evt: Event) => {
     evt.stopPropagation();
     navigate(-1);
     dispatch({ type: GET_NUMBER_FAILED });
   };
 
-  const { orderNumber } = useSelector(getOrderNumber);
+  const { orderNumber } = useAppSelector(getOrderNumber);
 
   return (
     <>

@@ -1,17 +1,26 @@
 import PropTypes from "prop-types";
-import { IngredientPropType } from "../../components/types/common-types";
+import { IngredientPropType } from "../types/common-types";
 import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
-import { useDispatch } from "react-redux";
 import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ConstructorFillingItem.module.css";
 import { SORT_ITEM } from "../../services/actions/burgerConstructor";
+import { useAppDispatch } from "../../services/types/hooks";
+import { FC } from 'react';
+import { TIngredient } from "../../services/types/ingredients";
+import { TConstructorElement } from "../../services/types/burgerConstructor";
 
-function ConstructorFillingItem({ ingredient, index, handleClose }) {
-  const dispatch = useDispatch();
+type ConstructorFillingItemProps = {
+  ingredient: TConstructorElement;
+  index: number;
+  handleClose: 
+}
+
+const ConstructorFillingItem: FC<ConstructorFillingItemProps> = ({ ingredient, index, handleClose }) => {
+  const dispatch = useAppDispatch();
   const ref = useRef(null);
 
   const [{ opacity }, drag] = useDrag({

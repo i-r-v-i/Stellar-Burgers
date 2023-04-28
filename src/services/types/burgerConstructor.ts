@@ -13,8 +13,8 @@ export type TConstructorElement = {
 };
 
 export type TBurgerConstructorState = {
-  selectedIngredients: TConstructorElement[];
-  selectedBun: TConstructorElement | null;
+  selectedIngredients: TIngredient[];
+  selectedBun: TIngredient | null;
   dropIngredientSuccess: boolean;
 };
 

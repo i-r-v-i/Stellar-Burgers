@@ -23,12 +23,14 @@ import {
   getOrderNumber,
   getUser,
 } from "../utils/constants";
+import { FC } from 'react';
+import { useAppDispatch } from "../../services/types/hooks";
 
-function BurgerConstructor() {
-  const dispatch = useDispatch();
+const BurgerConstructor: FC = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const [isOrder, setIsOrder] = useState(false);
+  const [isOrder, setIsOrder] = useState<boolean>(false);
 
   const { selectedIngredients, selectedBun, dropIngredientSuccess } =
     useSelector(getStoreBurgerConstructor);

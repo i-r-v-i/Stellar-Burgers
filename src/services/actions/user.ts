@@ -1,3 +1,5 @@
+import { TUserData } from './../types/user';
+import { AppDispatch, AppThunk } from './../types/store';
 import {
   setUser,
   resetPasswordApi,
@@ -47,11 +49,11 @@ export const IS_CHANGING: "IS_CHANGING" = "IS_CHANGING";
 export const STOP_CHANGING: "STOP_CHANGING" = "STOP_CHANGING";
 export const SAVE_PREVIOUS_ROUTE: "SAVE_PREVIOUS_ROUTE" = "SAVE_PREVIOUS_ROUTE";
 
-export const checkAuth = () => (dispatch) => {
-  if (getCookie("accessToken")) {
-    dispatch(getUserData());
-  }
-};
+// export const checkAuth: AppThunk = () => (dispatch: AppDispatch) => {
+//   if (getCookie("accessToken")) {
+//     dispatch(getUserData());
+//   }
+// };
 
 export function refreshToken() {
   return refreshTokenApi()
@@ -65,10 +67,9 @@ export function refreshToken() {
     });
 }
 
-export function getUserData() {
-  return function (dispatch) {
+export const getUserData: AppThunk = () => (dispatch: AppDispatch) => {
     dispatch({ type: GET_USER_REQUEST });
-    return getUserApi()
+    return getUserApi(getCookie("accessToken"))
       .then((res) => {
         dispatch({ type: GET_USER_SUCCESS, payload: res.user });
         console.log("getUser");
@@ -80,12 +81,12 @@ export function getUserData() {
           });
       });
   };
-}
 
-export function setNewUserData(userData) {
-  return function (dispatch) {
+
+export const setNewUserData: AppThunk = (userData: TUserData) =>  {
+  return function (dispatch: AppDispatch) {
     dispatch({ type: UPDATE_USER_REQUEST });
-    return patchUserDataApi(userData)
+    return patchUserDataApi(userData, getCookie("accessToken"))
       .then((res) => {
         if(res.success) {
           console.log("обновлен пользователь");
@@ -103,13 +104,12 @@ export function setNewUserData(userData) {
   };
 }
 
-export const saveUserPath = (path) => ({
+export const saveUserPath = (path: string) => ({
   type: "SAVE_PREVIOUS_ROUTE",
   payload: path,
 });
 
-export function registrateUser(userData, navigate) {
-  return function (dispatch) {
+export const registrateUser: AppThunk = (userData: TUserData, navigate: any) => (dispatch: AppDispatch) => {
     dispatch({ type: REGISTRATION_REQUEST });
     setUser(userData)
       .then((res) => {
@@ -129,12 +129,11 @@ export function registrateUser(userData, navigate) {
         });
       });
   };
-}
 
-export function forgotPassword(userEmail, navigate) {
-  return function (dispatch) {
+
+export const forgotPassword: AppThunk = (email: string, navigate: any) => (dispatch: AppDispatch) => {
     dispatch({ type: FORGOT_PASSWORD_REQUEST });
-    resetPasswordApi(userEmail)
+    resetPasswordApi(email)
       .then((res) => {
         if (res.success) {
           console.log(res);
@@ -150,12 +149,11 @@ export function forgotPassword(userEmail, navigate) {
         });
       });
   };
-}
 
-export function setNewPassword(newData, navigate) {
-  return function (dispatch) {
+
+export const setNewPassword: AppThunk = (newPassword: string, token: string, navigate: any) => (dispatch: AppDispatch) => {
     dispatch({ type: RESET_PASSWORD_REQUEST });
-    changePasswordApi(newData)
+    changePasswordApi(newPassword, token)
       .then((res) => {
         if (res.success) {
           console.log(res);
@@ -171,12 +169,11 @@ export function setNewPassword(newData, navigate) {
         });
       });
   };
-}
 
-export function logIn(data, navigate, previousRoute) {
-  return function (dispatch) {
+
+export const logIn: AppThunk = (email: string, password: string, navigate: any, previousRoute: string) => (dispatch: AppDispatch) => {
     dispatch({ type: LOGIN_REQUEST });
-    loginApi(data)
+    loginApi(email, password)
       .then((res) => {
         if (res.success) {
           console.log(res);
@@ -194,10 +191,9 @@ export function logIn(data, navigate, previousRoute) {
         });
       });
   };
-}
 
-export function logOut(navigate) {
-  return function (dispatch) {
+
+export const logOut: AppThunk = (navigate: any) => (dispatch: AppDispatch) => {
     dispatch({ type: LOGOUT_REQUEST });
     logoutApi(localStorage.getItem("refreshToken"))
       .then((res) => {
@@ -217,4 +213,4 @@ export function logOut(navigate) {
         });
       });
   };
-}
+

@@ -1,12 +1,16 @@
 import styles from "./IngredientDetails.module.css";
-import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { getStoreIngredients } from "../utils/constants";
+import { useAppSelector } from "../../services/types/hooks";
+import { FC } from 'react';
 
-export function IngredientDetails({ bac }) {
+type TIngredientDetailsPtops = {
+  bac?: boolean;
+}
+
+export const IngredientDetails: FC<TIngredientDetailsPtops> = ( {bac}) => {
   const { id } = useParams();
-  const { ingredients } = useSelector(getStoreIngredients);
+  const { ingredients } = useAppSelector(getStoreIngredients);
   const ingredient = ingredients?.find((ingredient) => ingredient._id === id);
 
   const IngredientDetailsModal = () => {
@@ -125,6 +129,4 @@ export function IngredientDetails({ bac }) {
   return bac ? <IngredientDetailsModal /> : <IngredientDetailsRoute />;
 }
 
-IngredientDetails.prototype = {
-  bac: PropTypes.bool
-};
+

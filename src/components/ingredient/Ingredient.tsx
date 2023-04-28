@@ -3,18 +3,31 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
 import styles from "./Ingredient.module.css";
-import { IngredientPropType } from "../types/common-types.js";
-import { useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { getStoreBurgerConstructor } from "../utils/constants";
+import { useAppSelector } from "../../services/types/hooks";
+import { FC } from "react";
+import { TIngredient } from "../../services/types/ingredients";
 
-const Ingredient = ({ data, name, price, image, type }) => {
+type TIngredientProps = {
+  data: TIngredient;
+  name: string;
+  price: number;
+  image: string;
+  type: string;
+};
+
+const Ingredient: FC<TIngredientProps> = ({
+  data,
+  name,
+  price,
+  image,
+  type,
+}) => {
   const location = useLocation();
-
-  const { selectedIngredients, selectedBun } = useSelector(
+  const { selectedIngredients, selectedBun } = useAppSelector(
     getStoreBurgerConstructor
   );
 
@@ -43,7 +56,7 @@ const Ingredient = ({ data, name, price, image, type }) => {
         state={{ background: location }}
         className={`${styles.ingredientItem} mb-8`}
         type={type}
-        style={{ opacity: { opacity } }}
+        style={{ opacity }}
         ref={ref}
       >
         <img className="ml-4 mr-4 mb-1" src={image} alt={name} />
@@ -60,12 +73,3 @@ const Ingredient = ({ data, name, price, image, type }) => {
 };
 
 export default React.memo(Ingredient);
-
-Ingredient.prototype = {
-  data: PropTypes.shape(IngredientPropType).isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  count: PropTypes.number,
-};
