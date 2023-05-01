@@ -7,20 +7,22 @@ import {
   WS_DISCONNECTING,
 } from "../actions/wsActions";
 
-type TOrder = {
+export type TOrderInfo = {
   _id: string;
-  ingredients: string[];
-  status: string;
+  ingredients: Array<string>;
+  owner?: string;
+  status: "created" | "pending" | "done";
   name: string;
   createdAt: string;
   updatedAt: string;
   number: number;
+  __v?: number;
 };
 
 export type TWState = {
   wsConnected: boolean;
   error: Event | undefined;
-  orders: TOrder[];
+  orders: TOrderInfo[];
   totalOrders: number;
   todayOrders: number;
 };
@@ -40,7 +42,7 @@ type TWsErrorAction = {
 
 type TWsGetOrdersAction = {
     readonly type: typeof WS_GET_ORDERS;
-    readonly payload: { orders: TOrder[];
+    readonly payload: { orders: TOrderInfo[];
         totalOrders: number;
         todayOrders: number;}
 }

@@ -1,10 +1,11 @@
 import styles from "./OrderDetails.module.css";
-import { useSelector } from "react-redux";
 import { getOrderNumber } from "../utils/constants";
 import { ListIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { FC } from 'react';
+import { useAppSelector } from "../../services/types/hooks";
 
-export function OrderDetails() {
-  const { orderNumber } = useSelector(getOrderNumber);
+export const OrderDetails: FC=()=> {
+  const { orderNumber } = useAppSelector(getOrderNumber);
 
   return orderNumber ? (
     <div className={styles.container}>

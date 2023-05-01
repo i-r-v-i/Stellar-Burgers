@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { ProtectedRouteElement } from "../protected-route/ProtectedRouteElement";
 import { OnlyUnauthElement } from "../only-unauth/OnlyAnauthElement";
-// import { useDispatch, useSelector } from "react-redux";
 import Main from "../main/Main";
 import Register from "../../pages/register/register";
 import Login from "../../pages/login/login";
@@ -38,8 +37,14 @@ import { useAppDispatch, useAppSelector } from "../../services/types/hooks";
     }
   }, [dispatch]);
 
-  const handleCloseModal = (evt: Event) => {
-    evt.stopPropagation();
+  // const handleCloseModal = (evt: Event) => {
+  //   evt.stopPropagation();
+  //   navigate(-1);
+  //   dispatch({ type: GET_NUMBER_FAILED });
+  // };
+
+  const handleCloseModal = () => {
+    // evt.stopPropagation();
     navigate(-1);
     dispatch({ type: GET_NUMBER_FAILED });
   };
@@ -55,7 +60,7 @@ import { useAppDispatch, useAppSelector } from "../../services/types/hooks";
         <Route path="/feed" element={<Feed />} />
         <Route
           path="/feed/:id"
-          element={<FeedOrderDetails allOrders="true" />}
+          element={<FeedOrderDetails allOrders />}
         />
         <Route
           path="/register"

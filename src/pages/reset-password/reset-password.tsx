@@ -5,23 +5,23 @@ import {
 import Form from "../../components/form/Form";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { setNewPassword } from "../../services/actions/user";
 import { Navigate } from "react-router-dom";
+import { FC, FormEvent } from 'react';
+import { useAppDispatch, useAppSelector } from "../../services/types/hooks";
 
-export default function ResetPassword() {
-  const dispatch = useDispatch();
+const ResetPassword: FC = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const isReset = useSelector((state) => state.user.isReset);
-  console.log(isReset);
+  const isReset = useAppSelector((state) => state.user.isReset);
 
   const [form, setValue] = useState({ password: "", token: "" });
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: SubmitEvent | FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(setNewPassword(form, navigate));
   };
@@ -30,7 +30,7 @@ export default function ResetPassword() {
     <div style={{ paddingTop: "180px" }}>
       <Form
         title="Восстановление пароля"
-        button="true"
+        button
         buttonText="Сохранить"
         question="Вспомнили пароль?"
         link="Войти"
@@ -59,3 +59,5 @@ export default function ResetPassword() {
     <Navigate to="/forgot-password" />
   );
 }
+
+export default ResetPassword;

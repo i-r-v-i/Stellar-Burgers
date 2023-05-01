@@ -1,17 +1,23 @@
 import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
 import PriceContainer from "../price-container/PriceContainer";
-import { useDispatch, useSelector } from "react-redux";
 import styles from "./OrderItem.module.css";
 import { countOfIconIngredients, getStoreIngredients } from "../utils/constants";
 import { Link, useLocation } from "react-router-dom";
 import { getStatus, getOrderItem, getTotalPrice } from "../utils/constants";
 import { GET_NUMBER_FOR_MODAL } from "../../services/actions/order";
 import React, { useMemo } from "react";
-import PropTypes from "prop-types";
-import { OrderPropType } from "../types/common-types";
+import { FC } from 'react';
+import { TOrderInfo } from "../../services/types/burgerConstructor";
+import { useAppDispatch, useAppSelector } from "../../services/types/hooks";
 
-function OrderItem({ order, isStatus }) {
-  const dispatch = useDispatch();
+
+type TOrderItemProps = {
+  order: TOrderInfo;
+  isStatus?: boolean;
+}
+
+const OrderItem: FC<TOrderItemProps>=({ order, isStatus }) =>{
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const {
     number,
@@ -21,10 +27,10 @@ function OrderItem({ order, isStatus }) {
     ingredients: orderIngs,
     _id,
   } = order;
-  const { ingredients } = useSelector(getStoreIngredients);
+  const { ingredients } = useAppSelector(getStoreIngredients);
 
   const getOrderItemNumber =
-    (number) => {
+    (number: number) => {
       dispatch({ type: GET_NUMBER_FOR_MODAL, payload: number });
     }
 
@@ -112,8 +118,3 @@ const calculateTotalPrice = useMemo( () => getTotalPrice(orderIngs, ingredients)
 }
 
 export default React.memo(OrderItem);
-
-OrderItem.prototype = {
-  order: PropTypes.shape(OrderPropType).isRequired,
-  isStatus: PropTypes.bool,
-};

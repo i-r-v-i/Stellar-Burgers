@@ -1,10 +1,10 @@
 // import React from 'react';
 import { Link } from 'react-router-dom';
-
+import { FC } from 'react';
 import styles from './not-found.module.css';
 import pageNotFound from "../../images/burger_404.gif";
 
-export default function NotFound404() {
+const NotFound404: FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -15,3 +15,5 @@ export default function NotFound404() {
     </div>
   );
 }; 
+
+export default NotFound404;

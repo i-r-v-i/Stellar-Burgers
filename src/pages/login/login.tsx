@@ -5,21 +5,22 @@ import {
 import Form from "../../components/form/Form";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { logIn } from "../../services/actions/user";
+import { FC, FormEvent } from "react";
+import { useAppDispatch, useAppSelector } from "../../services/types/hooks";
 
-export default function Login() {
-  const dispatch = useDispatch();
+const Login: FC = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const previousRoute = useSelector((store) => store.user.previousRoute);
+  const previousRoute = useAppSelector((store) => store.user.previousRoute);
 
   const [form, setValue] = useState({ email: "", password: "" });
 
-  const onChange = (e) => {
-    setValue({ ...form, [e.target.name]: e.target.value });
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue({ ...form, [e.target?.name]: e.target?.value });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: SubmitEvent | FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(logIn(form, navigate, previousRoute));
   };
@@ -28,7 +29,7 @@ export default function Login() {
     <div style={{ paddingTop: "180px" }}>
       <Form
         title="Вход"
-        button="true"
+        button
         buttonText="Войти"
         question="Вы — новый пользователь?"
         link="Зарегистрироваться"
@@ -52,4 +53,6 @@ export default function Login() {
       </Form>
     </div>
   );
-}
+};
+
+export default Login;

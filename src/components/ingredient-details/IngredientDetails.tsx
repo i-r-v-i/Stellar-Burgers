@@ -13,7 +13,7 @@ export const IngredientDetails: FC<TIngredientDetailsPtops> = ( {bac}) => {
   const { ingredients } = useAppSelector(getStoreIngredients);
   const ingredient = ingredients?.find((ingredient) => ingredient._id === id);
 
-  const IngredientDetailsModal = () => {
+  const IngredientDetailsModal: FC = () => {
     return ingredient ? (
       <div className={styles.container}>
         <img
@@ -68,7 +68,7 @@ export const IngredientDetails: FC<TIngredientDetailsPtops> = ( {bac}) => {
     ) : null;
   };
 
-  const IngredientDetailsRoute = () => {
+  const IngredientDetailsRoute: FC = () => {
     return ingredient ? (
       <div className={`${styles.routeStyle}`}>
         <h1 className={`${styles.title} text text_type_main-large`}>

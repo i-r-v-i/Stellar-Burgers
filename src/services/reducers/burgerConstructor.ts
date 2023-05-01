@@ -33,7 +33,7 @@ export const burgerConstructorReducer = (
         ...state,
         selectedIngredients: [
           ...state.selectedIngredients,
-          { ...action.payload, uniqId: uuidv4() }, ///////////////////////////////////////////////
+           action.payload
         ],
         dropIngredientSuccess: true,
       };

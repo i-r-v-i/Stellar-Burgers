@@ -1,15 +1,15 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector, useDispatch } from "react-redux";
 import { setActiveTab } from "../../services/actions/activeTab";
 import { useCallback } from "react";
-import { getactiveTab } from "../utils/constants";
+import { getActiveTab } from "../utils/constants";
+import { useAppDispatch, useAppSelector } from "../../services/types/hooks";
+import { FC } from "react";
 
-export default function Tabs() {
-  const { activeTab } = useSelector(getactiveTab);
+const Tabs: FC = () => {
+  const { activeTab } = useAppSelector(getActiveTab);
+  const dispatch = useAppDispatch();
 
-  const dispatch = useDispatch();
-
-  const handleTabClick = useCallback((id) => {
+  const handleTabClick = useCallback((id: string) => {
     dispatch(setActiveTab(id));
     document.querySelector(`#${id}`)?.scrollIntoView({ behavior: "smooth" });
   }, []);
@@ -35,4 +35,6 @@ export default function Tabs() {
       </Tab>
     </div>
   );
-}
+};
+
+export default Tabs;

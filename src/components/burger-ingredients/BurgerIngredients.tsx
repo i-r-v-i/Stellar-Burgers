@@ -10,7 +10,7 @@ const BurgerIngredients: FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const callback = (entries: any) => {
+    const callback = (entries: IntersectionObserverEntry[]) => {
       dispatch(setActiveTab(entries[0].target.id));
     };
     const observer = new IntersectionObserver(callback, {

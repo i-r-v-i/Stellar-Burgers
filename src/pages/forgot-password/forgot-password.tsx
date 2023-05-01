@@ -2,19 +2,20 @@ import { EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import Form from "../../components/form/Form";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { forgotPassword, SEND_EMAIL } from "../../services/actions/user";
+import { FC, FormEvent } from "react";
+import { useAppDispatch } from "../../services/types/hooks";
 
-export default function ForgotPassword() {
-  const dispatch = useDispatch();
+const ForgotPassword: FC = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [form, setEmail] = useState({ email: "" });
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail({ email: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: SubmitEvent | FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(forgotPassword(form, navigate));
     dispatch({ type: SEND_EMAIL });
@@ -24,7 +25,7 @@ export default function ForgotPassword() {
     <div style={{ paddingTop: "180px" }}>
       <Form
         title="Восстановление пароля"
-        button="true"
+        button
         buttonText="Восстановить"
         question="Вспомнили пароль?"
         link="Войти"
@@ -41,4 +42,6 @@ export default function ForgotPassword() {
       </Form>
     </div>
   );
-}
+};
+
+export default ForgotPassword;

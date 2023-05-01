@@ -1,9 +1,10 @@
 import styles from "./InfoBoard.module.css";
 import { getStoreOrders, orderStatus } from "../utils/constants";
-import { useSelector } from "react-redux";
+import { FC } from 'react';
+import { useAppSelector } from "../../services/types/hooks";
 
-export default function InfoBoard() {
-  const { orders, totalOrders, todayOrders } = useSelector(getStoreOrders);
+const InfoBoard: FC = () => {
+  const { orders, totalOrders, todayOrders } = useAppSelector(getStoreOrders);
 
   return (
     <section className={`${styles.gridContainer} pl-15`}>
@@ -54,3 +55,5 @@ export default function InfoBoard() {
     </section>
   );
 }
+
+export default InfoBoard;

@@ -7,8 +7,7 @@ import {
 import PriceContainer from "../price-container/PriceContainer";
 import { useParams } from "react-router-dom";
 import { getStoreOrders } from "../utils/constants";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 import { URL, getStoreIngredients } from "../utils/constants";
 import {
   WS_CONNECTING,
@@ -16,9 +15,15 @@ import {
 } from "../../services/actions/wsActions";
 import { getStatus, getOrderItem, getTotalPrice } from "../utils/constants";
 import { getCookie } from "../utils/cookie";
+import { useAppDispatch, useAppSelector } from "../../services/types/hooks";
 
-export default function FeedOrderDetails({ isModal, allOrders }) {
-  const dispatch = useDispatch();
+type TFeedOrderDetailsProps = {
+  isModal?: boolean;
+  allOrders?: boolean;
+}
+
+ const FeedOrderDetails: FC<TFeedOrderDetailsProps> =  ({ isModal, allOrders }) => {
+  const dispatch = useAppDispatch();
   const { id } = useParams();
 
   let token = getCookie("accessToken")?.split(" ")[1];
@@ -42,11 +47,11 @@ export default function FeedOrderDetails({ isModal, allOrders }) {
     };
   }, [dispatch, token]);
 
-  const { orders, wsConnected } = useSelector(getStoreOrders);
-  const { ingredients } = useSelector(getStoreIngredients);
+  const { orders, wsConnected } = useAppSelector(getStoreOrders);
+  const { ingredients } = useAppSelector(getStoreIngredients);
   const order = orders?.find((item) => item._id === id);
 
-  let unicItems = [];
+  let unicItems: string[] | undefined = [];
 
   const geUnicItems = () => {
     return order?.ingredients.filter((item, index) => {
@@ -55,7 +60,7 @@ export default function FeedOrderDetails({ isModal, allOrders }) {
   };
   unicItems = geUnicItems();
 
-  const getCount = (id) => {
+  const getCount = (id: string) => {
     let counter = 0;
 
     order?.ingredients.forEach((ingredient) => {
@@ -67,7 +72,7 @@ export default function FeedOrderDetails({ isModal, allOrders }) {
     return counter;
   };
 
-  const FeedDetailsView = () => {
+  const FeedDetailsView: any | FC = () => {
     return (
       wsConnected &&
       order && (
@@ -83,23 +88,23 @@ export default function FeedOrderDetails({ isModal, allOrders }) {
 
           <h3 className="text text_type_main-medium">Состав:</h3>
           <ul className={styles.ingredients}>
-            {unicItems.map((ing, index) => {
+            {unicItems?.map((ing, index) => {
               const item = getOrderItem(ing, ingredients);
 
               return (
                 <li className={styles.ingredient} key={index}>
                   <img
                     className={styles.image}
-                    src={item.image_mobile}
-                    alt={item.name}
+                    src={item?.image_mobile}
+                    alt={item?.name}
                   />
                   <p className={`${styles.name} text text_type_main-default`}>
-                    {item.name}
+                    {item?.name}
                   </p>
                   <div className={styles.priceContainer}>
-                    <span className="text text_type_digits-default">{`${getCount(
-                      item._id
-                    )} x ${item.price}`}</span>
+                    <span className="text text_type_digits-default">{`${item? getCount(
+                      item._id 
+                    ) : null} x ${item?.price}`}</span>
                     <CurrencyIcon type="primary" />
                   </div>
                 </li>
@@ -133,8 +138,4 @@ export default function FeedOrderDetails({ isModal, allOrders }) {
     </section>
   );
 }
-
-FeedOrderDetails.prototype = {
-  allOrders: PropTypes.bool,
-  isModal: PropTypes.bool,
-};
+export default FeedOrderDetails;

@@ -1,11 +1,15 @@
 import Ingredient from "../ingredient/Ingredient";
 import styles from "./IngredientList.module.css";
-import { useMemo } from "react";
-import PropTypes from "prop-types";
+import { useMemo, FC } from "react";
 import { useSelector } from "react-redux";
 import { getStoreIngredients } from "../utils/constants";
 
-const IngredientList = ({ ingType, title }) => {
+type IngredientListProps = {
+  ingType: string;
+  title: string;
+};
+
+const IngredientList: FC<IngredientListProps> = ({ ingType, title }) => {
   const { ingredients } = useSelector(getStoreIngredients);
   const menu = useMemo(
     () => ingredients.filter((item) => item.type === ingType),
@@ -34,8 +38,3 @@ const IngredientList = ({ ingType, title }) => {
 };
 
 export default IngredientList;
-
-IngredientList.propTypes = {
-  ingType: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-};

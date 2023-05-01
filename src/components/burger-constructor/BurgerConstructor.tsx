@@ -8,7 +8,6 @@ import styles from "./BurgerConstructor.module.css";
 import ConstructorFillingItem from "../constructor-filling-item/ConstructorFillingItem";
 import { Modal } from "../modal/Modal";
 import { OrderDetails } from "../order-details/OrderDetails";
-import { useSelector, useDispatch } from "react-redux";
 import {
   ADD_ITEM,
   ADD_BUN,
@@ -24,7 +23,10 @@ import {
   getUser,
 } from "../utils/constants";
 import { FC } from 'react';
-import { useAppDispatch } from "../../services/types/hooks";
+import { useAppDispatch, useAppSelector } from "../../services/types/hooks";
+import { v4 as uuidv4 } from "uuid";
+import { TConstructorElement } from "../../services/types/burgerConstructor";
+
 
 const BurgerConstructor: FC = () => {
   const dispatch = useAppDispatch();
@@ -33,19 +35,21 @@ const BurgerConstructor: FC = () => {
   const [isOrder, setIsOrder] = useState<boolean>(false);
 
   const { selectedIngredients, selectedBun, dropIngredientSuccess } =
-    useSelector(getStoreBurgerConstructor);
-  const { modalOpened } = useSelector(getOrderNumber);
-  const { userData } = useSelector(getUser);
+    useAppSelector(getStoreBurgerConstructor);
+  const { modalOpened } = useAppSelector(getOrderNumber);
+  const { userData } = useAppSelector(getUser);
 
-  const onDropBunHandler = (item) => {
-    dispatch({ type: ADD_BUN, selectedIngredient: item });
+  const onDropBunHandler = (item: TConstructorElement) => {
+    dispatch({ type: ADD_BUN, payload: {ingredient: item,
+      uniqId: uuidv4() }
+     });
   };
 
-  const onDropIngredientHandler = (item) => {
-    dispatch({ type: ADD_ITEM, selectedIngredient: item });
+  const onDropIngredientHandler = (item: TConstructorElement) => {
+    dispatch({ type: ADD_ITEM, payload: item });
   };
 
-  const handleDeleteItem = (uniqId) => {
+  const handleDeleteItem = (uniqId: string) => {
     dispatch({ type: DELETE_ITEM, uniqId });
   };
 
@@ -54,29 +58,29 @@ const BurgerConstructor: FC = () => {
     collect: (monitor) => ({
       isHover: monitor.isOver(),
     }),
-    drop(item) {
-      item.type === "bun"
+    drop: (item: TConstructorElement) => {
+      item.ingredient.type === "bun"
         ? onDropBunHandler(item)
         : onDropIngredientHandler(item);
     },
   });
 
-  const handleCloseModal = (evt) => {
+  const handleCloseModal = () => {
     dispatch({ type: GET_NUMBER_FAILED });
     dispatch({ type: CLEAR_STATE });
-    evt.stopPropagation();
+    // evt.stopPropagation();
   };
 
-  const ingredientArr = [];
-  selectedBun && ingredientArr.push(selectedBun._id);
+  const ingredientArr: string[] = [];
+  selectedBun && ingredientArr.push(selectedBun.ingredient._id);
   selectedIngredients.forEach((ingredient) => {
-    ingredientArr.push(ingredient._id);
+    ingredientArr.push(ingredient.ingredient._id);
   });
 
   const hahdleOpenPopupOrder = () => {
-    if (userData) {
+    if (userData && selectedBun) {
       const result = [...ingredientArr];
-      result.push(selectedBun._id);
+      result.push(selectedBun.ingredient._id);
       dispatch(makeOrder(result));
     } else {
       navigate("/login");
@@ -91,8 +95,8 @@ const BurgerConstructor: FC = () => {
 
   const totalSum =
     dropIngredientSuccess && selectedBun
-      ? selectedBun.price * 2 +
-        selectedIngredients?.reduce((sum, item) => sum + item.price, 0)
+      ? selectedBun.ingredient.price * 2 +
+        selectedIngredients?.reduce((sum, item) => sum + item.ingredient.price, 0)
       : 0;
 
   return (
@@ -106,7 +110,7 @@ const BurgerConstructor: FC = () => {
                 boxShadow: "5px 5px 8px rgba(225, 225, 225, 0.5)",
                 borderRadius: "60px",
               }
-            : null
+            : undefined
         }
       >
         <ul
@@ -117,9 +121,9 @@ const BurgerConstructor: FC = () => {
             <ConstructorItem
               isLocked={true}
               type="top"
-              text={`${selectedBun.name} (верх)`}
-              price={selectedBun.price}
-              thumbnail={selectedBun.image_mobile}
+              text={`${selectedBun.ingredient.name} (верх)`}
+              price={selectedBun.ingredient.price}
+              thumbnail={selectedBun.ingredient.image_mobile}
             />
           )}
           <div
@@ -143,9 +147,9 @@ const BurgerConstructor: FC = () => {
             <ConstructorItem
               isLocked={true}
               type="bottom"
-              text={`${selectedBun.name} (низ)`}
-              price={selectedBun.price}
-              thumbnail={selectedBun.image_mobile}
+              text={`${selectedBun.ingredient.name} (низ)`}
+              price={selectedBun.ingredient.price}
+              thumbnail={selectedBun.ingredient.image_mobile}
             />
           )}
         </ul>

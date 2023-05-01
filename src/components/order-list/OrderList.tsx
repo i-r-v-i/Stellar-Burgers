@@ -1,12 +1,18 @@
 import styles from "./OrderList.module.css";
 import OrderItem from "../order-item/OrderItem";
-import { useSelector } from "react-redux";
 import { getStoreOrders } from "../utils/constants";
-import PropTypes from "prop-types";
 import React, { useMemo } from "react";
+import { FC } from 'react';
+import { useAppSelector } from "../../services/types/hooks";
 
-function OrderList({ width, isStatus, isMyOrder }) {
-  const { orders } = useSelector(getStoreOrders);
+type TOrderListProps = {
+  width: string; 
+  isStatus?: boolean;
+  isMyOrder?: boolean;
+}
+
+const OrderList: FC<TOrderListProps> = ({ width, isStatus, isMyOrder }) => {
+  const { orders } = useAppSelector(getStoreOrders);
 
   const reverseOrders = useMemo(() => [...orders]?.reverse(), [orders]);
   
@@ -34,7 +40,3 @@ function OrderList({ width, isStatus, isMyOrder }) {
 
 export default React.memo(OrderList);
 
-OrderList.prototype = {
-  width: PropTypes.string.isRequired,
-  isStatus: PropTypes.bool,
-};

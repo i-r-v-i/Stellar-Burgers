@@ -2,15 +2,17 @@ import styles from "./Feed.module.css";
 import OrderList from "../../components/order-list/OrderList";
 import InfoBoard from "../../components/info-board/InfoBoard";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import {
   WS_CONNECTING,
   WS_DISCONNECTING,
 } from "../../services/actions/wsActions";
 import { URL } from "../../components/utils/constants";
+import { useAppDispatch } from "../../services/types/hooks";
+import { FC } from 'react';
 
-export default function Feed() {
-  const dispatch = useDispatch();
+
+const Feed: FC = () => {
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch({
@@ -36,3 +38,6 @@ export default function Feed() {
     </main>
   );
 }
+
+
+export default Feed;

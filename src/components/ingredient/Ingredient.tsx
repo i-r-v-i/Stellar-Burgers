@@ -34,10 +34,10 @@ const Ingredient: FC<TIngredientProps> = ({
   const count =
     data.type !== "bun"
       ? selectedIngredients.reduce(
-          (sum, item) => (item._id === data._id ? sum + 1 : sum),
+          (sum, item) => (item.ingredient._id === data._id ? sum + 1 : sum),
           0
         )
-      : selectedBun?._id === data._id
+      : selectedBun?.ingredient._id === data._id
       ? 1
       : 0;
 

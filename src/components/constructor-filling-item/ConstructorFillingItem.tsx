@@ -1,7 +1,5 @@
-import PropTypes from "prop-types";
-import { IngredientPropType } from "../types/common-types";
 import { useRef } from "react";
-import { useDrag, useDrop } from "react-dnd";
+import { useDrag, useDrop,  XYCoord } from "react-dnd";
 import {
   ConstructorElement,
   DragIcon,
@@ -10,18 +8,22 @@ import styles from "./ConstructorFillingItem.module.css";
 import { SORT_ITEM } from "../../services/actions/burgerConstructor";
 import { useAppDispatch } from "../../services/types/hooks";
 import { FC } from 'react';
-import { TIngredient } from "../../services/types/ingredients";
 import { TConstructorElement } from "../../services/types/burgerConstructor";
 
-type ConstructorFillingItemProps = {
+type TConstructorFillingItemProps = {
   ingredient: TConstructorElement;
   index: number;
-  handleClose: 
+  handleClose: () => void;
 }
 
-const ConstructorFillingItem: FC<ConstructorFillingItemProps> = ({ ingredient, index, handleClose }) => {
+type TDropItem = {
+  id: string;
+  index: number;
+}
+
+const ConstructorFillingItem: FC<TConstructorFillingItemProps> = ({ ingredient, index, handleClose }) => {
   const dispatch = useAppDispatch();
-  const ref = useRef(null);
+  const ref = useRef<HTMLLIElement>(null);
 
   const [{ opacity }, drag] = useDrag({
     type: "filling",
@@ -31,7 +33,8 @@ const ConstructorFillingItem: FC<ConstructorFillingItemProps> = ({ ingredient, i
     }),
   });
 
-  const [, drop] = useDrop({
+  const [, drop] = useDrop<TDropItem,  unknown,  { ingredient: TDropItem }
+  >({
     accept: "filling",
     hover(ingredient, monitor) {
       if (!ref.current) return;
@@ -47,7 +50,7 @@ const ConstructorFillingItem: FC<ConstructorFillingItemProps> = ({ ingredient, i
 
       const clientOffset = monitor.getClientOffset();
 
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) return;
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) return;
@@ -68,10 +71,9 @@ const ConstructorFillingItem: FC<ConstructorFillingItemProps> = ({ ingredient, i
         <DragIcon type="primary" />
       </div>
       <ConstructorElement
-        text={ingredient.name}
-        price={ingredient.price}
-        thumbnail={ingredient.image_mobile}
-        uniqId={ingredient.uniqId}
+        text={ingredient.ingredient.name}
+        price={ingredient.ingredient.price}
+        thumbnail={ingredient.ingredient.image_mobile}
         handleClose={handleClose}
       />
     </li>
@@ -80,8 +82,8 @@ const ConstructorFillingItem: FC<ConstructorFillingItemProps> = ({ ingredient, i
 
 export default ConstructorFillingItem;
 
-ConstructorFillingItem.propTypes = {
-  ingredient: PropTypes.shape(IngredientPropType).isRequired,
-  index: PropTypes.number.isRequired,
-  handleClose: PropTypes.func.isRequired,
-};
+// ConstructorFillingItem.propTypes = {
+//   ingredient: PropTypes.shape(IngredientPropType).isRequired,
+//   index: PropTypes.number.isRequired,
+//   handleClose: PropTypes.func.isRequired,
+// };

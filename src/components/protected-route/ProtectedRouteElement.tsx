@@ -1,17 +1,21 @@
-import PropTypes from "prop-types";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { saveUserPath } from "../../services/actions/user";
 import { getUser } from "../utils/constants";
+import { FC } from "react";
+import { useAppDispatch, useAppSelector } from "../../services/types/hooks";
 
+type TProtectedRouteElementProps = {
+  element: React.ReactElement;
+};
 
-
-export const ProtectedRouteElement = ({ element }) => {
+export const ProtectedRouteElement: FC<TProtectedRouteElementProps> = ({
+  element,
+}) => {
   const location = useLocation();
-  const dispatch = useDispatch();
-  const { userData } = useSelector(getUser);
+  const dispatch = useAppDispatch();
+  const { userData } = useAppSelector(getUser);
 
   useEffect(() => {
     {
@@ -20,8 +24,4 @@ export const ProtectedRouteElement = ({ element }) => {
   }, [dispatch, location.pathname]);
 
   return userData ? element : <Navigate to="/login" replace />;
-};
-
-ProtectedRouteElement.propTypes = {
-  element: PropTypes.element.isRequired,
 };

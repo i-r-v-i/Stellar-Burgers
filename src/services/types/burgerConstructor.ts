@@ -12,9 +12,21 @@ export type TConstructorElement = {
   uniqId: string;
 };
 
+export type TOrderInfo = {
+  _id: string;
+  ingredients: Array<string>;
+  owner?: string;
+  status: "created" | "pending" | "done";
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number;
+  __v?: number;
+};
+
 export type TBurgerConstructorState = {
-  selectedIngredients: TIngredient[];
-  selectedBun: TIngredient | null;
+  selectedIngredients: TConstructorElement[];
+  selectedBun: TConstructorElement | null;
   dropIngredientSuccess: boolean;
 };
 
