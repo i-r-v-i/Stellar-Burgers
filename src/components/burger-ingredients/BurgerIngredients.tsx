@@ -1,15 +1,17 @@
 import Tabs from "../tabs/Tabs";
 import styles from "./BurgerIngredients.module.css";
 import IngredientList from "../ingredient-list/IngredientList";
-import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { setActiveTab } from "../../services/actions/activeTab";
+import { FC } from 'react';
+import { useAppDispatch } from "../../services/types/hooks";
 
-function BurgerIngredients() {
-  const dispatch = useDispatch();
+
+const BurgerIngredients: FC = () => {
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const callback = (entries) => {
+    const callback = (entries: IntersectionObserverEntry[]) => {
       dispatch(setActiveTab(entries[0].target.id));
     };
     const observer = new IntersectionObserver(callback, {
@@ -22,9 +24,9 @@ function BurgerIngredients() {
     const sauceSection = document.getElementById("sauce");
     const mainSection = document.getElementById("main");
 
-    observer.observe(bunSection);
-    observer.observe(sauceSection);
-    observer.observe(mainSection);
+    observer.observe(bunSection as Element);
+    observer.observe(sauceSection as Element);
+    observer.observe(mainSection as Element);
   }, []);
 
   return (

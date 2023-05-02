@@ -1,3 +1,4 @@
+import { TBurgerConstructorState, TBurgerConstructorActions } from './../types/burgerConstructor';
 import {
   ADD_ITEM,
   ADD_BUN,
@@ -5,9 +6,9 @@ import {
   CLEAR_STATE,
   SORT_ITEM,
 } from "../actions/burgerConstructor";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 
-const burgerConstructorInitialState = {
+const burgerConstructorInitialState: TBurgerConstructorState = {
   selectedIngredients: [],
   selectedBun: null,
   dropIngredientSuccess: false,
@@ -15,8 +16,8 @@ const burgerConstructorInitialState = {
 
 export const burgerConstructorReducer = (
   state = burgerConstructorInitialState,
-  action
-) => {
+  action: TBurgerConstructorActions
+  ): TBurgerConstructorState => {
   switch (action.type) {
     case CLEAR_STATE: {
       return {
@@ -31,7 +32,7 @@ export const burgerConstructorReducer = (
         ...state,
         selectedIngredients: [
           ...state.selectedIngredients,
-          { ...action.selectedIngredient, uniqId: uuidv4() },
+           action.payload
         ],
         dropIngredientSuccess: true,
       };
@@ -39,7 +40,7 @@ export const burgerConstructorReducer = (
     case ADD_BUN: {
       return {
         ...state,
-        selectedBun: action.selectedIngredient,
+        selectedBun: action.payload,
         dropIngredientSuccess: true,
       };
     }
@@ -47,16 +48,16 @@ export const burgerConstructorReducer = (
       return {
         ...state,
         selectedIngredients: [...state.selectedIngredients].filter(
-          (item) => item.uniqId !== action.uniqId
+          (item) => item.uniqId !== action.payload.uniqId
         ),
       };
     }
     case SORT_ITEM: {
       const newArrIngredients = [...state.selectedIngredients];
-      const ingredient = newArrIngredients[action.dragIndex];
-      newArrIngredients[action.dragIndex] =
-        newArrIngredients[action.hoverIndex];
-      newArrIngredients[action.hoverIndex] = ingredient;
+      const ingredient = newArrIngredients[action.payload.dragIndex];
+      newArrIngredients[action.payload.dragIndex] =
+        newArrIngredients[action.payload.hoverIndex];
+      newArrIngredients[action.payload.hoverIndex] = ingredient;
 
       return {
         ...state,

@@ -1,14 +1,19 @@
 import Ingredient from "../ingredient/Ingredient";
 import styles from "./IngredientList.module.css";
-import { useMemo } from "react";
-import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useMemo, FC } from "react";
 import { getStoreIngredients } from "../utils/constants";
+import { useAppSelector } from "../../services/types/hooks";
+import { TIngredient } from "../../services/types/ingredients";
 
-const IngredientList = ({ ingType, title }) => {
-  const { ingredients } = useSelector(getStoreIngredients);
+type TIngredientListProps = {
+  ingType: string;
+  title: string;
+};
+
+const IngredientList: FC<TIngredientListProps> = ({ ingType, title }) => {
+  const { ingredients } = useAppSelector(getStoreIngredients);
   const menu = useMemo(
-    () => ingredients.filter((item) => item.type === ingType),
+    () => ingredients.filter((item: TIngredient) => item.type === ingType),
     [ingType, ingredients]
   );
 
@@ -18,9 +23,9 @@ const IngredientList = ({ ingType, title }) => {
         {title}
       </p>
       <ul className={`${styles.ingredientList} pt-6 pl-4 pr-2 `}>
-        {menu.map((item) => (
+        {menu.map((item: TIngredient) => (
           <Ingredient
-            data={item}
+            ingredientData={item}
             name={item.name}
             price={item.price}
             image={item.image}
@@ -34,8 +39,3 @@ const IngredientList = ({ ingType, title }) => {
 };
 
 export default IngredientList;
-
-IngredientList.propTypes = {
-  ingType: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-};
