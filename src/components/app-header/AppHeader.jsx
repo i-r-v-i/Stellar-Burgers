@@ -15,7 +15,8 @@ function AppHeader() {
 
   return (
     <header className={styles.header}>
-      <div className={styles.wrapper}>
+      <div class={styles.wrapper}>
+      <div className={styles.container}>
         <nav className={`${styles.navList} pb-4 pt-4`}>
           <NavLink
             to="/"
@@ -56,6 +57,7 @@ function AppHeader() {
             </p>
           </NavLink>
         </div>
+      </div>
       </div>
     </header>
   );

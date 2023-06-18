@@ -18,7 +18,8 @@ export const burgerConstructorReducer = (
   state = burgerConstructorInitialState,
   action: TBurgerConstructorActions
   ): TBurgerConstructorState => {
-  switch (action.type) {
+  
+    switch (action.type) {
     case CLEAR_STATE: {
       return {
         selectedIngredients: [],
@@ -28,11 +29,12 @@ export const burgerConstructorReducer = (
     }
 
     case ADD_ITEM: {
+      const { ingredient, uniqId} = action.payload;
       return {
         ...state,
         selectedIngredients: [
           ...state.selectedIngredients,
-           action.payload
+           {ingredient: ingredient, uniqId: uniqId}
         ],
         dropIngredientSuccess: true,
       };

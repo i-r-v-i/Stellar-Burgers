@@ -23,6 +23,8 @@ import {
   getOrderNumber,
   getUser,
 } from "../utils/constants";
+import { v4 as uuidv4 } from "uuid";
+
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
@@ -36,11 +38,12 @@ function BurgerConstructor() {
   const { userData } = useSelector(getUser);
 
   const onDropBunHandler = (item) => {
-    dispatch({ type: ADD_BUN, selectedIngredient: item });
+    dispatch({ type: ADD_BUN,  payload: item  });
   };
 
   const onDropIngredientHandler = (item) => {
-    dispatch({ type: ADD_ITEM, selectedIngredient: item });
+    dispatch({ type: ADD_ITEM, payload: {ingredient: item,
+      uniqId: uuidv4() } });
   };
 
   const handleDeleteItem = (uniqId) => {
@@ -72,7 +75,7 @@ function BurgerConstructor() {
   });
 
   const hahdleOpenPopupOrder = () => {
-    if (userData) {
+    if (userData && selectedBun) {
       const result = [...ingredientArr];
       result.push(selectedBun._id);
       dispatch(makeOrder(result));

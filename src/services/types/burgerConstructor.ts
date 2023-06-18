@@ -9,7 +9,7 @@ import {
 
 export type TConstructorElement = {
   ingredient: TIngredient;
-  uniqId: string;
+  uniqId?: string;
 };
 
 

@@ -1,3 +1,4 @@
+import { TWState, TWsActions } from './../types/ws';
 import {
   WS_CONNECTION_SUCCESS,
   WS_ERROR,
@@ -6,7 +7,7 @@ import {
   WS_DISCONNECTING,
 } from "../actions/wsActions";
 
-const initialState = {
+const initialState: TWState = {
   wsConnected: false,
   error: undefined,
   orders: [],
@@ -14,7 +15,7 @@ const initialState = {
   todayOrders: 0,
 };
 
-export const wsReducer = (state = initialState, action) => {
+export const wsReducer = (state = initialState, action: TWsActions): TWState => {
   switch (action.type) {
     case WS_CONNECTION_SUCCESS:
       return {
@@ -40,15 +41,15 @@ export const wsReducer = (state = initialState, action) => {
       return {
         ...state,
         wsConnected: false,
-        error: "",
+        error: undefined,
       };
     case WS_GET_ORDERS:
       return {
         ...state,
         error: undefined,
         orders: action.payload.orders,
-        totalOrders: action.payload.total,
-        todayOrders: action.payload.totalToday,
+        totalOrders: action.payload.totalOrders,
+        todayOrders: action.payload.totalOrders
       };
 
     default:
