@@ -15,7 +15,7 @@ function AppHeader() {
 
   return (
     <header className={styles.header}>
-      <div class={styles.wrapper}>
+      <div className={styles.wrapper}>
       <div className={styles.container}>
         <nav className={`${styles.navList} pb-4 pt-4`}>
           <NavLink
