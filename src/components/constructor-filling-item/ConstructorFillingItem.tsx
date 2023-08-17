@@ -16,10 +16,10 @@ type TConstructorFillingItemProps = {
   handleClose: () => void;
 }
 
-type TDropItem = {
-  id: string;
-  index: number;
-}
+// type TDropItem = {
+//   id: string;
+//   index: number;
+// }
 
 
 const ConstructorFillingItem: FC<TConstructorFillingItemProps> = ({ ingredient, index, handleClose }) => {
@@ -34,10 +34,9 @@ const ConstructorFillingItem: FC<TConstructorFillingItemProps> = ({ ingredient, 
     }),
   });
 
-  const [, drop] = useDrop<TDropItem,  unknown,  { ingredient: TDropItem }
-  >({
+  const [, drop] = useDrop({
     accept: "filling",
-    hover(ingredient, monitor) {
+    hover(ingredient: {index: number}, monitor) {
       if (!ref.current) return;
 
       const dragIndex = ingredient.index;

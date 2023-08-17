@@ -24,9 +24,9 @@ const BurgerIngredients: FC = () => {
     const sauceSection = document.getElementById("sauce");
     const mainSection = document.getElementById("main");
 
-    observer.observe(bunSection as Element);
-    observer.observe(sauceSection as Element);
-    observer.observe(mainSection as Element);
+    observer.observe(bunSection as HTMLElement);
+    observer.observe(sauceSection as HTMLElement);
+    observer.observe(mainSection as HTMLElement);
   }, []);
 
   return (
