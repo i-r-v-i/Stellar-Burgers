@@ -49,12 +49,11 @@ export const getOrderItem = (ing:string, ingredients: TIngredient[]) => {
   return ingredients.find((item) => item._id === ing);
 };
 
-export const getTotalPrice = (arrOrder: TOrderInfo[], arrAll: TIngredient[] | undefined) => {
+export const getTotalPrice = (arrOrder: any[], arrAll: TIngredient[] | undefined) => {
   if (arrOrder && arrAll) {
-    return 'rtr'
-  // return arrOrder.reduce(
-  //   (sum, id) => sum + arrAll?.find((item) => item?._id === id)?.price,
-  //   0
-  // );
+  return arrOrder.reduce(
+    (sum, id) => sum + arrAll?.find((item) => item?._id === id)?.price,
+    0
+  );
   }
 };
