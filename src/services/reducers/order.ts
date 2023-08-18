@@ -4,13 +4,14 @@ import {
   GET_NUMBER_REQUEST,
   GET_NUMBER_FOR_MODAL
 } from "../actions/order";
+import { TOrderActions, TOrderState } from "../types/order";
 
-const orderInitialState = {
+const orderInitialState: TOrderState = {
   orderNumber: null,
   modalOpened: false,
 };
 
-export const orderReducer = (state = orderInitialState, action) => {
+export const orderReducer = (state = orderInitialState, action: TOrderActions) => {
   switch (action.type) {
     case GET_NUMBER_REQUEST: {
       return {

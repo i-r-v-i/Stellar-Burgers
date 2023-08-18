@@ -16,7 +16,6 @@ export const getIngredients:  AppThunk = () => {
         dispatch({
           type: GET_INGREDIENTS_SUCCESS,
           payload: res.data,
-          //  ingredients: res.data,
         });
        
       } else {

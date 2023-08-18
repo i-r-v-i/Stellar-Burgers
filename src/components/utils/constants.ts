@@ -1,5 +1,5 @@
 import { TActiveTabState } from "../../services/types/activeTab";
-import { TBurgerConstructorState } from "../../services/types/burgerConstructor";
+import { TBurgerConstructorState, TOrderInfo } from "../../services/types/burgerConstructor";
 import { TIngredient, TIngredientsState } from "../../services/types/ingredients";
 import { RootState } from "../../services/types/store";
 import { TUserState } from "../../services/types/user";
@@ -45,15 +45,16 @@ export type TOrderStatus = {
 export const countOfIconIngredients = 5;
 
 
-export const getOrderItem = (ing, ingredients) => {
+export const getOrderItem = (ing:string, ingredients: TIngredient[]) => {
   return ingredients.find((item) => item._id === ing);
 };
 
-export const getTotalPrice = (arrOrder: , arrAll: TIngredient[]) => {
+export const getTotalPrice = (arrOrder: TOrderInfo[], arrAll: TIngredient[] | undefined) => {
   if (arrOrder && arrAll) {
-  return arrOrder.reduce(
-    (sum, id) => sum + arrAll.find((item) => item._id === id)?.price,
-    0
-  );
+    return 'rtr'
+  // return arrOrder.reduce(
+  //   (sum, id) => sum + arrAll?.find((item) => item?._id === id)?.price,
+  //   0
+  // );
   }
 };
