@@ -1,12 +1,13 @@
 import { getOrderNumber } from "../../components/utils/data";
 import { getCookie } from "../../components/utils/cookie";
+import { AppDispatch, AppThunk } from "../types/store";
 export const GET_NUMBER_REQUEST = "GET_NUMBER_REQUEST";
 export const GET_NUMBER_SUCCESS = "GET_NUMBER_SUCCESS";
 export const GET_NUMBER_FAILED = "GET_NUMBER_FAILED";
 export const GET_NUMBER_FOR_MODAL = "GET_NUMBER_FOR_MODAL";
 
-export function makeOrder(ingredientArr) {
-  return function (dispatch) {
+export const makeOrder:  AppThunk = (ingredientArr: string[]) => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: GET_NUMBER_REQUEST,
     });
