@@ -38,7 +38,7 @@ const Ingredient: FC<TIngredientProps> = ({
           (sum: number, item: any) => (item._id === ingredientData._id ? sum + 1 : sum),
           0
         )
-      : selectedBun?._id === ingredientData._id
+      : selectedBun?.ingredient._id === ingredientData._id
       ? 1
       : 0;
 

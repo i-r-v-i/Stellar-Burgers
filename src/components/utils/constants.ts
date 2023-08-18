@@ -37,7 +37,7 @@ export const getStatus = (status: string) => {
   }
 };
 
-export type TOrderStatus = {
+export const orderStatus = {
   done: 'done', 
   pending: 'pending'
 }

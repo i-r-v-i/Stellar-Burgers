@@ -1,8 +1,9 @@
 import styles from "./InfoBoard.module.css";
 import { getStoreOrders, orderStatus } from "../utils/constants";
 import { useSelector } from "react-redux";
+import { FC } from "react";
 
-export default function InfoBoard() {
+const InfoBoard: FC = () => {
   const { orders, totalOrders, todayOrders } = useSelector(getStoreOrders);
 
   return (
@@ -54,3 +55,5 @@ export default function InfoBoard() {
     </section>
   );
 }
+
+export default InfoBoard;
