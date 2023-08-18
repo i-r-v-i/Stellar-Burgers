@@ -5,7 +5,7 @@ import {
   } from "../actions/ingredients";
   
 export type TIngredient = {
-    unicId?: string;
+    uniqId?: string;
     _id: string;
     name: string;
     type: string;

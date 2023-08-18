@@ -8,10 +8,11 @@ import styles from "./ConstructorFillingItem.module.css";
 import { SORT_ITEM } from "../../services/actions/burgerConstructor";
 import { useAppDispatch } from "../../services/types/hooks";
 import { FC } from 'react';
-import { TConstructorElement } from "../../services/types/burgerConstructor";
+// import { TConstructorElement } from "../../services/types/burgerConstructor";
+import { TIngredient } from "../../services/types/ingredients";
 
 type TConstructorFillingItemProps = {
-  ingredient: TConstructorElement;
+  ingredient: TIngredient;
   index: number;
   handleClose: () => void;
 }
@@ -71,9 +72,9 @@ const ConstructorFillingItem: FC<TConstructorFillingItemProps> = ({ ingredient, 
         <DragIcon type="primary" />
       </div>
       <ConstructorElement
-       text={ingredient.ingredient?.name}
-       price={ingredient.ingredient?.price}
-       thumbnail={ingredient.ingredient?.image_mobile}
+       text={ingredient?.name}
+       price={ingredient?.price}
+       thumbnail={ingredient?.image_mobile}
        handleClose={handleClose}
       />
     </li>

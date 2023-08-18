@@ -7,10 +7,10 @@ import {
   SORT_ITEM,
 } from "../actions/burgerConstructor";
 
-export type TConstructorElement = {
-  ingredient: TIngredient;
-  uniqId?: string;
-};
+// export type TConstructorElement = {
+//   ingredient: TIngredient;
+//   uniqId?: string;
+// };
 
 
 export type TOrderInfo = {
@@ -25,25 +25,32 @@ export type TOrderInfo = {
   __v?: number;
 };
 
+// export type TBurgerConstructorState = {
+//   selectedIngredients: TConstructorElement[];
+//   selectedBun: TConstructorElement | null;
+//   dropIngredientSuccess: boolean;
+// };
 export type TBurgerConstructorState = {
-  selectedIngredients: TConstructorElement[];
-  selectedBun: TConstructorElement | null;
+  selectedIngredients: TIngredient[];
+  selectedBun: TIngredient | null;
   dropIngredientSuccess: boolean;
 };
 
+
+
 type TAddItemAction = {
   readonly type: typeof ADD_ITEM;
-  readonly payload: TConstructorElement;
+  readonly payload: TIngredient;
 };
 
 type TAddBunAction = {
   readonly type: typeof ADD_BUN;
-  readonly payload: TConstructorElement;
+  readonly payload: TIngredient;
 };
 
 type TDeleteItemAction = {
   readonly type: typeof DELETE_ITEM;
-  readonly payload: TConstructorElement;
+  readonly payload: TIngredient;
 };
 
 type TClearStateAction = {

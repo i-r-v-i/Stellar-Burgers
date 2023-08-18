@@ -6,7 +6,7 @@ export const GET_NUMBER_SUCCESS = "GET_NUMBER_SUCCESS";
 export const GET_NUMBER_FAILED = "GET_NUMBER_FAILED";
 export const GET_NUMBER_FOR_MODAL = "GET_NUMBER_FOR_MODAL";
 
-export const makeOrder:  AppThunk = (ingredientArr: string[]) => {
+export const makeOrder:  AppThunk = (ingredientArr: any[]) => {
   return function (dispatch: AppDispatch) {
     dispatch({
       type: GET_NUMBER_REQUEST,

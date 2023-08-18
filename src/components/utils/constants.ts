@@ -1,5 +1,5 @@
 import { TActiveTabState } from "../../services/types/activeTab";
-import { TBurgerConstructorState, TOrderInfo } from "../../services/types/burgerConstructor";
+import { TBurgerConstructorState} from "../../services/types/burgerConstructor";
 import { TIngredient, TIngredientsState } from "../../services/types/ingredients";
 import { RootState } from "../../services/types/store";
 import { TUserState } from "../../services/types/user";
@@ -22,7 +22,6 @@ export const getStore = (store: RootState) => store;
 export const getStoreIngredients = (store: RootState):TIngredientsState => store.ingredients;
 export const getStoreBurgerConstructor = (store: RootState):TBurgerConstructorState => store.burgerConstructor;
 export const getUser = (store: RootState):TUserState => store.user;
-// export const getCurrentIngredient = (store: RootState) => store.currentIngredient;
 export const getOrderNumber = (store: RootState) => store.order;
 export const getActiveTab = (store: RootState):TActiveTabState => store.activeTab;
 export const getStoreOrders = (store: RootState):TWState => store.ws;

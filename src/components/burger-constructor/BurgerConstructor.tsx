@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   CurrencyIcon,
   Button,
@@ -24,9 +24,11 @@ import {
   getUser,
 } from "../utils/constants";
 import { v4 as uuidv4 } from "uuid";
+import { TIngredient } from "../../services/types/ingredients";
+// import { TConstructorElement } from "../../services/types/burgerConstructor";
 
 
-function BurgerConstructor() {
+const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -37,38 +39,37 @@ function BurgerConstructor() {
   const { modalOpened } = useSelector(getOrderNumber);
   const { userData } = useSelector(getUser);
 
-  const onDropBunHandler = (item) => {
+  const onDropBunHandler = (item: TIngredient) => {
     dispatch({ type: ADD_BUN,  payload: item  });
   };
 
-  const onDropIngredientHandler = (item) => {
-    dispatch({ type: ADD_ITEM, payload: {ingredient: item,
-      uniqId: uuidv4() } });
+  const onDropIngredientHandler = (item: TIngredient) => {
+    dispatch({ type: ADD_ITEM, payload: {...item, uniqId: uuidv4()}});
   };
 
-  const handleDeleteItem = (uniqId) => {
+  const handleDeleteItem = (uniqId: string | undefined) => {
     dispatch({ type: DELETE_ITEM, uniqId });
   };
 
-  const [{ isHover }, dropTarget] = useDrop({
+  const [, dropTarget] = useDrop({
     accept: "ingredient",
-    collect: (monitor) => ({
-      isHover: monitor.isOver(),
-    }),
-    drop(item) {
+    // collect: (monitor) => ({
+    //   isHover: monitor.isOver(),
+    // }),
+    drop: (item: TIngredient) => {
       item.type === "bun"
         ? onDropBunHandler(item)
         : onDropIngredientHandler(item);
     },
   });
 
-  const handleCloseModal = (evt) => {
+  const handleCloseModal = (evt: Event) => {
     dispatch({ type: GET_NUMBER_FAILED });
     dispatch({ type: CLEAR_STATE });
     evt.stopPropagation();
   };
 
-  const ingredientArr = [];
+  const ingredientArr: any = [];
   selectedBun && ingredientArr.push(selectedBun._id);
   selectedIngredients.forEach((ingredient) => {
     ingredientArr.push(ingredient._id);
@@ -78,7 +79,7 @@ function BurgerConstructor() {
     if (userData && selectedBun) {
       const result = [...ingredientArr];
       result.push(selectedBun._id);
-      dispatch(makeOrder(result));
+      // dispatch(makeOrder(result));
     } else {
       navigate("/login");
     }
@@ -101,14 +102,14 @@ function BurgerConstructor() {
       <section
         className={`${styles.burgerConstructor} mt-25`}
         ref={dropTarget}
-        style={
-          isHover
-            ? {
-                boxShadow: "5px 5px 8px rgba(225, 225, 225, 0.5)",
-                borderRadius: "60px",
-              }
-            : null
-        }
+        // style={
+        //   isHover
+        //     ? {
+        //         boxShadow: "5px 5px 8px rgba(225, 225, 225, 0.5)",
+        //         borderRadius: "60px",
+        //       }
+        //     : null
+        // }
       >
         <ul
           style={{ display: "flex", flexDirection: "column", gap: "10px" }}
@@ -184,7 +185,7 @@ function BurgerConstructor() {
       </section>
 
       {modalOpened && (
-        <Modal closePopup={handleCloseModal}>
+        <Modal closePopup={() => handleCloseModal}>
           <OrderDetails />
         </Modal>
       )}

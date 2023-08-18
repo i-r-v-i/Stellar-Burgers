@@ -29,12 +29,13 @@ export const burgerConstructorReducer = (
     }
 
     case ADD_ITEM: {
-      const { ingredient, uniqId} = action.payload;
+      // const { ingredient, uniqId} = action.payload;
       return {
         ...state,
         selectedIngredients: [
           ...state.selectedIngredients,
-           {ingredient: ingredient, uniqId: uniqId}
+          action.payload
+          //  {ingredient: ingredient, uniqId: uniqId}
         ],
         dropIngredientSuccess: true,
       };
