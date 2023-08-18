@@ -3,8 +3,14 @@ import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getStoreIngredients } from "../utils/constants";
+import { FC } from "react";
 
-export function IngredientDetails({ bac }) {
+type TIngredientDetailsProps = {
+  bac: boolean;
+}
+
+
+const IngredientDetails: FC<TIngredientDetailsProps> = ({ bac })  => {
   const { id } = useParams();
   const { ingredients } = useSelector(getStoreIngredients);
   const ingredient = ingredients?.find((ingredient) => ingredient._id === id);
@@ -64,7 +70,7 @@ export function IngredientDetails({ bac }) {
     ) : null;
   };
 
-  const IngredientDetailsRoute = () => {
+  const IngredientDetailsRoute: FC = () => {
     return ingredient ? (
       <div className={`${styles.routeStyle}`}>
         <h1 className={`${styles.title} text text_type_main-large`}>
@@ -125,6 +131,4 @@ export function IngredientDetails({ bac }) {
   return bac ? <IngredientDetailsModal /> : <IngredientDetailsRoute />;
 }
 
-IngredientDetails.prototype = {
-  bac: PropTypes.bool
-};
+export default IngredientDetails;

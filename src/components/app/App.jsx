@@ -13,7 +13,7 @@ import NotFound404 from "../../pages/not-found/not-found";
 import ProfilePage from "../../pages/profile/profile";
 import { Modal } from "../modal/Modal";
 import Feed from "../../pages/feed/Feed";
-import { IngredientDetails } from "../ingredient-details/IngredientDetails";
+import IngredientDetails from "../ingredient-details/IngredientDetails";
 import { checkAuth } from "../../services/actions/user";
 import { getIngredients } from "../../services/actions/ingredients";
 import { getOrderNumber } from "../utils/constants";
