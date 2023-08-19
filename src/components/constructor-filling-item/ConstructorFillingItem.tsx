@@ -57,8 +57,8 @@ const ConstructorFillingItem: FC<TConstructorFillingItemProps> = ({ ingredient, 
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) return;
       dispatch({
         type: SORT_ITEM,
-        dragIndex,
-        hoverIndex,
+        payload: {dragIndex,
+        hoverIndex}
       });
       ingredient.index = hoverIndex;
     },

@@ -73,15 +73,15 @@ const BurgerConstructor: FC = () => {
     evt.stopPropagation();
   };
 
-  const ingredientArr: any = [];
-  selectedBun && ingredientArr.push(selectedBun._id);
+  const ingredientIdArr: string[] = [];
+  selectedBun && ingredientIdArr.push(selectedBun._id);
   selectedIngredients.forEach((ingredient) => {
-    ingredientArr.push(ingredient._id);
+    ingredientIdArr.push(ingredient._id);
   });
 
   const hahdleOpenPopupOrder = () => {
     if (userData && selectedBun) {
-      const result = [...ingredientArr];
+      const result = [...ingredientIdArr];
       result.push(selectedBun._id);
       // dispatch(makeOrder(result));
     } else {
@@ -95,7 +95,7 @@ const BurgerConstructor: FC = () => {
     }
   }, [selectedBun, selectedIngredients]);
 
-  const totalSum =
+  const totalSum = 
     dropIngredientSuccess && selectedBun
       ? selectedBun.price * 2 +
         selectedIngredients?.reduce((sum, item) => sum + item.price, 0)
@@ -106,7 +106,6 @@ const BurgerConstructor: FC = () => {
       <section
         className={`${styles.burgerConstructor} mt-25 ${isHover && styles.dropHover}`}
         ref={dropTarget}
-        
       >
         <ul
           style={{ display: "flex", flexDirection: "column", gap: "10px" }}
