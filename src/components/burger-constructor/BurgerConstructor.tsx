@@ -44,18 +44,22 @@ const BurgerConstructor: FC = () => {
   };
 
   const onDropIngredientHandler = (item: TIngredient) => {
-    dispatch({ type: ADD_ITEM, payload: {...item, uniqId: uuidv4()}});
+    dispatch({ type: ADD_ITEM, payload: {...item, uniqId: uuidv4()}
+    }
+    );
+    console.log(item);
   };
 
   const handleDeleteItem = (uniqId: string | undefined) => {
-    dispatch({ type: DELETE_ITEM, uniqId });
+    console.log(uniqId);
+    dispatch({ type: DELETE_ITEM, payload: uniqId });
   };
 
-  const [, dropTarget] = useDrop({
+  const [{isHover}, dropTarget] = useDrop({
     accept: "ingredient",
-    // collect: (monitor) => ({
-    //   isHover: monitor.isOver(),
-    // }),
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
+    }),
     drop: (item: TIngredient) => {
       item.type === "bun"
         ? onDropBunHandler(item)
@@ -100,16 +104,9 @@ const BurgerConstructor: FC = () => {
   return (
     <>
       <section
-        className={`${styles.burgerConstructor} mt-25`}
+        className={`${styles.burgerConstructor} mt-25 ${isHover && styles.dropHover}`}
         ref={dropTarget}
-        // style={
-        //   isHover
-        //     ? {
-        //         boxShadow: "5px 5px 8px rgba(225, 225, 225, 0.5)",
-        //         borderRadius: "60px",
-        //       }
-        //     : null
-        // }
+        
       >
         <ul
           style={{ display: "flex", flexDirection: "column", gap: "10px" }}

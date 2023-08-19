@@ -1,3 +1,4 @@
+import { TIngredient } from './../types/ingredients';
 import { TBurgerConstructorState, TBurgerConstructorActions } from './../types/burgerConstructor';
 import {
   ADD_ITEM,
@@ -29,13 +30,12 @@ export const burgerConstructorReducer = (
     }
 
     case ADD_ITEM: {
-      // const { ingredient, uniqId} = action.payload;
+  
       return {
         ...state,
         selectedIngredients: [
           ...state.selectedIngredients,
           action.payload
-          //  {ingredient: ingredient, uniqId: uniqId}
         ],
         dropIngredientSuccess: true,
       };
@@ -51,7 +51,7 @@ export const burgerConstructorReducer = (
       return {
         ...state,
         selectedIngredients: [...state.selectedIngredients].filter(
-          (item) => item.uniqId !== action.payload.uniqId
+          (item) => item.uniqId !== action.payload
         ),
       };
     }

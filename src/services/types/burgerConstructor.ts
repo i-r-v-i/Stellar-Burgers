@@ -37,10 +37,10 @@ export type TBurgerConstructorState = {
 };
 
 
-
 type TAddItemAction = {
   readonly type: typeof ADD_ITEM;
   readonly payload: TIngredient;
+ 
 };
 
 type TAddBunAction = {
@@ -50,7 +50,7 @@ type TAddBunAction = {
 
 type TDeleteItemAction = {
   readonly type: typeof DELETE_ITEM;
-  readonly payload: TIngredient;
+  readonly payload: string;
 };
 
 type TClearStateAction = {

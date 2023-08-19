@@ -7,8 +7,7 @@ import { Link, useLocation } from "react-router-dom";
 import { getStatus, getOrderItem, getTotalPrice } from "../utils/constants";
 import { GET_NUMBER_FOR_MODAL } from "../../services/actions/order";
 import React, { useMemo } from "react";
-import PropTypes from "prop-types";
-import { OrderPropType } from "../types/common-types";
+
 
 function OrderItem({ order, isStatus }) {
   const dispatch = useDispatch();
@@ -113,7 +112,7 @@ const calculateTotalPrice = useMemo( () => getTotalPrice(orderIngs, ingredients)
 
 export default React.memo(OrderItem);
 
-OrderItem.prototype = {
-  order: PropTypes.shape(OrderPropType).isRequired,
-  isStatus: PropTypes.bool,
-};
+// OrderItem.prototype = {
+//   order: PropTypes.shape(OrderPropType).isRequired,
+//   isStatus: PropTypes.bool,
+// };

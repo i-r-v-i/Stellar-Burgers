@@ -60,3 +60,7 @@
 .scrollBarWrapper::-webkit-scrollbar-thumb {
   background-color: #8585ad;
 }
+.dropHover {
+  background-color: #8585ad;
+  border-radius: 10%;
+}
