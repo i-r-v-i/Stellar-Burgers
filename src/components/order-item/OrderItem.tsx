@@ -6,10 +6,17 @@ import { countOfIconIngredients, getStoreIngredients } from "../utils/constants"
 import { Link, useLocation } from "react-router-dom";
 import { getStatus, getOrderItem, getTotalPrice } from "../utils/constants";
 import { GET_NUMBER_FOR_MODAL } from "../../services/actions/order";
-import React, { useMemo } from "react";
+import React, { FC, useMemo } from "react";
+import { TOrder } from "../../services/types/order";
+
+interface IOrderItemsProps {
+  order: TOrder,
+  isStatus: boolean
+}
 
 
-function OrderItem({ order, isStatus }) {
+
+const OrderItem: FC<IOrderItemsProps> = ({ order, isStatus }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const {
@@ -23,7 +30,7 @@ function OrderItem({ order, isStatus }) {
   const { ingredients } = useSelector(getStoreIngredients);
 
   const getOrderItemNumber =
-    (number) => {
+    (number: number) => {
       dispatch({ type: GET_NUMBER_FOR_MODAL, payload: number });
     }
 
@@ -112,7 +119,3 @@ const calculateTotalPrice = useMemo( () => getTotalPrice(orderIngs, ingredients)
 
 export default React.memo(OrderItem);
 
-// OrderItem.prototype = {
-//   order: PropTypes.shape(OrderPropType).isRequired,
-//   isStatus: PropTypes.bool,
-// };

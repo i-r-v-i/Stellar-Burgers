@@ -1,16 +1,14 @@
 import styles from "./IngredientDetails.module.css";
-import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getStoreIngredients } from "../utils/constants";
 import { FC } from "react";
 
-type TIngredientDetailsProps = {
+interface IIngredientDetailsProps {
   bac: boolean;
 }
 
-
-const IngredientDetails: FC<TIngredientDetailsProps> = ({ bac })  => {
+const IngredientDetails: FC<IIngredientDetailsProps> = ({ bac })  => {
   const { id } = useParams();
   const { ingredients } = useSelector(getStoreIngredients);
   const ingredient = ingredients?.find((ingredient) => ingredient._id === id);

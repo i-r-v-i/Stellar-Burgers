@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom";
-import { ModalOverlay } from "../modal-overlay/ModalOverlay";
+import ModalOverlay from "../modal-overlay/ModalOverlay";
 import styles from "./Modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FC, PropsWithChildren, useEffect } from "react";
@@ -12,7 +12,7 @@ type TModalProps = PropsWithChildren<{
   modalForOrder?: boolean;
 }>;
 
-export const Modal: FC<TModalProps> = ({
+const Modal: FC<TModalProps> = ({
   children,
   title,
   closePopup,
@@ -53,3 +53,5 @@ export const Modal: FC<TModalProps> = ({
     modalRoot as Element
   );
 };
+
+export default Modal;

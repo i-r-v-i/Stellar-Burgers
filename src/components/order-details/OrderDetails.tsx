@@ -2,8 +2,9 @@ import styles from "./OrderDetails.module.css";
 import { useSelector } from "react-redux";
 import { getOrderNumber } from "../utils/constants";
 import { ListIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { FC } from "react";
 
-export function OrderDetails() {
+const OrderDetails:FC = () => {
   const { orderNumber } = useSelector(getOrderNumber);
 
   return orderNumber ? (
@@ -39,3 +40,5 @@ export function OrderDetails() {
     </div>
   );
 }
+
+export default OrderDetails;

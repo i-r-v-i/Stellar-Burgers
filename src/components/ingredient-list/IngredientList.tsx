@@ -5,13 +5,14 @@ import { getStoreIngredients } from "../utils/constants";
 import { useAppSelector } from "../../services/types/hooks";
 import { TIngredient } from "../../services/types/ingredients";
 
-type TIngredientListProps = {
+interface IIngredientListProps {
   ingType: string;
   title: string;
 };
 
-const IngredientList: FC<TIngredientListProps> = ({ ingType, title }) => {
+const IngredientList: FC<IIngredientListProps> = ({ ingType, title }) => {
   const { ingredients } = useAppSelector(getStoreIngredients);
+  
   const menu = useMemo(
     () => ingredients.filter((item: TIngredient) => item.type === ingType),
     [ingType, ingredients]

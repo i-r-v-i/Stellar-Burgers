@@ -1,9 +1,11 @@
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { getUser } from "../utils/constants";
 import { Navigate } from "react-router-dom";
+import { FC } from "react";
+import { TRouteProps } from "../../services/types/constants";
 
-export function OnlyUnauthElement({ element }) {
+
+const OnlyUnauthElement: FC<TRouteProps> = ({ element }) => {
   const {userData} = useSelector(getUser);
 
   if (userData) {
@@ -13,6 +15,4 @@ export function OnlyUnauthElement({ element }) {
   return element;
 }
 
-OnlyUnauthElement.propTypes = {
-  element: PropTypes.element.isRequired,
-};
+export default OnlyUnauthElement;

@@ -1,9 +1,8 @@
-import AppHeader from "../app-header/AppHeader";
 import { useEffect } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { ProtectedRouteElement } from "../protected-route/ProtectedRouteElement";
-import { OnlyUnauthElement } from "../only-unauth/OnlyAnauthElement";
-import { useDispatch, useSelector } from "react-redux";
+import OnlyUnauthElement from "../only-unauth/OnlyAnauthElement";
+import AppHeader from "../app-header/AppHeader";
 import Main from "../main/Main";
 import Register from "../../pages/register/register";
 import Login from "../../pages/login/login";
@@ -11,16 +10,17 @@ import ForgotPassword from "../../pages/forgot-password/forgot-password";
 import ResetPassword from "../../pages/reset-password/reset-password";
 import NotFound404 from "../../pages/not-found/not-found";
 import ProfilePage from "../../pages/profile/profile";
-import { Modal } from "../modal/Modal";
+import Modal from "../modal/Modal";
 import Feed from "../../pages/feed/Feed";
 import IngredientDetails from "../ingredient-details/IngredientDetails";
-import { checkAuth } from "../../services/actions/user";
-import { getIngredients } from "../../services/actions/ingredients";
-import { getOrderNumber } from "../utils/constants";
 import FeedOrderDetails from "../feed-order-details/FeedOrderDetails";
 import ProfileForm from "../profile-form/ProfileForm";
 import ProfileOrders from "../profile-orders/ProfileOrders";
+import { checkAuth } from "../../services/actions/user";
+import { getIngredients } from "../../services/actions/ingredients";
+import { getOrderNumber } from "../utils/constants";
 import { GET_NUMBER_FAILED } from "../../services/actions/order";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function App() {
   const location = useLocation();

@@ -5,8 +5,9 @@ import BurgerConstructor from "../burger-constructor/BurgerConstructor";
 import { useSelector } from "react-redux";
 import styles from "./Main.module.css";
 import { getStoreIngredients } from "../utils/constants";
+import { FC } from "react";
 
-export default function Main() {
+const Main: FC = () => {
   const { ingredients } = useSelector(getStoreIngredients);
 
   return (
@@ -20,3 +21,5 @@ export default function Main() {
     </DndProvider>
   );
 }
+
+export default Main;
