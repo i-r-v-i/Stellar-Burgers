@@ -25,7 +25,7 @@ import {
 } from "../utils/constants";
 import { v4 as uuidv4 } from "uuid";
 import { TIngredient } from "../../services/types/ingredients";
-// import { TConstructorElement } from "../../services/types/burgerConstructor";
+
 
 
 const BurgerConstructor: FC = () => {
@@ -47,7 +47,6 @@ const BurgerConstructor: FC = () => {
     dispatch({ type: ADD_ITEM, payload: {...item, uniqId: uuidv4()}
     }
     );
-    console.log(item);
   };
 
   const handleDeleteItem = (uniqId: string | undefined) => {
@@ -81,9 +80,9 @@ const BurgerConstructor: FC = () => {
 
   const hahdleOpenPopupOrder = () => {
     if (userData && selectedBun) {
-      const result = [...ingredientIdArr];
-      result.push(selectedBun._id);
-      // dispatch(makeOrder(result));
+      const resultIdArr = [...ingredientIdArr, selectedBun._id];
+      // result.push(selectedBun._id);
+      dispatch(makeOrder(resultIdArr));
     } else {
       navigate("/login");
     }

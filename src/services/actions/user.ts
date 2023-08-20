@@ -13,6 +13,8 @@ import {
   setCookie,
   deleteCookie,
 } from "../../components/utils/cookie";
+import { AppDispatch, AppThunk } from "../types/store";
+import { TUserData } from "../types/user";
 
 export const REGISTRATION_REQUEST = "REGISTRATION_REQUEST";
 export const REGISTRATION_SUCCESS = "REGISTRATION_SUCCESS";
@@ -47,11 +49,13 @@ export const IS_CHANGING = "IS_CHANGING";
 export const STOP_CHANGING = "STOP_CHANGING";
 export const SAVE_PREVIOUS_ROUTE = "SAVE_PREVIOUS_ROUTE";
 
-export const checkAuth = () => (dispatch) => {
+export const checkAuth:  AppThunk = () => {
+  return function (dispatch: AppDispatch) {
   if (getCookie("accessToken")) {
     dispatch(getUserData());
   }
 };
+}
 
 export function refreshToken() {
   return refreshTokenApi()
@@ -65,8 +69,8 @@ export function refreshToken() {
     });
 }
 
-export function getUserData() {
-  return function (dispatch) {
+export const getUserData: AppThunk = () => {
+  return function (dispatch: AppDispatch) {
     dispatch({ type: GET_USER_REQUEST });
     return getUserApi()
       .then((res) => {
@@ -82,13 +86,12 @@ export function getUserData() {
   };
 }
 
-export function setNewUserData(userData) {
-  return function (dispatch) {
+export function setNewUserData(userData: TUserData) {
+  return function (dispatch: AppDispatch) {
     dispatch({ type: UPDATE_USER_REQUEST });
     return patchUserDataApi(userData)
       .then((res) => {
         if(res.success) {
-          console.log("обновлен пользователь");
         dispatch({ type: UPDATE_USER_SUCCESS, payload: res.user });
       }
         
@@ -103,13 +106,15 @@ export function setNewUserData(userData) {
   };
 }
 
-export const saveUserPath = (path) => ({
+export const saveUserPath = (path: string) => ({
   type: "SAVE_PREVIOUS_ROUTE",
   payload: path,
 });
 
-export function registrateUser(userData, navigate) {
-  return function (dispatch) {
+
+
+export function registrateUser(userData:  TUserData, navigate: Function) {
+  return function (dispatch: AppDispatch) {
     dispatch({ type: REGISTRATION_REQUEST });
     setUser(userData)
       .then((res) => {
@@ -131,8 +136,8 @@ export function registrateUser(userData, navigate) {
   };
 }
 
-export function forgotPassword(userEmail, navigate) {
-  return function (dispatch) {
+export function forgotPassword(userEmail: string, navigate: Function) {
+  return function (dispatch: AppDispatch) {
     dispatch({ type: FORGOT_PASSWORD_REQUEST });
     resetPasswordApi(userEmail)
       .then((res) => {
@@ -152,13 +157,12 @@ export function forgotPassword(userEmail, navigate) {
   };
 }
 
-export function setNewPassword(newData, navigate) {
-  return function (dispatch) {
+export function setNewPassword(newData: string, navigate: Function) {
+  return function (dispatch: AppDispatch) {
     dispatch({ type: RESET_PASSWORD_REQUEST });
     changePasswordApi(newData)
       .then((res) => {
         if (res.success) {
-          console.log(res);
           dispatch({ type: RESET_PASSWORD_SUCCESS });
           navigate("/login");
         }
@@ -173,8 +177,8 @@ export function setNewPassword(newData, navigate) {
   };
 }
 
-export function logIn(data, navigate, previousRoute) {
-  return function (dispatch) {
+export function logIn(data: TUserData, navigate: Function, previousRoute: string) {
+  return function (dispatch: AppDispatch) {
     dispatch({ type: LOGIN_REQUEST });
     loginApi(data)
       .then((res) => {
@@ -196,8 +200,8 @@ export function logIn(data, navigate, previousRoute) {
   };
 }
 
-export function logOut(navigate) {
-  return function (dispatch) {
+export function logOut(navigate: Function) {
+  return function (dispatch: AppDispatch) {
     dispatch({ type: LOGOUT_REQUEST });
     logoutApi(localStorage.getItem("refreshToken"))
       .then((res) => {

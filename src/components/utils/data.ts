@@ -1,8 +1,9 @@
 import { refreshToken } from "../../services/actions/user";
+import { TUserData } from "../../services/types/user";
 import { URL } from "./constants";
 import { getCookie } from "./cookie";
 
-export function checkResponse(res) {
+export function checkResponse(res: Response) {
   return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
 }
 
@@ -10,7 +11,7 @@ export function getData() {
   return fetch(URL.ingredients).then(checkResponse);
 }
 
-export function getOrderNumber(data, token) {
+export function getOrderNumber(data: string[], token: string ='') {
   return fetch(URL.orders, {
     method: "POST",
     headers: {
@@ -23,14 +24,14 @@ export function getOrderNumber(data, token) {
   }).then(checkResponse);
 }
 
-export const fetchWithRefresh = (url, options) => {
+export const fetchWithRefresh = (url: string, options?: any) => {
   return fetch(url, options)
     .then(checkResponse)
     .catch((err) => {
-      if(err === 401 || err ===403) {
+      if(err.status === 401 || err.status === 403) {
         return refreshToken()
-        .then((res) => (options.headers.authorization = res.accessToken))
-        .then(() => fetch(url, options).then(checkResponse));
+       .then((res => options.headers.authorization = res.accessToken))
+       .then(() => fetch(url, options).then(checkResponse));
       }
       
 });
@@ -44,7 +45,7 @@ export function getUserApi() {
   });
 }
 
-export function patchUserDataApi(userData) {
+export function patchUserDataApi(userData: TUserData) {
   return fetchWithRefresh(URL.user, {
     method: "PATCH",
     headers: {
@@ -55,7 +56,7 @@ export function patchUserDataApi(userData) {
   });
 }
 
-export function setUser(data) {
+export function setUser(data: TUserData) {
   return fetch(URL.register, {
     method: "POST",
     headers: {
@@ -65,17 +66,17 @@ export function setUser(data) {
   }).then(checkResponse);
 }
 
-export function resetPasswordApi(data) {
+export function resetPasswordApi(email: string) {
   return fetch(URL.forgotPassword, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(email),
   }).then(checkResponse);
 }
 
-export function changePasswordApi(data) {
+export function changePasswordApi(data: {password: string, token: string}) {
   return fetch(URL.resetPassword, {
     method: "POST",
     headers: {
@@ -85,7 +86,7 @@ export function changePasswordApi(data) {
   }).then(checkResponse);
 }
 
-export function loginApi(data) {
+export function loginApi(data: {email: string, password: string}) {
   return fetch(URL.login, {
     method: "POST",
     headers: {
@@ -107,7 +108,7 @@ export function refreshTokenApi() {
   }).then((data) => checkResponse(data));
 }
 
-export function logoutApi(refreshToken) {
+export function logoutApi(refreshToken: string | null) {
   return fetch(URL.logout, {
     method: "POST",
     headers: {

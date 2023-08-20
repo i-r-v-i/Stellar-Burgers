@@ -14,7 +14,9 @@ import { getStoreOrders } from "../../utils/constants";
 import { useParams } from "react-router-dom";
 import styles from "./FeedDetailsView.module.css";
 
-const FeedDetailsView: any = () => {
+
+
+export default function FeedDetailsView () {
   const { orders, wsConnected } = useSelector(getStoreOrders);
   const { ingredients } = useSelector(getStoreIngredients);
   const { id } = useParams();
@@ -86,4 +88,3 @@ const FeedDetailsView: any = () => {
   );
 };
 
-export default FeedDetailsView;

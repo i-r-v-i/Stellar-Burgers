@@ -17,12 +17,6 @@ type TConstructorFillingItemProps = {
   handleClose: () => void;
 }
 
-// type TDropItem = {
-//   id: string;
-//   index: number;
-// }
-
-
 const ConstructorFillingItem: FC<TConstructorFillingItemProps> = ({ ingredient, index, handleClose }) => {
   const dispatch = useAppDispatch();
   const ref = useRef<HTMLLIElement>(null);
@@ -61,6 +55,7 @@ const ConstructorFillingItem: FC<TConstructorFillingItemProps> = ({ ingredient, 
         hoverIndex}
       });
       ingredient.index = hoverIndex;
+      console.log(ingredient);
     },
   });
 
