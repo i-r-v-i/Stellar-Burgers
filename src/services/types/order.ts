@@ -20,7 +20,6 @@ export type TOrderState = {
   modalOpened: boolean,
 }
 
-
 export type TGetNumberRequestAction = {
     readonly type: typeof GET_NUMBER_REQUEST;
   };

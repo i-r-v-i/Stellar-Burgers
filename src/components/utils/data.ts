@@ -30,7 +30,7 @@ export const fetchWithRefresh = (url: string, options?: any) => {
     .catch((err) => {
       if(err.status === 401 || err.status === 403) {
         return refreshToken()
-       .then((res => options.headers.authorization = res.accessToken))
+       .then((res: any) => options.headers.authorization = res.accessToken)
        .then(() => fetch(url, options).then(checkResponse));
       }
       

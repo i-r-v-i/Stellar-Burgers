@@ -1,12 +1,34 @@
 import styles from "./Form.module.css";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import { FC, PropsWithChildren,  } from "react";
 import { Link } from "react-router-dom";
 
-export default function Form({
-  extraClass,
+type TFormProps = PropsWithChildren<{
+  extraClass: string,
+  title: string,
+  isButton?: boolean,
+  buttonText: string,
+  question: string,
+  link: string,
+  question2: string,
+  link2: string,
+  route: string,
+  route2: string,
+  onButtonClick: () => void,
+}>
+interface IGetSpan {
+  question: string,
+    link: string,
+    question2?: string,
+    link2?: string,
+    route: string,
+    route2: string,
+}
+
+const Form: FC<TFormProps> = ({
+  extraClass, 
   title,
-  children,
-  button = true,
+  isButton = true,
   buttonText,
   question,
   link,
@@ -15,8 +37,10 @@ export default function Form({
   route,
   route2,
   onButtonClick,
-}) {
-  const GetSpan = ({
+  children
+}) => {
+
+  const GetSpan: FC<IGetSpan> = ({
     question,
     link,
     question2 = null,
@@ -55,10 +79,11 @@ export default function Form({
           {title}
         </h1>
       ) : null}
+     
       {children}
 
       <div className={styles.buttonContainer}>
-        {button == "true" ? (
+        { isButton ? (
           <Button
             htmlType="submit"
             type="primary"
@@ -79,3 +104,5 @@ export default function Form({
     </form>
   );
 }
+
+export default Form;

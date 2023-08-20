@@ -8,16 +8,15 @@ import styles from "./ConstructorFillingItem.module.css";
 import { SORT_ITEM } from "../../services/actions/burgerConstructor";
 import { useAppDispatch } from "../../services/types/hooks";
 import { FC } from 'react';
-// import { TConstructorElement } from "../../services/types/burgerConstructor";
 import { TIngredient } from "../../services/types/ingredients";
 
-type TConstructorFillingItemProps = {
+interface IConstructorFillingItemProps {
   ingredient: TIngredient;
   index: number;
   handleClose: () => void;
 }
 
-const ConstructorFillingItem: FC<TConstructorFillingItemProps> = ({ ingredient, index, handleClose }) => {
+const ConstructorFillingItem: FC<IConstructorFillingItemProps> = ({ ingredient, index, handleClose }) => {
   const dispatch = useAppDispatch();
   const ref = useRef<HTMLLIElement>(null);
 
@@ -55,7 +54,6 @@ const ConstructorFillingItem: FC<TConstructorFillingItemProps> = ({ ingredient, 
         hoverIndex}
       });
       ingredient.index = hoverIndex;
-      console.log(ingredient);
     },
   });
 

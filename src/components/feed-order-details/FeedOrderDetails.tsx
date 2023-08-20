@@ -7,7 +7,7 @@ import { URL } from "../utils/constants";
 import { WS_CONNECTING, WS_DISCONNECTING } from "../../services/actions/wsActions";
 
 import { getCookie } from "../utils/cookie";
-import FeedDetailsView from "../app/feed-details-view/FeedDetailsView";
+import FeedDetailsView from "../feed-details-view/FeedDetailsView";
 
 type TFeedOrderDetailsProps = {
   isModal: boolean;

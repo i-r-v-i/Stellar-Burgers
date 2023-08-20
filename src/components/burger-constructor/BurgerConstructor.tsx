@@ -32,7 +32,7 @@ const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [isOrder, setIsOrder] = useState(false);
+  const [isOrder, setIsOrder] = useState<boolean>(false);
 
   const { selectedIngredients, selectedBun, dropIngredientSuccess } =
     useSelector(getStoreBurgerConstructor);
@@ -50,7 +50,6 @@ const BurgerConstructor: FC = () => {
   };
 
   const handleDeleteItem = (uniqId: string | undefined) => {
-    console.log(uniqId);
     dispatch({ type: DELETE_ITEM, payload: uniqId });
   };
 
@@ -66,7 +65,7 @@ const BurgerConstructor: FC = () => {
     },
   });
 
-  const handleCloseModal = (evt: Event) => {
+  const handleCloseModal = (evt: MouseEvent) => {
     dispatch({ type: GET_NUMBER_FAILED });
     dispatch({ type: CLEAR_STATE });
     evt.stopPropagation();

@@ -13,17 +13,17 @@ import {
 // };
 
 
-export type TOrderInfo = {
-  _id: string;
-  ingredients: Array<string>;
-  owner?: string;
-  status: "created" | "pending" | "done";
-  name: string;
-  createdAt: string;
-  updatedAt: string;
-  number: number;
-  __v?: number;
-};
+// export type TOrderInfo = {
+//   _id: string;
+//   ingredients: Array<string>;
+//   owner?: string;
+//   status: "created" | "pending" | "done";
+//   name: string;
+//   createdAt: string;
+//   updatedAt: string;
+//   number: number;
+//   __v?: number;
+// };
 
 // export type TBurgerConstructorState = {
 //   selectedIngredients: TConstructorElement[];

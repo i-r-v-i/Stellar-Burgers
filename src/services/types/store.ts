@@ -1,7 +1,7 @@
 import { rootReducer } from './../reducers/index';
 import { TWsActions } from './ws';
 import { TUserActions } from './user';
-// import { TOrderActions } from './order';
+import { TOrderActions } from './order';
 import { TIngredientsActions } from './ingredients';
 import { TBurgerConstructorActions } from './burgerConstructor';
 import { TSetActiveTabAction } from './activeTab';
@@ -13,8 +13,7 @@ import { ThunkAction } from 'redux-thunk';
 export type RootState = ReturnType<typeof rootReducer>;
 
 // Типизация всех экшенов приложения
-type TApplicationActions = TSetActiveTabAction | TIngredientsActions | TBurgerConstructorActions | TWsActions | TUserActions ;
-//   | TOrderActions 
+type TApplicationActions = TSetActiveTabAction | TIngredientsActions | TBurgerConstructorActions | TWsActions | TUserActions | TOrderActions;
 
 // Типизация thunk 
 export type AppThunk<TReturn = void> = ActionCreator<

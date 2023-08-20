@@ -7,12 +7,13 @@ import {
     WS_CONNECTION_CLOSED,
     WS_DISCONNECTING,
   } from "../actions/wsActions";
+import { TOrder } from './order';
 
   
   export type TWState = {
     wsConnected: boolean;
     error: Event | undefined;
-    orders: TOrderInfo[];
+    orders: TOrder[];
     totalOrders: number;
     todayOrders: number;
   };
@@ -32,7 +33,7 @@ import {
   
   type TWsGetOrdersAction = {
       readonly type: typeof WS_GET_ORDERS;
-      readonly payload: { orders: TOrderInfo[];
+      readonly payload: { orders: TOrder[];
           totalOrders: number;
           todayOrders: number;}
   }

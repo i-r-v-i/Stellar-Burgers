@@ -2,21 +2,22 @@ import {
   CurrencyIcon,
   FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PriceContainer from "../../price-container/PriceContainer";
+import PriceContainer from "../price-container/PriceContainer";
 import {
   getStatus,
   getOrderItem,
   getTotalPrice,
   getStoreIngredients,
-} from "../../utils/constants";
+} from "../utils/constants";
 import { useSelector } from "react-redux";
-import { getStoreOrders } from "../../utils/constants";
+import { getStoreOrders } from "../utils/constants";
 import { useParams } from "react-router-dom";
 import styles from "./FeedDetailsView.module.css";
 
 
 
-export default function FeedDetailsView () {
+
+const FeedDetailsView: any = () => {
   const { orders, wsConnected } = useSelector(getStoreOrders);
   const { ingredients } = useSelector(getStoreIngredients);
   const { id } = useParams();
@@ -88,3 +89,4 @@ export default function FeedDetailsView () {
   );
 };
 
+export default FeedDetailsView;

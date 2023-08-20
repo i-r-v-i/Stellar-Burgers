@@ -18,6 +18,7 @@ export const Modal: FC<TModalProps> = ({
   closePopup,
   modalForOrder,
 }) => {
+ 
   useEffect(() => {
     const handleEscClose = (evt: KeyboardEvent) => {
       evt.key === "Escape" && closePopup();
