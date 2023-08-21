@@ -4,17 +4,17 @@ import { FC, FormEvent, FormEventHandler, PropsWithChildren,  } from "react";
 import { Link } from "react-router-dom";
 
 type TFormProps = PropsWithChildren<{
-  extraClass: string,
-  title: string,
+  extraClass?: string,
+  title?: string,
   isButton?: boolean,
-  buttonText: string,
-  question: string,
-  link: string,
-  question2: string,
-  link2: string,
-  route: string,
-  route2: string,
-  onButtonClick: (e: FormEvent) => void,
+  buttonText?: string,
+  question?: string,
+  link?: string,
+  question2?: string,
+  link2?: string,
+  route?: string,
+  route2?: string,
+  onSubmit: (e: FormEvent) => void,
 }>
 interface IGetSpan {
   question: string,
@@ -36,7 +36,7 @@ const Form: FC<TFormProps> = ({
   link2,
   route,
   route2,
-  onButtonClick,
+  onSubmit,
   children
 }) => {
 
@@ -73,7 +73,7 @@ const Form: FC<TFormProps> = ({
   };
 
   return (
-    <form className={`${styles.form} ${extraClass}`} onSubmit={onButtonClick}>
+    <form className={`${styles.form} ${extraClass}`} onSubmit={onSubmit}>
       {title ? (
         <h1 className={`${styles.title} text text_type_main-medium`}>
           {title}
