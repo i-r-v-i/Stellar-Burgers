@@ -1,4 +1,3 @@
-import { TOrderInfo } from './burgerConstructor';
 import {
     WS_CONNECTING,
     WS_CONNECTION_SUCCESS,

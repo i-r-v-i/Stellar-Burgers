@@ -6,8 +6,8 @@ import {
 import ConstructorItem from "../constructor-item/ConstructorItem";
 import styles from "./BurgerConstructor.module.css";
 import ConstructorFillingItem from "../constructor-filling-item/ConstructorFillingItem";
-import { Modal } from "../modal/Modal";
-import { OrderDetails } from "../order-details/OrderDetails";
+import Modal from "../modal/Modal";
+import OrderDetails from "../order-details/OrderDetails";
 import { useSelector, useDispatch } from "react-redux";
 import {
   ADD_ITEM,
@@ -81,7 +81,7 @@ const BurgerConstructor: FC = () => {
     if (userData && selectedBun) {
       const resultIdArr = [...ingredientIdArr, selectedBun._id];
       // result.push(selectedBun._id);
-      dispatch(makeOrder(resultIdArr));
+      // dispatch(makeOrder(resultIdArr));
     } else {
       navigate("/login");
     }

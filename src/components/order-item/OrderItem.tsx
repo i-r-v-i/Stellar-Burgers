@@ -15,7 +15,6 @@ interface IOrderItemsProps {
 }
 
 
-
 const OrderItem: FC<IOrderItemsProps> = ({ order, isStatus }) => {
   const dispatch = useDispatch();
   const location = useLocation();

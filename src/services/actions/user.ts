@@ -52,7 +52,7 @@ export const SAVE_PREVIOUS_ROUTE = "SAVE_PREVIOUS_ROUTE";
 export const checkAuth:  AppThunk = () => {
   return function (dispatch: AppDispatch) {
   if (getCookie("accessToken")) {
-    dispatch(getUserData());
+    // dispatch(getUserData());
   }
 };
 }
@@ -157,7 +157,7 @@ export function forgotPassword(userEmail: string, navigate: Function) {
   };
 }
 
-export function setNewPassword(newData: string, navigate: Function) {
+export function setNewPassword(newData: {password: string, token: string}, navigate: Function) {
   return function (dispatch: AppDispatch) {
     dispatch({ type: RESET_PASSWORD_REQUEST });
     changePasswordApi(newData)

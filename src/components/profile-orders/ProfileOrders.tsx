@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 import {
   WS_CONNECTING,
   WS_DISCONNECTING,
@@ -9,16 +9,18 @@ import OrderList from "../order-list/OrderList";
 // import { checkAuth } from "../../services/actions/user";
 import { getCookie } from "../utils/cookie";
 
-export default function ProfileOrders() {
+const ProfileOrders: FC = () =>{
   const dispatch = useDispatch();
 
-  let token = getCookie("accessToken").split(" ")[1];
+  let token = getCookie("accessToken")?.split(" ")[1];
 
   useEffect(() => {
     // dispatch(checkAuth());
     dispatch({ type: WS_CONNECTING, payload: `${URL.socket}?token=${token}` });
-    return () => dispatch({ type: WS_DISCONNECTING });
+    dispatch({ type: WS_DISCONNECTING });
   }, [dispatch, token]);
 
-  return <OrderList width="860px" isStatus isMyOrder='true' />;
+  return <OrderList width="860px" isStatus isMyOrder/>;
 }
+
+export default ProfileOrders;
