@@ -52,7 +52,7 @@ export const SAVE_PREVIOUS_ROUTE = "SAVE_PREVIOUS_ROUTE";
 export const checkAuth:  AppThunk = () => {
   return function (dispatch: AppDispatch) {
   if (getCookie("accessToken")) {
-    // dispatch(getUserData());
+    //dispatch(getUserData());
   }
 };
 }

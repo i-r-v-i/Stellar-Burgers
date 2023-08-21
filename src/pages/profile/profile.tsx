@@ -1,20 +1,20 @@
-import React from "react";
+import React, { FC } from "react";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import styles from "./profile.module.css";
 import { logOut } from "../../services/actions/user";
 
-function ProfilePage() {
+const ProfilePage: FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const activeLink = ({ isActive }) => ({
+  const activeLink = ({ isActive }: { isActive: boolean}) => ({
     color: isActive ? " #f2f2f3" : "#8585AD",
   });
 
   const handleLogout = () => {
-    dispatch(logOut(navigate));
+    // dispatch(logOut(navigate));
   };
 
   return (

@@ -1,6 +1,6 @@
 import styles from "./Form.module.css";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { FC, PropsWithChildren,  } from "react";
+import { FC, FormEvent, FormEventHandler, PropsWithChildren,  } from "react";
 import { Link } from "react-router-dom";
 
 type TFormProps = PropsWithChildren<{
@@ -14,7 +14,7 @@ type TFormProps = PropsWithChildren<{
   link2: string,
   route: string,
   route2: string,
-  onButtonClick: () => void,
+  onButtonClick: (e: FormEvent) => void,
 }>
 interface IGetSpan {
   question: string,

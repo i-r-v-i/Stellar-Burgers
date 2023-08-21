@@ -1,7 +1,7 @@
 import styles from "./Feed.module.css";
 import OrderList from "../../components/order-list/OrderList";
 import InfoBoard from "../../components/info-board/InfoBoard";
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import {
   WS_CONNECTING,
@@ -9,7 +9,7 @@ import {
 } from "../../services/actions/wsActions";
 import { URL } from "../../components/utils/constants";
 
-export default function Feed() {
+const Feed: FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,9 +30,11 @@ export default function Feed() {
         Лента заказов
       </h1>
       <div className={`${styles.bloksContainer}`}>
-        <OrderList width={"600px"} />
+        <OrderList width={"600px"} isStatus={false}/>
         <InfoBoard />
       </div>
     </main>
   );
 }
+
+export default Feed;
