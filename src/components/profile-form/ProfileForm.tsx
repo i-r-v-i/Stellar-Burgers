@@ -52,7 +52,7 @@ import { getUser } from "../utils/constants";
   
     return (
       
-      <Form extraClass={styles.position} onSubmit={() => onSubmit}>
+      <Form extraClass={styles.position} route='' route2='' onSubmit={() => onSubmit}>
           <Input
             type={"text"}
             placeholder={"Имя"}

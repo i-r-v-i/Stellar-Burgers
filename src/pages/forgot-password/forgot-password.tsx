@@ -29,6 +29,7 @@ import { forgotPassword, SEND_EMAIL } from "../../services/actions/user";
         question="Вспомнили пароль?"
         link="Войти"
         route="/login"
+        route2=''
         onSubmit={()=>onSubmit}
       >
         <EmailInput

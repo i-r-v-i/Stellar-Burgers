@@ -12,13 +12,13 @@ type TFormProps = PropsWithChildren<{
   link?: string,
   question2?: string,
   link2?: string,
-  route?: string,
-  route2?: string,
+  route: string,
+  route2: string,
   onSubmit: (e: FormEvent) => void,
 }>
 interface IGetSpan {
-  question: string,
-    link: string,
+  question?: string,
+    link?: string,
     question2?: string,
     link2?: string,
     route: string,
@@ -43,8 +43,8 @@ const Form: FC<TFormProps> = ({
   const GetSpan: FC<IGetSpan> = ({
     question,
     link,
-    question2 = null,
-    link2 = null,
+    question2,
+    link2,
     route,
     route2,
   }) => {

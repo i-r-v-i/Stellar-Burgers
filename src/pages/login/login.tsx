@@ -4,31 +4,32 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Form from "../../components/form/Form";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { ChangeEvent, FC, FormEventHandler, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logIn } from "../../services/actions/user";
+import { getUser } from "../../components/utils/constants";
 
-export default function Login() {
+ const Login: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const previousRoute = useSelector((store) => store.user.previousRoute);
+  const previousRoute = useSelector(getUser).previousRoute;
 
-  const [form, setValue] = useState({ email: "", password: "" });
+  const [form, setValue] = useState<{email: string, password: string}>({ email: "", password: "" });
 
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit:FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    dispatch(logIn(form, navigate, previousRoute));
+    // dispatch(logIn(form, navigate, previousRoute));
   };
 
   return (
     <div style={{ paddingTop: "180px" }}>
       <Form
         title="Вход"
-        button="true"
+        isButton={true}
         buttonText="Войти"
         question="Вы — новый пользователь?"
         link="Зарегистрироваться"
@@ -36,7 +37,7 @@ export default function Login() {
         link2="Восстановить пароль"
         route="/register"
         route2="/forgot-password"
-        onButtonClick={onSubmit}
+        onSubmit={()=>onSubmit}
       >
         <EmailInput
           onChange={onChange}
@@ -53,3 +54,5 @@ export default function Login() {
     </div>
   );
 }
+
+export default Login;
