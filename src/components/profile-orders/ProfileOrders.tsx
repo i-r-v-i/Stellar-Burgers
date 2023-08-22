@@ -1,13 +1,13 @@
 import { FC, useEffect } from "react";
 import { WS_CONNECTING, WS_DISCONNECTING } from "../../services/actions/wsActions";
 import { URL } from "../utils/constants";
-import { useDispatch } from "react-redux";
 import OrderList from "../order-list/OrderList";
 import { checkAuth } from "../../services/actions/user";
 import { getCookie } from "../utils/cookie";
+import { useAppDispatch } from "../../services/types/hooks";
 
 const ProfileOrders: FC = () => {
-  const dispatch: any = useDispatch();
+  const dispatch = useAppDispatch();
 
   let token = getCookie("accessToken")?.split(" ")[1];
 

@@ -8,7 +8,7 @@ import { useAppDispatch } from "../../services/types/hooks";
  const ForgotPassword: FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [form, setEmail] = useState({ email: "" });
+  const [form, setEmail] = useState<{email: string}>({ email: "" });
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail({ email: e.target.value });

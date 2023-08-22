@@ -46,7 +46,6 @@ export const socketMiddleware = (wsActions: TSocketActions): Middleware<{}, Root
 
         socket.onmessage = (event) => {
           let data = JSON.parse(event.data);
-          console.log(data);
           if (!data.success) {
             if (data.message === "Invalid or missing token") {
               socket?.close();

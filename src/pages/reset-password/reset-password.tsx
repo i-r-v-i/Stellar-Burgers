@@ -11,7 +11,6 @@ const ResetPassword: FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { isReset } = useAppSelector(getUser);
-  console.log(isReset);
 
   const [form, setValue] = useState<{ password: string; token: string }>({
     password: "",

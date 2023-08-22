@@ -15,6 +15,7 @@ type TModalProps = PropsWithChildren<{
 const Modal: FC<TModalProps> = ({ children, title, closePopup, modalForOrder }) => {
   useEffect(() => {
     const handleEscClose = (evt: KeyboardEvent) => {
+      evt.stopPropagation();
       evt.key === "Escape" && closePopup();
     };
     document.addEventListener("keydown", handleEscClose);

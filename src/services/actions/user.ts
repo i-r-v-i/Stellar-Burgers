@@ -71,7 +71,6 @@ export const getUserData: AppThunk = () => {
     return getUserApi()
       .then((res) => {
         dispatch({ type: GET_USER_SUCCESS, payload: res.user });
-        console.log("getUser");
       })
       .catch((err) => {
         dispatch({
@@ -112,11 +111,10 @@ export const registrateUser: AppThunk = (
 ) => {
   return function (dispatch) {
     dispatch({ type: REGISTRATION_REQUEST });
-    setUser(userData)
+    return setUser(userData)
       .then((res) => {
         if (res.success) {
-          console.log(res);
-          dispatch({ type: REGISTRATION_SUCCESS, payload: res });
+          dispatch({ type: REGISTRATION_SUCCESS, payload: res.user });
           navigate("/login");
         }
         localStorage.setItem("refreshToken", res.refreshToken);
@@ -135,11 +133,10 @@ export const registrateUser: AppThunk = (
 export function forgotPassword(formEmail: { email: string }, navigate: NavigateFunction) {
   return function (dispatch: AppDispatch) {
     dispatch({ type: FORGOT_PASSWORD_REQUEST });
-    resetPasswordApi(formEmail)
+    return resetPasswordApi(formEmail)
       .then((res) => {
         if (res.success) {
-          console.log(res);
-          dispatch({ type: FORGOT_PASSWORD_SUCCESS, payload: res });
+          dispatch({ type: FORGOT_PASSWORD_SUCCESS, payload: res});
           navigate("/reset-password");
         }
       })
@@ -159,7 +156,7 @@ export function setNewPassword(
 ) {
   return function (dispatch: AppDispatch) {
     dispatch({ type: RESET_PASSWORD_REQUEST });
-    changePasswordApi(newData)
+    return changePasswordApi(newData)
       .then((res) => {
         if (res.success) {
           dispatch({ type: RESET_PASSWORD_SUCCESS });
@@ -183,11 +180,10 @@ export function logIn(
 ) {
   return function (dispatch: AppDispatch) {
     dispatch({ type: LOGIN_REQUEST });
-    loginApi(data)
+    return loginApi(data)
       .then((res) => {
         if (res.success) {
-          console.log(res);
-          dispatch({ type: LOGIN_SUCCESS, payload: res });
+          dispatch({ type: LOGIN_SUCCESS, payload: res.user });
           localStorage.setItem("refreshToken", res.refreshToken);
           setCookie("accessToken", res.accessToken);
           navigate(previousRoute);
@@ -209,7 +205,6 @@ export const logOut: AppThunk = (navigate: Function) => {
     logoutApi(localStorage.getItem("refreshToken"))
       .then((res) => {
         if (res.success) {
-          console.log(res);
           dispatch({ type: LOGOUT_SUCCESS });
           localStorage.removeItem("refreshToken");
           deleteCookie("accessToken");

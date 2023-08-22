@@ -5,7 +5,6 @@ import styles from "./BurgerConstructor.module.css";
 import ConstructorFillingItem from "../constructor-filling-item/ConstructorFillingItem";
 import Modal from "../modal/Modal";
 import OrderDetails from "../order-details/OrderDetails";
-import { useSelector, useDispatch } from "react-redux";
 import {
   ADD_ITEM,
   ADD_BUN,
@@ -18,18 +17,19 @@ import { useNavigate } from "react-router-dom";
 import { getStoreBurgerConstructor, getOrderNumber, getUser } from "../utils/constants";
 import { v4 as uuidv4 } from "uuid";
 import { TIngredient } from "../../services/types/ingredients";
+import { useAppDispatch, useAppSelector } from "../../services/types/hooks";
 
 const BurgerConstructor: FC = () => {
-  const dispatch: any = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const [isOrder, setIsOrder] = useState<boolean>(false);
 
-  const { selectedIngredients, selectedBun, dropIngredientSuccess } = useSelector(
+  const { selectedIngredients, selectedBun, dropIngredientSuccess } = useAppSelector(
     getStoreBurgerConstructor
   );
-  const { modalOpened } = useSelector(getOrderNumber);
-  const { userData } = useSelector(getUser);
+  const { modalOpened } = useAppSelector(getOrderNumber);
+  const { userData } = useAppSelector(getUser);
 
   const onDropBunHandler = (item: TIngredient) => {
     dispatch({ type: ADD_BUN, payload: item });
@@ -53,10 +53,9 @@ const BurgerConstructor: FC = () => {
     },
   });
 
-  const handleCloseModal = (evt: MouseEvent) => {
+  const handleCloseModal = () => {
     dispatch({ type: GET_NUMBER_FAILED });
     dispatch({ type: CLEAR_STATE });
-    evt.stopPropagation();
   };
 
   const ingredientIdArr: string[] = [];
@@ -68,7 +67,6 @@ const BurgerConstructor: FC = () => {
   const hahdleOpenPopupOrder = () => {
     if (userData && selectedBun) {
       const resultIdArr = [...ingredientIdArr, selectedBun._id];
-      // result.push(selectedBun._id);
       dispatch(makeOrder(resultIdArr));
     } else {
       navigate("/login");
@@ -167,7 +165,7 @@ const BurgerConstructor: FC = () => {
       </section>
 
       {modalOpened && (
-        <Modal closePopup={() => handleCloseModal}>
+        <Modal closePopup={handleCloseModal}>
           <OrderDetails />
         </Modal>
       )}

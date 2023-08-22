@@ -20,8 +20,7 @@ import { checkAuth } from "../../services/actions/user";
 import { getIngredients } from "../../services/actions/ingredients";
 import { getOrderNumber } from "../utils/constants";
 import { GET_NUMBER_FAILED } from "../../services/actions/order";
-import { useDispatch, useSelector } from "react-redux";
-import { useAppDispatch } from "../../services/types/hooks";
+import { useAppDispatch, useAppSelector } from "../../services/types/hooks";
 
 const App: FC = () => {
   const location = useLocation();
@@ -34,14 +33,12 @@ const App: FC = () => {
     dispatch(checkAuth());
   }, [dispatch]);
 
-  const handleCloseModal = (evt: KeyboardEvent) => {
-    evt.stopPropagation();
-    
+  const handleCloseModal = () => {
     navigate(-1);
     dispatch({ type: GET_NUMBER_FAILED });
   };
 
-  const { orderNumber } = useSelector(getOrderNumber);
+  const { orderNumber } = useAppSelector(getOrderNumber);
 
   return (
     <>
@@ -83,7 +80,7 @@ const App: FC = () => {
           <Route
             path="/ingredients/:id"
             element={
-              <Modal closePopup={() => handleCloseModal} title="Детали ингредиента">
+              <Modal closePopup={handleCloseModal} title="Детали ингредиента">
                 <IngredientDetails bac />
               </Modal>
             }
@@ -92,7 +89,7 @@ const App: FC = () => {
             path="/feed/:id"
             element={
               <Modal
-                closePopup={() => handleCloseModal}
+                closePopup={handleCloseModal}
                 modalForOrder
                 title={`#${orderNumber}`}
               >
@@ -104,7 +101,7 @@ const App: FC = () => {
             path="/profile/orders/:id"
             element={
               <Modal
-                closePopup={() => handleCloseModal}
+                closePopup={handleCloseModal}
                 modalForOrder
                 title={`#${orderNumber}`}
               >

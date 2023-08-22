@@ -1,13 +1,13 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector, useDispatch } from "react-redux";
 import { setActiveTab } from "../../services/actions/activeTab";
 import { useCallback, FC } from "react";
 import { getActiveTab } from "../utils/constants";
+import { useAppDispatch, useAppSelector } from "../../services/types/hooks";
 
 const Tabs: FC = () => {
-  const { activeTab } = useSelector(getActiveTab);
+  const { activeTab } = useAppSelector(getActiveTab);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleTabClick = useCallback((id: string) => {
     dispatch(setActiveTab(id));

@@ -1,6 +1,5 @@
 import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
 import PriceContainer from "../price-container/PriceContainer";
-import { useDispatch, useSelector } from "react-redux";
 import styles from "./OrderItem.module.css";
 import { countOfIconIngredients, getStoreIngredients } from "../utils/constants";
 import { Link, useLocation } from "react-router-dom";
@@ -8,6 +7,7 @@ import { getStatus, getOrderItem, getTotalPrice } from "../utils/constants";
 import { GET_NUMBER_FOR_MODAL } from "../../services/actions/order";
 import React, { FC, useMemo } from "react";
 import { TOrder } from "../../services/types/order";
+import { useAppDispatch, useAppSelector } from "../../services/types/hooks";
 
 interface IOrderItemsProps {
   order: TOrder;
@@ -15,10 +15,10 @@ interface IOrderItemsProps {
 }
 
 const OrderItem: FC<IOrderItemsProps> = ({ order, isStatus }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const { number, name, createdAt, status, ingredients: orderIngs, _id } = order;
-  const { ingredients } = useSelector(getStoreIngredients);
+  const { ingredients } = useAppSelector(getStoreIngredients);
 
   const getOrderItemNumber = (number: number) => {
     dispatch({ type: GET_NUMBER_FOR_MODAL, payload: number });

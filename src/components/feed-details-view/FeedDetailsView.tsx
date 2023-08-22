@@ -9,14 +9,14 @@ import {
   getTotalPrice,
   getStoreIngredients,
 } from "../utils/constants";
-import { useSelector } from "react-redux";
 import { getStoreOrders } from "../utils/constants";
 import { useParams } from "react-router-dom";
 import styles from "./FeedDetailsView.module.css";
+import { useAppSelector } from "../../services/types/hooks";
 
 const FeedDetailsView: any = () => {
-  const { orders, wsConnected } = useSelector(getStoreOrders);
-  const { ingredients } = useSelector(getStoreIngredients);
+  const { orders, wsConnected } = useAppSelector(getStoreOrders);
+  const { ingredients } = useAppSelector(getStoreIngredients);
   const { id } = useParams();
 
   const order = orders?.find((item) => item._id === id);

@@ -14,6 +14,7 @@ const AppHeader: FC = () => {
   const { userData } = useAppSelector(getUser);
   const { pathname } = useLocation();
 
+
   return (
     <header className={styles.header}>
       <div className={styles.wrapper}>

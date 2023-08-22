@@ -55,4 +55,4 @@ const ProfilePage: FC = () => {
     </div>
   );
 };
-export default React.memo(ProfilePage);
+export default ProfilePage;

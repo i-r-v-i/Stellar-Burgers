@@ -1,13 +1,13 @@
 import styles from "./FeedOrderDetails.module.css";
 import { useParams } from "react-router-dom";
 import { getStoreOrders } from "../utils/constants";
-import { useSelector, useDispatch } from "react-redux";
 import { FC, useEffect } from "react";
 import { URL } from "../utils/constants";
 import { WS_CONNECTING, WS_DISCONNECTING } from "../../services/actions/wsActions";
 
 import { getCookie } from "../utils/cookie";
 import FeedDetailsView from "../feed-details-view/FeedDetailsView";
+import { useAppDispatch, useAppSelector } from "../../services/types/hooks";
 
 type TFeedOrderDetailsProps = {
   isModal: boolean;
@@ -15,7 +15,7 @@ type TFeedOrderDetailsProps = {
 };
 
 const FeedOrderDetails: FC<TFeedOrderDetailsProps> = ({ isModal, allOrders }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { id } = useParams();
 
   let token = getCookie("accessToken")?.split(" ")[1];
@@ -39,7 +39,7 @@ const FeedOrderDetails: FC<TFeedOrderDetailsProps> = ({ isModal, allOrders }) =>
     };
   }, [dispatch, token]);
 
-  const { orders } = useSelector(getStoreOrders);
+  const { orders } = useAppSelector(getStoreOrders);
   const order = orders?.find((item) => item._id === id);
 
   return isModal ? (

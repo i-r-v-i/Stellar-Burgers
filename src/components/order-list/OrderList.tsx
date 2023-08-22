@@ -1,8 +1,8 @@
 import styles from "./OrderList.module.css";
 import OrderItem from "../order-item/OrderItem";
-import { useSelector } from "react-redux";
 import { getStoreOrders } from "../utils/constants";
 import React, { FC, useMemo } from "react";
+import { useAppSelector } from "../../services/types/hooks";
 
 interface IOrderListProps {
   width: string;
@@ -11,7 +11,7 @@ interface IOrderListProps {
 }
 
 const OrderList: FC<IOrderListProps> = ({ width, isStatus, isMyOrder }) => {
-  const { orders } = useSelector(getStoreOrders);
+  const { orders } = useAppSelector(getStoreOrders);
 
   const reverseOrders = useMemo(() => [...orders]?.reverse(), [orders]);
 
