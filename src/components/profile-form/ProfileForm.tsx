@@ -10,7 +10,7 @@ import styles from "./ProfileForm.module.css";
 import { setNewUserData, IS_CHANGING, STOP_CHANGING } from "../../services/actions/user";
 import { getUser } from "../utils/constants";
 import { useAppDispatch, useAppSelector } from "../../services/types/hooks";
-import { TUserData } from "../../services/types/user";
+
 
 const ProfileForm: FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
