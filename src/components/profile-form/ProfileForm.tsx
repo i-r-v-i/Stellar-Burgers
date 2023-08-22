@@ -10,19 +10,17 @@ import styles from "./ProfileForm.module.css";
 import { setNewUserData, IS_CHANGING, STOP_CHANGING } from "../../services/actions/user";
 import { getUser } from "../utils/constants";
 import { useAppDispatch, useAppSelector } from "../../services/types/hooks";
+import { TUserData } from "../../services/types/user";
 
 const ProfileForm: FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
-  const { name, email } = useAppSelector(getUser).userData!;
+  const {name, email, password} = useAppSelector(getUser).userData!;
   const { isChanging } = useAppSelector(getUser);
-  const [user, changeValue] = useState<{
-    name: string;
-    email: string;
-    password?: string;
-  }>({
-    name: "",
-    email: "",
+  const [user, changeValue] = useState({
+    name: name,
+    email: email,
+    password: password
   });
 
   const onIconClick = (ref: any) => {
@@ -35,7 +33,7 @@ const ProfileForm: FC = () => {
   };
 
   const cancelChanging = () => {
-    changeValue({ name: name, email: email, password: "" });
+    changeValue({ name: user.name, email: user.email, password: "" });
     dispatch({ type: STOP_CHANGING });
   };
 
@@ -47,7 +45,7 @@ const ProfileForm: FC = () => {
   };
 
   return (
-    <Form extraClass={styles.position} route="" route2="" onSubmit={onSubmit} buttonText="Отмена">
+    <Form extraClass={styles.position} route="" route2="" onSubmit={onSubmit} buttonText="Сохранить">
       <Input
         type={"text"}
         placeholder={"Имя"}

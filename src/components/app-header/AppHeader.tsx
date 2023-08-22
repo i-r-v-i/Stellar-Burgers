@@ -6,12 +6,12 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./AppHeader.module.css";
 import { useLocation, NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { getUser } from "../utils/constants";
 import { FC } from "react";
+import { useAppSelector } from "../../services/types/hooks";
 
 const AppHeader: FC = () => {
-  const { userData } = useSelector(getUser);
+  const { userData } = useAppSelector(getUser);
   const { pathname } = useLocation();
 
   return (
