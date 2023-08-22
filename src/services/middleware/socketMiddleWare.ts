@@ -1,9 +1,21 @@
-import { getCookie } from "../../components/utils/cookie";
 import { refreshToken } from "../actions/user";
+import { Middleware } from 'redux';
+import { RootState } from '../types/store';
 
-export const socketMiddleware = (wsActions) => {
+
+type TSocketActions = {
+  wsConnecting: string,
+        onOpen: string,
+        onClose: string,
+        onError: string,
+        onMessage: string,
+        wsDisconnecting: string,
+}
+
+
+export const socketMiddleware = (wsActions: TSocketActions): Middleware<{}, RootState> => {
   return (store) => {
-    let socket = null;
+    let socket: WebSocket | null = null;
     let url = "";
 
     return (next) => (action) => {
@@ -37,7 +49,7 @@ export const socketMiddleware = (wsActions) => {
           console.log(data);
           if (!data.success) {
             if (data.message === "Invalid or missing token") {
-              socket.close();
+              socket?.close();
               return refreshToken()
                 .then(() => {
                   dispatch({ type: wsConnecting });

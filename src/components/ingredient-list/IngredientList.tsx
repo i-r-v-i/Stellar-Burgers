@@ -8,11 +8,11 @@ import { TIngredient } from "../../services/types/ingredients";
 interface IIngredientListProps {
   ingType: string;
   title: string;
-};
+}
 
 const IngredientList: FC<IIngredientListProps> = ({ ingType, title }) => {
   const { ingredients } = useAppSelector(getStoreIngredients);
-  
+
   const menu = useMemo(
     () => ingredients.filter((item: TIngredient) => item.type === ingType),
     [ingType, ingredients]

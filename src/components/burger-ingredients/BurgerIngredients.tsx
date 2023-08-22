@@ -3,9 +3,8 @@ import styles from "./BurgerIngredients.module.css";
 import IngredientList from "../ingredient-list/IngredientList";
 import { useEffect } from "react";
 import { setActiveTab } from "../../services/actions/activeTab";
-import { FC } from 'react';
+import { FC } from "react";
 import { useAppDispatch } from "../../services/types/hooks";
-
 
 const BurgerIngredients: FC = () => {
   const dispatch = useAppDispatch();
@@ -40,6 +39,6 @@ const BurgerIngredients: FC = () => {
       </div>
     </section>
   );
-}
+};
 
 export default BurgerIngredients;

@@ -12,13 +12,7 @@ type TModalProps = PropsWithChildren<{
   modalForOrder?: boolean;
 }>;
 
-const Modal: FC<TModalProps> = ({
-  children,
-  title,
-  closePopup,
-  modalForOrder,
-}) => {
- 
+const Modal: FC<TModalProps> = ({ children, title, closePopup, modalForOrder }) => {
   useEffect(() => {
     const handleEscClose = (evt: KeyboardEvent) => {
       evt.key === "Escape" && closePopup();

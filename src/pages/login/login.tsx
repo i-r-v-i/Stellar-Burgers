@@ -5,14 +5,14 @@ import {
 import Form from "../../components/form/Form";
 import { useNavigate } from "react-router-dom";
 import { ChangeEvent, FC, FormEventHandler, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { logIn } from "../../services/actions/user";
 import { getUser } from "../../components/utils/constants";
+import { useAppDispatch, useAppSelector } from "../../services/types/hooks";
 
  const Login: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const previousRoute = useSelector(getUser).previousRoute;
+  const {previousRoute} = useAppSelector(getUser)
 
   const [form, setValue] = useState<{email: string, password: string}>({ email: "", password: "" });
 
@@ -22,7 +22,7 @@ import { getUser } from "../../components/utils/constants";
 
   const onSubmit:FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    // dispatch(logIn(form, navigate, previousRoute));
+    dispatch(logIn(form, navigate, previousRoute));
   };
 
   return (

@@ -1,4 +1,4 @@
-import { TUserState, TUserActions } from './../types/user';
+import { TUserState, TUserActions } from "./../types/user";
 import {
   REGISTRATION_REQUEST,
   REGISTRATION_SUCCESS,
@@ -24,9 +24,8 @@ import {
   UPDATE_USER_FAILED,
   IS_CHANGING,
   STOP_CHANGING,
-  SAVE_PREVIOUS_ROUTE
+  SAVE_PREVIOUS_ROUTE,
 } from "../actions/user";
-
 
 const initialState: TUserState = {
   userData: null,
@@ -56,12 +55,12 @@ const initialState: TUserState = {
   resetPasswordSuccess: false,
 
   isChanging: false,
-  previousRoute: "/"
+  previousRoute: "/",
 };
 
 export const userReducer = (state = initialState, action: TUserActions): TUserState => {
   switch (action.type) {
-    case REGISTRATION_REQUEST:  {
+    case REGISTRATION_REQUEST: {
       return {
         ...state,
         registrationRequest: true,
@@ -86,7 +85,7 @@ export const userReducer = (state = initialState, action: TUserActions): TUserSt
       return {
         ...state,
         forgotPasswordRequest: true,
-        isReset: false
+        isReset: false,
       };
     }
 
@@ -113,7 +112,7 @@ export const userReducer = (state = initialState, action: TUserActions): TUserSt
         forgotPasswordRequest: false,
         forgotPasswordFailed: true,
         forgotPasswordSuccess: false,
-        isReset: false
+        isReset: false,
       };
     }
     case RESET_PASSWORD_REQUEST: {
@@ -130,7 +129,7 @@ export const userReducer = (state = initialState, action: TUserActions): TUserSt
         resetPasswordFailed: false,
       };
     }
-    
+
     case RESET_PASSWORD_FAILED: {
       return {
         ...state,

@@ -20,6 +20,6 @@ const Main: FC = () => {
       )}
     </DndProvider>
   );
-}
+};
 
 export default Main;

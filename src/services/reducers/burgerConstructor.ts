@@ -1,5 +1,7 @@
-import { TIngredient } from './../types/ingredients';
-import { TBurgerConstructorState, TBurgerConstructorActions } from './../types/burgerConstructor';
+import {
+  TBurgerConstructorState,
+  TBurgerConstructorActions,
+} from "./../types/burgerConstructor";
 import {
   ADD_ITEM,
   ADD_BUN,
@@ -7,7 +9,6 @@ import {
   CLEAR_STATE,
   SORT_ITEM,
 } from "../actions/burgerConstructor";
-// import { v4 as uuidv4 } from "uuid";
 
 const burgerConstructorInitialState: TBurgerConstructorState = {
   selectedIngredients: [],
@@ -18,9 +19,8 @@ const burgerConstructorInitialState: TBurgerConstructorState = {
 export const burgerConstructorReducer = (
   state = burgerConstructorInitialState,
   action: TBurgerConstructorActions
-  ): TBurgerConstructorState => {
-  
-    switch (action.type) {
+): TBurgerConstructorState => {
+  switch (action.type) {
     case CLEAR_STATE: {
       return {
         selectedIngredients: [],
@@ -30,13 +30,9 @@ export const burgerConstructorReducer = (
     }
 
     case ADD_ITEM: {
-  
       return {
         ...state,
-        selectedIngredients: [
-          ...state.selectedIngredients,
-          action.payload
-        ],
+        selectedIngredients: [...state.selectedIngredients, action.payload],
         dropIngredientSuccess: true,
       };
     }

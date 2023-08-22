@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { ProtectedRouteElement } from "../protected-route/ProtectedRouteElement";
 import OnlyUnauthElement from "../only-unauth/OnlyAnauthElement";
@@ -22,10 +22,10 @@ import { getOrderNumber } from "../utils/constants";
 import { GET_NUMBER_FAILED } from "../../services/actions/order";
 import { useDispatch, useSelector } from "react-redux";
 
-export default function App() {
+const App: FC = () => {
   const location = useLocation();
   const background = location.state?.background;
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function App() {
     dispatch(checkAuth());
   }, [dispatch]);
 
-  const handleCloseModal = (evt) => {
+  const handleCloseModal = (evt: Event) => {
     evt.stopPropagation();
     navigate(-1);
     dispatch({ type: GET_NUMBER_FAILED });
@@ -46,20 +46,14 @@ export default function App() {
       <AppHeader />
       <Routes location={background || location}>
         <Route path="/" element={<Main />} />
-        <Route path="/ingredients/:id" element={<IngredientDetails />} />
+        <Route path="/ingredients/:id" element={<IngredientDetails bac={false} />} />
         <Route path="/feed" element={<Feed />} />
         <Route
           path="/feed/:id"
-          element={<FeedOrderDetails allOrders="true" />}
+          element={<FeedOrderDetails allOrders={true} isModal={false} />}
         />
-        <Route
-          path="/register"
-          element={<OnlyUnauthElement element={<Register />} />}
-        />
-        <Route
-          path="/login"
-          element={<OnlyUnauthElement element={<Login />} />}
-        />
+        <Route path="/register" element={<OnlyUnauthElement element={<Register />} />} />
+        <Route path="/login" element={<OnlyUnauthElement element={<Login />} />} />
         <Route
           path="/forgot-password"
           element={<OnlyUnauthElement element={<ForgotPassword />} />}
@@ -77,7 +71,7 @@ export default function App() {
         </Route>
         <Route
           path="/profile/orders/:id"
-         element={<FeedOrderDetails />}
+          element={<FeedOrderDetails isModal={false} allOrders={false} />}
         />
         <Route path="*" element={<NotFound404 />} />
       </Routes>
@@ -87,7 +81,7 @@ export default function App() {
           <Route
             path="/ingredients/:id"
             element={
-              <Modal closePopup={handleCloseModal} title="Детали ингредиента">
+              <Modal closePopup={() => handleCloseModal} title="Детали ингредиента">
                 <IngredientDetails bac />
               </Modal>
             }
@@ -96,7 +90,7 @@ export default function App() {
             path="/feed/:id"
             element={
               <Modal
-                closePopup={handleCloseModal}
+                closePopup={() => handleCloseModal}
                 modalForOrder
                 title={`#${orderNumber}`}
               >
@@ -108,11 +102,11 @@ export default function App() {
             path="/profile/orders/:id"
             element={
               <Modal
-                closePopup={handleCloseModal}
+                closePopup={() => handleCloseModal}
                 modalForOrder
                 title={`#${orderNumber}`}
               >
-                <FeedOrderDetails isModal />
+                <FeedOrderDetails isModal allOrders={false} />
               </Modal>
             }
           />
@@ -120,4 +114,6 @@ export default function App() {
       )}
     </>
   );
-}
+};
+
+export default App;

@@ -1,27 +1,28 @@
-import {
-  Input,
-  PasswordInput,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import Form from "../../components/form/Form";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { ChangeEvent, FC, FormEventHandler, useState } from "react";
 import { setNewPassword } from "../../services/actions/user";
 import { Navigate } from "react-router-dom";
+import { getUser } from "../../components/utils/constants";
+import { useAppDispatch, useAppSelector } from "../../services/types/hooks";
 
-export default function ResetPassword() {
-  const dispatch = useDispatch();
+const ResetPassword: FC = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const isReset = useSelector((state) => state.user.isReset);
+  const { isReset } = useAppSelector(getUser);
   console.log(isReset);
 
-  const [form, setValue] = useState({ password: "", token: "" });
+  const [form, setValue] = useState<{ password: string; token: string }>({
+    password: "",
+    token: "",
+  });
 
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     dispatch(setNewPassword(form, navigate));
   };
@@ -30,12 +31,13 @@ export default function ResetPassword() {
     <div style={{ paddingTop: "180px" }}>
       <Form
         title="Восстановление пароля"
-        button="true"
+        isButton={true}
         buttonText="Сохранить"
         question="Вспомнили пароль?"
         link="Войти"
         route="/login"
-        onButtonClick={onSubmit}
+        route2=""
+        onSubmit={() => onSubmit}
       >
         <PasswordInput
           onChange={onChange}
@@ -58,4 +60,6 @@ export default function ResetPassword() {
   ) : (
     <Navigate to="/forgot-password" />
   );
-}
+};
+
+export default ResetPassword;

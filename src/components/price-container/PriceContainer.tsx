@@ -5,7 +5,7 @@ import {
 import { FC } from "react";
 
 type TTotalPriceProps = {
-  totalPrice: number | undefined | string;
+  totalPrice: number | undefined;
 }
 
 const PriceContainer:FC<TTotalPriceProps> = ({totalPrice}) => {

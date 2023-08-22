@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./components/app/App";
-import { compose, createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "@redux-devtools/extension";
 import { Provider } from "react-redux";
 import { rootReducer } from "./services/reducers/index";
@@ -12,9 +12,7 @@ import { wsActions } from "./services/actions/wsActions";
 
 const composeEnhancers = composeWithDevTools({});
 
-const enhancer = composeEnhancers(
-  applyMiddleware(thunk, socketMiddleware(wsActions))
-);
+const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsActions)));
 
 export const store = createStore(rootReducer, enhancer);
 

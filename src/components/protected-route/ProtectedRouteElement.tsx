@@ -6,8 +6,7 @@ import { saveUserPath } from "../../services/actions/user";
 import { getUser } from "../utils/constants";
 import { TRouteProps } from "../../services/types/constants";
 
-
-export const ProtectedRouteElement: FC<TRouteProps> = ({ element}) => {
+export const ProtectedRouteElement: FC<TRouteProps> = ({ element }) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { userData } = useSelector(getUser);

@@ -66,13 +66,13 @@ export function setUser(data: TUserData) {
   }).then(checkResponse);
 }
 
-export function resetPasswordApi(email: string) {
+export function resetPasswordApi(form: {email: string}) {
   return fetch(URL.forgotPassword, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(email),
+    body: JSON.stringify(form),
   }).then(checkResponse);
 }
 

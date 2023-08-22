@@ -11,14 +11,13 @@ import { useAppSelector } from "../../services/types/hooks";
 import { FC } from "react";
 import { TIngredient } from "../../services/types/ingredients";
 
-
 interface IIngredientProps {
   ingredientData: TIngredient;
   name: string;
   price: number;
   image: string;
   type: string;
-};
+}
 
 const Ingredient: FC<IIngredientProps> = ({
   ingredientData,
@@ -28,12 +27,10 @@ const Ingredient: FC<IIngredientProps> = ({
   type,
 }) => {
   const location = useLocation();
-  const { selectedIngredients, selectedBun } = useAppSelector(
-    getStoreBurgerConstructor
-  );
+  const { selectedIngredients, selectedBun } = useAppSelector(getStoreBurgerConstructor);
 
   const count =
-  ingredientData.type !== "bun"
+    ingredientData.type !== "bun"
       ? selectedIngredients.reduce(
           (sum: number, item: any) => (item._id === ingredientData._id ? sum + 1 : sum),
           0
@@ -74,5 +71,3 @@ const Ingredient: FC<IIngredientProps> = ({
 };
 
 export default React.memo(Ingredient);
-
-

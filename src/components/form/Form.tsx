@@ -1,32 +1,32 @@
 import styles from "./Form.module.css";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { FC, FormEvent, FormEventHandler, PropsWithChildren,  } from "react";
+import { FC, FormEvent, PropsWithChildren } from "react";
 import { Link } from "react-router-dom";
 
 type TFormProps = PropsWithChildren<{
-  extraClass?: string,
-  title?: string,
-  isButton?: boolean,
-  buttonText?: string,
-  question?: string,
-  link?: string,
-  question2?: string,
-  link2?: string,
-  route: string,
-  route2: string,
-  onSubmit: (e: FormEvent) => void,
-}>
+  extraClass?: string;
+  title?: string;
+  isButton?: boolean;
+  buttonText?: string;
+  question?: string;
+  link?: string;
+  question2?: string;
+  link2?: string;
+  route: string;
+  route2: string;
+  onSubmit: (e: FormEvent) => void;
+}>;
 interface IGetSpan {
-  question?: string,
-    link?: string,
-    question2?: string,
-    link2?: string,
-    route: string,
-    route2: string,
+  question?: string;
+  link?: string;
+  question2?: string;
+  link2?: string;
+  route: string;
+  route2: string;
 }
 
 const Form: FC<TFormProps> = ({
-  extraClass, 
+  extraClass,
   title,
   isButton = true,
   buttonText,
@@ -37,22 +37,12 @@ const Form: FC<TFormProps> = ({
   route,
   route2,
   onSubmit,
-  children
+  children,
 }) => {
-
-  const GetSpan: FC<IGetSpan> = ({
-    question,
-    link,
-    question2,
-    link2,
-    route,
-    route2,
-  }) => {
+  const GetSpan: FC<IGetSpan> = ({ question, link, question2, link2, route, route2 }) => {
     return (
       <div className={styles.spanContainer}>
-        <div
-          className={`${styles.span} text text_type_main-default text_color_inactive`}
-        >
+        <div className={`${styles.span} text text_type_main-default text_color_inactive`}>
           <span>{question}</span>
           <Link to={route} className={styles.link}>
             {link}
@@ -75,20 +65,14 @@ const Form: FC<TFormProps> = ({
   return (
     <form className={`${styles.form} ${extraClass}`} onSubmit={onSubmit}>
       {title ? (
-        <h1 className={`${styles.title} text text_type_main-medium`}>
-          {title}
-        </h1>
+        <h1 className={`${styles.title} text text_type_main-medium`}>{title}</h1>
       ) : null}
-     
+
       {children}
 
       <div className={styles.buttonContainer}>
-        { isButton ? (
-          <Button
-            htmlType="submit"
-            type="primary"
-            size="medium"
-          >
+        {isButton ? (
+          <Button htmlType="submit" type="primary" size="medium">
             {buttonText}
           </Button>
         ) : null}
@@ -103,6 +87,6 @@ const Form: FC<TFormProps> = ({
       </div>
     </form>
   );
-}
+};
 
 export default Form;

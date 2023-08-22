@@ -15,6 +15,7 @@ import {
 } from "../../components/utils/cookie";
 import { AppDispatch, AppThunk } from "../types/store";
 import { TUserData } from "../types/user";
+import { NavigateFunction } from "react-router-dom";
 
 export const REGISTRATION_REQUEST = "REGISTRATION_REQUEST";
 export const REGISTRATION_SUCCESS = "REGISTRATION_SUCCESS";
@@ -49,10 +50,10 @@ export const IS_CHANGING = "IS_CHANGING";
 export const STOP_CHANGING = "STOP_CHANGING";
 export const SAVE_PREVIOUS_ROUTE = "SAVE_PREVIOUS_ROUTE";
 
-export const checkAuth:  AppThunk = () => {
-  return function (dispatch: AppDispatch) {
+export const checkAuth: AppThunk = () => {
+  return function (dispatch) {
   if (getCookie("accessToken")) {
-    //dispatch(getUserData());
+    dispatch(getUserData());
   }
 };
 }
@@ -70,7 +71,7 @@ export function refreshToken() {
 }
 
 export const getUserData: AppThunk = () => {
-  return function (dispatch: AppDispatch) {
+  return function (dispatch) {
     dispatch({ type: GET_USER_REQUEST });
     return getUserApi()
       .then((res) => {
@@ -86,8 +87,8 @@ export const getUserData: AppThunk = () => {
   };
 }
 
-export function setNewUserData(userData: TUserData) {
-  return function (dispatch: AppDispatch) {
+export const setNewUserData: AppThunk = (userData: TUserData) => {
+  return function (dispatch) {
     dispatch({ type: UPDATE_USER_REQUEST });
     return patchUserDataApi(userData)
       .then((res) => {
@@ -113,8 +114,8 @@ export const saveUserPath = (path: string) => ({
 
 
 
-export function registrateUser(userData:  TUserData, navigate: Function) {
-  return function (dispatch: AppDispatch) {
+export  const registrateUser: AppThunk = (userData:  TUserData, navigate: NavigateFunction) => {
+  return function (dispatch) {
     dispatch({ type: REGISTRATION_REQUEST });
     setUser(userData)
       .then((res) => {
@@ -136,10 +137,10 @@ export function registrateUser(userData:  TUserData, navigate: Function) {
   };
 }
 
-export function forgotPassword(userEmail: string, navigate: Function) {
+export function forgotPassword(formEmail: {email: string}, navigate: NavigateFunction) {
   return function (dispatch: AppDispatch) {
     dispatch({ type: FORGOT_PASSWORD_REQUEST });
-    resetPasswordApi(userEmail)
+    resetPasswordApi(formEmail)
       .then((res) => {
         if (res.success) {
           console.log(res);
@@ -157,7 +158,7 @@ export function forgotPassword(userEmail: string, navigate: Function) {
   };
 }
 
-export function setNewPassword(newData: {password: string, token: string}, navigate: Function) {
+export function setNewPassword(newData: {password: string, token: string}, navigate: NavigateFunction) {
   return function (dispatch: AppDispatch) {
     dispatch({ type: RESET_PASSWORD_REQUEST });
     changePasswordApi(newData)
@@ -177,7 +178,7 @@ export function setNewPassword(newData: {password: string, token: string}, navig
   };
 }
 
-export function logIn(data: TUserData, navigate: Function, previousRoute: string) {
+export function logIn(data: {email: string, password: string}, navigate: NavigateFunction, previousRoute: string) {
   return function (dispatch: AppDispatch) {
     dispatch({ type: LOGIN_REQUEST });
     loginApi(data)
@@ -200,8 +201,8 @@ export function logIn(data: TUserData, navigate: Function, previousRoute: string
   };
 }
 
-export function logOut(navigate: Function) {
-  return function (dispatch: AppDispatch) {
+export const logOut: AppThunk = (navigate: Function) => {
+  return function (dispatch) {
     dispatch({ type: LOGOUT_REQUEST });
     logoutApi(localStorage.getItem("refreshToken"))
       .then((res) => {

@@ -8,7 +8,7 @@ interface IIngredientDetailsProps {
   bac: boolean;
 }
 
-const IngredientDetails: FC<IIngredientDetailsProps> = ({ bac })  => {
+const IngredientDetails: FC<IIngredientDetailsProps> = ({ bac }) => {
   const { id } = useParams();
   const { ingredients } = useSelector(getStoreIngredients);
   const ingredient = ingredients?.find((ingredient) => ingredient._id === id);
@@ -16,11 +16,7 @@ const IngredientDetails: FC<IIngredientDetailsProps> = ({ bac })  => {
   const IngredientDetailsModal = () => {
     return ingredient ? (
       <div className={styles.container}>
-        <img
-          className="mb-4"
-          src={ingredient.image_large}
-          alt={ingredient.name}
-        />
+        <img className="mb-4" src={ingredient.image_large} alt={ingredient.name} />
         <p className="text text_type_main-medium mb-8">{ingredient.name}</p>
         <div className={styles.energyValue}>
           <p
@@ -74,11 +70,7 @@ const IngredientDetails: FC<IIngredientDetailsProps> = ({ bac })  => {
         <h1 className={`${styles.title} text text_type_main-large`}>
           Детали ингредиента
         </h1>
-        <img
-          className="mb-4"
-          src={ingredient.image_large}
-          alt={ingredient.name}
-        ></img>
+        <img className="mb-4" src={ingredient.image_large} alt={ingredient.name}></img>
         <p className="text text_type_main-medium mb-8">{ingredient.name}</p>
         <div className={styles.energyValue}>
           <p
@@ -127,6 +119,6 @@ const IngredientDetails: FC<IIngredientDetailsProps> = ({ bac })  => {
   };
 
   return bac ? <IngredientDetailsModal /> : <IngredientDetailsRoute />;
-}
+};
 
 export default IngredientDetails;

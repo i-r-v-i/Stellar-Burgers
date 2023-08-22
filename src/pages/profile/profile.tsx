@@ -1,20 +1,20 @@
 import React, { FC } from "react";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import styles from "./profile.module.css";
 import { logOut } from "../../services/actions/user";
+import { useAppDispatch } from "../../services/types/hooks";
 
 const ProfilePage: FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const activeLink = ({ isActive }: { isActive: boolean}) => ({
+  const activeLink = ({ isActive }: { isActive: boolean }) => ({
     color: isActive ? " #f2f2f3" : "#8585AD",
   });
 
   const handleLogout = () => {
-    // dispatch(logOut(navigate));
+    dispatch(logOut(navigate));
   };
 
   return (
@@ -48,12 +48,11 @@ const ProfilePage: FC = () => {
           </Button>
         </nav>
         <span className="text text_type_main-default text_color_inactive">
-          В&nbsp;этом разделе вы&nbsp;можете изменить&nbsp;свои персональные
-          данные
+          В&nbsp;этом разделе вы&nbsp;можете изменить&nbsp;свои персональные данные
         </span>
       </div>
       <Outlet />
     </div>
   );
-}
+};
 export default React.memo(ProfilePage);

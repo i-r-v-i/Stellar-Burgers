@@ -30,10 +30,7 @@ const InfoBoard: FC = () => {
           {orders?.map(
             (order, index) =>
               order.status === orderStatus.pending && (
-                <li
-                  key={index}
-                  className={`text text_type_digits-default pb-2 pr-2`}
-                >
+                <li key={index} className={`text text_type_digits-default pb-2 pr-2`}>
                   {order.number}
                 </li>
               )
@@ -47,13 +44,11 @@ const InfoBoard: FC = () => {
         <p className="text text_type_digits-large">{totalOrders}</p>
       </div>
       <div className={`${styles.today}`}>
-        <p className="text text_type_main-medium">
-          Выполнено&nbsp;за&nbsp;сегодня:
-        </p>
+        <p className="text text_type_main-medium">Выполнено&nbsp;за&nbsp;сегодня:</p>
         <p className="text text_type_digits-large">{todayOrders}</p>
       </div>
     </section>
   );
-}
+};
 
 export default InfoBoard;

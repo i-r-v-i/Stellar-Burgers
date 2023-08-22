@@ -1,8 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import {
-  CurrencyIcon,
-  Button,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorItem from "../constructor-item/ConstructorItem";
 import styles from "./BurgerConstructor.module.css";
 import ConstructorFillingItem from "../constructor-filling-item/ConstructorFillingItem";
@@ -18,50 +15,41 @@ import {
 import { useDrop } from "react-dnd";
 import { GET_NUMBER_FAILED, makeOrder } from "../../services/actions/order";
 import { useNavigate } from "react-router-dom";
-import {
-  getStoreBurgerConstructor,
-  getOrderNumber,
-  getUser,
-} from "../utils/constants";
+import { getStoreBurgerConstructor, getOrderNumber, getUser } from "../utils/constants";
 import { v4 as uuidv4 } from "uuid";
 import { TIngredient } from "../../services/types/ingredients";
 
-
-
 const BurgerConstructor: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
   const navigate = useNavigate();
 
   const [isOrder, setIsOrder] = useState<boolean>(false);
 
-  const { selectedIngredients, selectedBun, dropIngredientSuccess } =
-    useSelector(getStoreBurgerConstructor);
+  const { selectedIngredients, selectedBun, dropIngredientSuccess } = useSelector(
+    getStoreBurgerConstructor
+  );
   const { modalOpened } = useSelector(getOrderNumber);
   const { userData } = useSelector(getUser);
 
   const onDropBunHandler = (item: TIngredient) => {
-    dispatch({ type: ADD_BUN,  payload: item  });
+    dispatch({ type: ADD_BUN, payload: item });
   };
 
   const onDropIngredientHandler = (item: TIngredient) => {
-    dispatch({ type: ADD_ITEM, payload: {...item, uniqId: uuidv4()}
-    }
-    );
+    dispatch({ type: ADD_ITEM, payload: { ...item, uniqId: uuidv4() } });
   };
 
   const handleDeleteItem = (uniqId: string | undefined) => {
     dispatch({ type: DELETE_ITEM, payload: uniqId });
   };
 
-  const [{isHover}, dropTarget] = useDrop({
+  const [{ isHover }, dropTarget] = useDrop({
     accept: "ingredient",
     collect: (monitor) => ({
       isHover: monitor.isOver(),
     }),
     drop: (item: TIngredient) => {
-      item.type === "bun"
-        ? onDropBunHandler(item)
-        : onDropIngredientHandler(item);
+      item.type === "bun" ? onDropBunHandler(item) : onDropIngredientHandler(item);
     },
   });
 
@@ -81,7 +69,7 @@ const BurgerConstructor: FC = () => {
     if (userData && selectedBun) {
       const resultIdArr = [...ingredientIdArr, selectedBun._id];
       // result.push(selectedBun._id);
-      // dispatch(makeOrder(resultIdArr));
+      dispatch(makeOrder(resultIdArr));
     } else {
       navigate("/login");
     }
@@ -93,7 +81,7 @@ const BurgerConstructor: FC = () => {
     }
   }, [selectedBun, selectedIngredients]);
 
-  const totalSum = 
+  const totalSum =
     dropIngredientSuccess && selectedBun
       ? selectedBun.price * 2 +
         selectedIngredients?.reduce((sum, item) => sum + item.price, 0)
@@ -185,6 +173,6 @@ const BurgerConstructor: FC = () => {
       )}
     </>
   );
-}
+};
 
 export default BurgerConstructor;

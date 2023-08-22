@@ -17,7 +17,7 @@ import { getUser } from "../utils/constants";
   
   const ProfileForm: FC = () =>{
     const inputRef = useRef<HTMLInputElement>(null);
-    const dispatch = useDispatch();
+    const dispatch: any = useDispatch();
     const name= useSelector(getUser).userData!.name;
     const email = useSelector(getUser).userData!.email;
     const isChanging = useSelector(getUser).isChanging;
@@ -45,7 +45,7 @@ import { getUser } from "../utils/constants";
   
     const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
       e.preventDefault();
-      // dispatch(setNewUserData(user));
+      dispatch(setNewUserData(user));
       changeValue({ ...user, password: "" });
       dispatch({ type: STOP_CHANGING });
     };
@@ -71,7 +71,6 @@ import { getUser } from "../utils/constants";
             value={user.email}
             name={"email"}
             placeholder="E-mail"
-            // icon="EditIcon"
             required
           />
           <PasswordInput

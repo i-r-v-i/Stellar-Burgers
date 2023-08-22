@@ -1,5 +1,5 @@
 import { TActiveTabState } from "../../services/types/activeTab";
-import { TBurgerConstructorState} from "../../services/types/burgerConstructor";
+import { TBurgerConstructorState } from "../../services/types/burgerConstructor";
 import { TIngredient, TIngredientsState } from "../../services/types/ingredients";
 import { RootState } from "../../services/types/store";
 import { TUserState } from "../../services/types/user";
@@ -19,15 +19,17 @@ export const URL = {
 };
 
 export const getStore = (store: RootState) => store;
-export const getStoreIngredients = (store: RootState):TIngredientsState => store.ingredients;
-export const getStoreBurgerConstructor = (store: RootState):TBurgerConstructorState => store.burgerConstructor;
-export const getUser = (store: RootState):TUserState => store.user;
+export const getStoreIngredients = (store: RootState): TIngredientsState =>
+  store.ingredients;
+export const getStoreBurgerConstructor = (store: RootState): TBurgerConstructorState =>
+  store.burgerConstructor;
+export const getUser = (store: RootState): TUserState => store.user;
 export const getOrderNumber = (store: RootState) => store.order;
-export const getActiveTab = (store: RootState):TActiveTabState => store.activeTab;
-export const getStoreOrders = (store: RootState):TWState => store.ws;
+export const getActiveTab = (store: RootState): TActiveTabState => store.activeTab;
+export const getStoreOrders = (store: RootState): TWState => store.ws;
 
 export const getStatus = (status: string) => {
-  if (status === 'done') {
+  if (status === "done") {
     return "Выполнен";
   } else if (status === "pending") {
     return "Готовится";
@@ -37,22 +39,21 @@ export const getStatus = (status: string) => {
 };
 
 export const orderStatus = {
-  done: 'done', 
-  pending: 'pending'
-}
+  done: "done",
+  pending: "pending",
+};
 
 export const countOfIconIngredients = 5;
 
-
-export const getOrderItem = (ing:string, ingredients: TIngredient[]) => {
+export const getOrderItem = (ing: string, ingredients: TIngredient[]) => {
   return ingredients.find((item) => item._id === ing);
 };
 
 export const getTotalPrice = (arrOrder: any[], arrAll: TIngredient[] | undefined) => {
   if (arrOrder && arrAll) {
-  return arrOrder.reduce(
-    (sum, id) => sum + arrAll?.find((item) => item?._id === id)?.price,
-    0
-  );
+    return arrOrder.reduce(
+      (sum, id) => sum + arrAll?.find((item) => item?._id === id)?.price,
+      0
+    );
   }
 };
