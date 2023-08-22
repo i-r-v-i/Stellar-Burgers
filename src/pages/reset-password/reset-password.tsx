@@ -22,7 +22,7 @@ const ResetPassword: FC = () => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+  const onSubmit: FormEventHandler = (e) => {
     e.preventDefault();
     dispatch(setNewPassword(form, navigate));
   };
@@ -37,7 +37,7 @@ const ResetPassword: FC = () => {
         link="Войти"
         route="/login"
         route2=""
-        onSubmit={() => onSubmit}
+        onSubmit={onSubmit}
       >
         <PasswordInput
           onChange={onChange}

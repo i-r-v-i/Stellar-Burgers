@@ -20,7 +20,7 @@ import { useAppDispatch, useAppSelector } from "../../services/types/hooks";
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const onSubmit:FormEventHandler<HTMLFormElement> = (e) => {
+  const onSubmit:FormEventHandler = (e) => {
     e.preventDefault();
     dispatch(logIn(form, navigate, previousRoute));
   };
@@ -37,7 +37,7 @@ import { useAppDispatch, useAppSelector } from "../../services/types/hooks";
         link2="Восстановить пароль"
         route="/register"
         route2="/forgot-password"
-        onSubmit={()=>onSubmit}
+        onSubmit={onSubmit}
       >
         <EmailInput
           onChange={onChange}

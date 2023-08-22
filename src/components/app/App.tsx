@@ -21,11 +21,12 @@ import { getIngredients } from "../../services/actions/ingredients";
 import { getOrderNumber } from "../utils/constants";
 import { GET_NUMBER_FAILED } from "../../services/actions/order";
 import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch } from "../../services/types/hooks";
 
 const App: FC = () => {
   const location = useLocation();
   const background = location.state?.background;
-  const dispatch: any = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,8 +34,9 @@ const App: FC = () => {
     dispatch(checkAuth());
   }, [dispatch]);
 
-  const handleCloseModal = (evt: Event) => {
+  const handleCloseModal = (evt: KeyboardEvent) => {
     evt.stopPropagation();
+    
     navigate(-1);
     dispatch({ type: GET_NUMBER_FAILED });
   };

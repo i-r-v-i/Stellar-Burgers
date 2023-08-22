@@ -21,7 +21,7 @@ const Register: FC = () => {
     console.log(user);
   };
 
-  const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+  const onSubmit: FormEventHandler = (e) => {
     e.preventDefault();
     dispatch(registrateUser(form, navigate));
   };
@@ -36,7 +36,7 @@ const Register: FC = () => {
         question="Уже зарегистрированы?"
         link="Войти"
         route="/login"
-        onSubmit={() => onSubmit}
+        onSubmit={onSubmit}
       >
         <Input
           type={"text"}
