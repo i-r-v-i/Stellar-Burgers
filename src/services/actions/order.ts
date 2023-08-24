@@ -6,12 +6,12 @@ export const GET_NUMBER_SUCCESS = "GET_NUMBER_SUCCESS";
 export const GET_NUMBER_FAILED = "GET_NUMBER_FAILED";
 export const GET_NUMBER_FOR_MODAL = "GET_NUMBER_FOR_MODAL";
 
-export const makeOrder: AppThunk = (ingArr: string[]) => {
+export const makeOrder: AppThunk = (ingIdArr: string[]) => {
   return function (dispatch: AppDispatch) {
     dispatch({
       type: GET_NUMBER_REQUEST,
     });
-    getOrderNumber(ingArr, getCookie("accessToken")).then((res) => {
+    getOrderNumber(ingIdArr, getCookie("accessToken")).then((res) => {
       if (res.success) {
         dispatch({
           type: GET_NUMBER_SUCCESS,
