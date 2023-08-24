@@ -28,13 +28,6 @@ export default function ProfileForm() {
 
   const [user, changeValue] = useState(InitUserState);
 
-  // useEffect(() => {
-  //   if (userData) {
-  //     changeValue({...userData });
-  //   } else changeValue(InitUserState);
-  // }, [userData]);
-
-  
   const onIconClick = (ref: any) => {
     ref.current.focus();
   };

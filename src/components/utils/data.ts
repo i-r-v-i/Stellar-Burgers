@@ -1,17 +1,29 @@
+import { TIngredient } from "./../../services/types/ingredients";
 import { refreshToken } from "../../services/actions/user";
 import { TUserData } from "../../services/types/user";
 import { URL } from "./constants";
 import { getCookie } from "./cookie";
+import { TOrder } from "../../services/types/order";
 
-export function checkResponse(res: Response) {
+export const checkResponse = <T>(res: Response): Promise<T> => {
   return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
-}
+};
+type TGetDataResponse = {
+  success: boolean;
+  data: TIngredient[];
+};
 
 export function getData() {
-  return fetch(URL.ingredients).then(checkResponse);
+  return fetch(URL.ingredients).then(checkResponse<TGetDataResponse>);
 }
 
-export function getOrderNumber(data: string[], token: string ='') {
+type TGetOrderNumberResponse = {
+  success: boolean;
+  name: string;
+  order: TOrder;
+};
+
+export function getOrderNumber(data: string[], token: string = "") {
   return fetch(URL.orders, {
     method: "POST",
     headers: {
@@ -21,24 +33,30 @@ export function getOrderNumber(data: string[], token: string ='') {
     body: JSON.stringify({
       ingredients: data,
     }),
-  }).then(checkResponse);
+  }).then(checkResponse<TGetOrderNumberResponse>);
 }
-
-export const fetchWithRefresh = (url: string, options?: any) => {
+type TRefreshToken = {
+  accessToken: string;
+  refreshToken: string;
+};
+export const fetchWithRefresh = <T>(url: string, options: any): Promise<T | any> => {
   return fetch(url, options)
-    .then(checkResponse)
+    .then(checkResponse<T>)
     .catch((err) => {
-      if(err.status === 401 || err.status === 403) {
+      if (err.status === 401 || err.status === 403) {
         return refreshToken()
-       .then((res: any) => options.headers.authorization = res.accessToken)
-       .then(() => fetch(url, options).then(checkResponse));
+          .then((res: any) => (options.headers.authorization = res.accessToken))
+          .then(() => fetch(url, options).then(checkResponse<T>));
       }
-      
-});
+    });
 };
 
+type TGetUserResponse = {
+  success: boolean;
+  user: TUserData;
+};
 export function getUserApi() {
-  return fetchWithRefresh(URL.user, {
+  return fetchWithRefresh<TGetUserResponse>(URL.user, {
     headers: {
       authorization: getCookie("accessToken"),
     },
@@ -46,7 +64,7 @@ export function getUserApi() {
 }
 
 export function patchUserDataApi(userData: TUserData) {
-  return fetchWithRefresh(URL.user, {
+  return fetchWithRefresh<TGetUserResponse>(URL.user, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -55,6 +73,7 @@ export function patchUserDataApi(userData: TUserData) {
     body: JSON.stringify(userData),
   });
 }
+type TLoginResponse = TRefreshToken & TGetUserResponse;
 
 export function setUser(data: TUserData) {
   return fetch(URL.register, {
@@ -63,37 +82,40 @@ export function setUser(data: TUserData) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
-  }).then(checkResponse);
+  }).then(checkResponse<TLoginResponse>);
 }
-
-export function resetPasswordApi(form: {email: string}) {
+type TMessageResponse = {
+  success: boolean;
+  message: string;
+};
+export function resetPasswordApi(form: { email: string }) {
   return fetch(URL.forgotPassword, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(form),
-  }).then(checkResponse);
+  }).then(checkResponse<TMessageResponse>);
 }
 
-export function changePasswordApi(data: {password: string, token: string}) {
+export function changePasswordApi(data: { password: string; token: string }) {
   return fetch(URL.resetPassword, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
-  }).then(checkResponse);
+  }).then(checkResponse<TMessageResponse>);
 }
 
-export function loginApi(data: {email: string, password: string}) {
+export function loginApi(data: { email: string; password: string }) {
   return fetch(URL.login, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
-  }).then(checkResponse);
+  }).then(checkResponse<TLoginResponse>);
 }
 
 export function refreshTokenApi() {
@@ -105,7 +127,7 @@ export function refreshTokenApi() {
     body: JSON.stringify({
       token: localStorage.getItem("refreshToken"),
     }),
-  }).then((data) => checkResponse(data));
+  }).then(checkResponse<TRefreshToken>);
 }
 
 export function logoutApi(refreshToken: string | null) {
@@ -115,5 +137,5 @@ export function logoutApi(refreshToken: string | null) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ token: refreshToken }),
-  }).then(checkResponse);
+  }).then(checkResponse<TMessageResponse>);
 }

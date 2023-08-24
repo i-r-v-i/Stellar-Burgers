@@ -4,15 +4,23 @@ import {
     GET_NUMBER_REQUEST,
     GET_NUMBER_FOR_MODAL
   } from "../actions/order";
+import { TIngredient } from "./ingredients";
 
 export type TOrder = {
-    _id: string;
-    ingredients: Array<string>;
-    status: "done"|"pending"|"created";
-    name: string;
     createdAt: string;
+    ingredients: string[];
+    name: string;
+    number: number;
+    owner: {
+      name: string;
+      createdAt: string;
+      email: string;
+      updatedAt: string;
+    }
+    price: number;
+    status: "done"|"pending"|"created";
     updatedAt: string;
-    number: number
+    _id: string;
 }
 
 export type TOrderState = {

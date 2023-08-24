@@ -16,7 +16,6 @@ export const makeOrder: AppThunk = (ingArr: string[]) => {
         dispatch({
           type: GET_NUMBER_SUCCESS,
           payload: res.order.number,
-          
         });
       } else {
         dispatch({
@@ -25,4 +24,4 @@ export const makeOrder: AppThunk = (ingArr: string[]) => {
       }
     });
   };
-}
+};

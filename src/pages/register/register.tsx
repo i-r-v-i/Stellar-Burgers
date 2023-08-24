@@ -13,7 +13,7 @@ import { TUserData } from "../../services/types/user";
 const Register: FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [form, setValue] = useState<TUserData>({ name: "", email: "", password: "" });
+  const [form, setValue] = useState({ name: "", email: "", password: "" });
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });

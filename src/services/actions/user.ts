@@ -117,6 +117,7 @@ export const registrateUser: AppThunk = (
           dispatch({ type: REGISTRATION_SUCCESS, payload: res.user });
           navigate("/login");
         }
+
         localStorage.setItem("refreshToken", res.refreshToken);
         setCookie("accessToken", res.accessToken);
       })
@@ -136,7 +137,7 @@ export function forgotPassword(formEmail: { email: string }, navigate: NavigateF
     return resetPasswordApi(formEmail)
       .then((res) => {
         if (res.success) {
-          dispatch({ type: FORGOT_PASSWORD_SUCCESS, payload: res});
+          dispatch({ type: FORGOT_PASSWORD_SUCCESS, payload: res });
           navigate("/reset-password");
         }
       })
