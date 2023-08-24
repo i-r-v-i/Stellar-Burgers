@@ -39,7 +39,17 @@ type TRefreshToken = {
   accessToken: string;
   refreshToken: string;
 };
-export const fetchWithRefresh = <T>(url: string, options: any): Promise<T | any> => {
+
+export type TFetchOptions = {
+  method?: "GET"|"POST"|"PATCH";
+  headers:{
+      "Content-Type"?: string;
+      authorization?: string;
+  }
+  body?: string;
+}
+
+export const fetchWithRefresh = <T>(url: string, options: TFetchOptions): Promise<T | any> => {
   return fetch(url, options)
     .then(checkResponse<T>)
     .catch((err) => {
