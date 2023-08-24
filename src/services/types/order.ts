@@ -4,7 +4,7 @@ import {
     GET_NUMBER_REQUEST,
     GET_NUMBER_FOR_MODAL
   } from "../actions/order";
-import { TIngredient } from "./ingredients";
+
 
 export type TOrder = {
     createdAt: string;
