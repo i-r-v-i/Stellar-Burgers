@@ -14,7 +14,7 @@ import { useParams } from "react-router-dom";
 import styles from "./FeedDetailsView.module.css";
 import { useAppSelector } from "../../services/types/hooks";
 
-const FeedDetailsView: any = () => {
+function FeedDetailsView() {
   const { orders, wsConnected } = useAppSelector(getStoreOrders);
   const { ingredients } = useAppSelector(getStoreIngredients);
   const { id } = useParams();
@@ -42,7 +42,7 @@ const FeedDetailsView: any = () => {
 
   return (
     wsConnected &&
-    order && (
+    order ? (
       <>
         <h2 className={`${styles.modal_name} text text_type_main-medium mt-5 mb-2`}>
           {order?.name}
@@ -82,7 +82,9 @@ const FeedDetailsView: any = () => {
           <PriceContainer totalPrice={getTotalPrice(order.ingredients, ingredients)} />
         </div>
       </>
+      
     )
+    : null
   );
 };
 
