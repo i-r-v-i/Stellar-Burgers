@@ -67,7 +67,6 @@ const BurgerConstructor: FC = () => {
   const hahdleOpenPopupOrder = () => {
     if (userData && selectedBun) {
       const resultIdArr = [...ingredientIdArr, selectedBun._id];
-      console.log(resultIdArr);
       dispatch(makeOrder(resultIdArr));
     } else {
       navigate("/login");

@@ -8,8 +8,8 @@ import {
   getOrderItem,
   getTotalPrice,
   getStoreIngredients,
+  getStoreOrders 
 } from "../utils/constants";
-import { getStoreOrders } from "../utils/constants";
 import { useParams } from "react-router-dom";
 import styles from "./FeedDetailsView.module.css";
 import { useAppSelector } from "../../services/types/hooks";
@@ -18,8 +18,7 @@ function FeedDetailsView() {
   const { orders, wsConnected } = useAppSelector(getStoreOrders);
   const { ingredients } = useAppSelector(getStoreIngredients);
   const { id } = useParams();
-
-  const order = orders?.find((item) => item._id === id);
+  const order = orders?.find((order) => order._id === id);
   const getCount = (id: string) => {
     let counter = 0;
 
@@ -53,8 +52,8 @@ function FeedDetailsView() {
 
         <h3 className="text text_type_main-medium">Состав:</h3>
         <ul className={styles.ingredients}>
-          {unicItems?.map((ing, index) => {
-            const item = getOrderItem(ing, ingredients);
+          {unicItems?.map((i, index) => {
+            const item = getOrderItem(i, ingredients);
 
             return (
               item && (

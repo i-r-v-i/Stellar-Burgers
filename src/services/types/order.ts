@@ -23,6 +23,17 @@ export type TOrder = {
     _id: string;
 }
 
+export type TOrderInfo = {
+  createdAt: string;
+  ingredients: string[];
+  name: string;
+  number: number;
+  status: "done"|"pending"|"created";
+    updatedAt: string;
+    _id: string;
+}
+
+
 export type TOrderState = {
   orderNumber: number | null,
   modalOpened: boolean,

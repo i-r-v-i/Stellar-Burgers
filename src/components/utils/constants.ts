@@ -45,14 +45,14 @@ export const orderStatus = {
 
 export const countOfIconIngredients = 5;
 
-export const getOrderItem = (ing: string, ingredients: TIngredient[]) => {
-  return ingredients.find((item) => item._id === ing);
+export const getOrderItem = (itemId: string, ingredients: TIngredient[]) => {
+  return ingredients.find((ingredient) => ingredient._id === itemId);
 };
 
-export const getTotalPrice = (arrOrder: any[], arrAll: TIngredient[] | undefined) => {
-  if (arrOrder && arrAll) {
-    return arrOrder.reduce(
-      (sum, id) => sum + arrAll?.find((item) => item?._id === id)?.price,
+export const getTotalPrice = (arrIdOrder: string[], arrAll: TIngredient[]) => {
+  if (arrIdOrder && arrAll) {
+    return arrIdOrder.reduce(
+      (sum, id) => sum + arrAll.find((item) => item?._id === id)?.price!,
       0
     );
   }

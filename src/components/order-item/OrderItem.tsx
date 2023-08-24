@@ -6,11 +6,11 @@ import { Link, useLocation } from "react-router-dom";
 import { getStatus, getOrderItem, getTotalPrice } from "../utils/constants";
 import { GET_NUMBER_FOR_MODAL } from "../../services/actions/order";
 import React, { FC, useMemo } from "react";
-import { TOrder } from "../../services/types/order";
+import { TOrderInfo } from "../../services/types/order";
 import { useAppDispatch, useAppSelector } from "../../services/types/hooks";
 
 interface IOrderItemsProps {
-  order: TOrder;
+  order: TOrderInfo;
   isStatus: boolean;
 }
 
