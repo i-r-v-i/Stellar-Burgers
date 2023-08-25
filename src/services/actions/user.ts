@@ -57,6 +57,7 @@ export const checkAuth: AppThunk = () => {
 export function refreshToken() {
   return refreshTokenApi()
     .then((res) => {
+      console.log(res);
       setCookie("accessToken", res.accessToken);
       localStorage.setItem("refreshToken", res.refreshToken);
     })
@@ -86,9 +87,7 @@ export const setNewUserData: AppThunk = (userData: TUserData) => {
     dispatch({ type: UPDATE_USER_REQUEST });
     return patchUserDataApi(userData)
       .then((res) => {
-        if (res.success) {
           dispatch({ type: UPDATE_USER_SUCCESS, payload: res.user });
-        }
       })
       .catch((err) => {
         console.log(`Ошибка обновления профиля ${err}`);

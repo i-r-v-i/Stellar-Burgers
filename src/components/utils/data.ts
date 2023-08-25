@@ -53,7 +53,7 @@ export const fetchWithRefresh = <T>(url: string, options: TFetchOptions): Promis
   return fetch(url, options)
     .then(checkResponse<T>)
     .catch((err) => {
-      if (err.status === 401 || err.status === 403) {
+      if (err === 401 || err === 403) {
         return refreshToken()
           .then((res: any) => (options.headers.authorization = res.accessToken))
           .then(() => fetch(url, options).then(checkResponse<T>));
