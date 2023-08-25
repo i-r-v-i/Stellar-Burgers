@@ -1,21 +1,27 @@
 .header {
-  max-width: 1920px;
-  margin: 0 auto;
+  background: #1c1c21;
 }
 
 .wrapper {
-  display: flex;
-  padding-left: 320px;
-  padding-right: 320px;
-  background: #1c1c21;
-  align-items: center;
-  justify-content: space-between;
+  max-width: 1920px;
+  margin: 0 auto;
 }
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  /* display: flex; */
+  display: grid;
+  grid-template-columns: repeat(3, minmax(min-content, 1fr));
+  align-items: center;
+  justify-items: center;
+}
+
 
 .navList {
   display: flex;
-  padding-right: 100px;
+  /* padding-right: 100px; */
   gap: 8px;
+  justify-self: start;
 }
 
 .link {
@@ -27,6 +33,6 @@
 
 .account {
   display: flex;
-  padding-left: 270px;
+  justify-self: end;
   cursor: pointer;
 }
