@@ -1,6 +1,6 @@
 .ingredientList {
   display: grid;
-  grid-template-columns: repeat(auto-fit, 272px);
+  grid-template-columns: repeat(auto-fit, 260px);
   list-style-type: none;
   column-gap: 24px;
 }
